@@ -29,6 +29,9 @@ std::string string_of_timestamp(uint32_t timestamp)
 
 std::string string_of_machine(uint16_t machine)
 {
+#ifndef IMAGE_FILE_MACHINE_ARMV7
+    #define IMAGE_FILE_MACHINE_ARMV7 0x01c4
+#endif
     switch (machine)
     {
     case IMAGE_FILE_MACHINE_UNKNOWN: return "IMAGE_FILE_MACHINE_UNKNOWN";
