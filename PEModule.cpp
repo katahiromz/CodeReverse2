@@ -822,11 +822,6 @@ bool PEModule::load_delay_table(DelayTable& table) const
 {
     assert(is_loaded());
     table.clear();
-
-    auto data = &impl()->data_directories[IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT];
-    auto section = section_from_rva(data->VirtualAddress);
-    auto delta = section->VirtualAddress - section->PointerToRawData;
-
     LoadDelayTable load = { this, &table };
 
     if (is_64bit())
