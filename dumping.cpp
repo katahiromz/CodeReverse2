@@ -769,9 +769,9 @@ std::string string_of_delay(const DelayTable& table, bool is_64bit)
     }
 
     if (is_64bit)
-        ret += string_formatted("  %14s %8s %8s %16s %s\n", "Module", "HMODULE", "hint", "RVA", "Function");
+        ret += string_formatted("  %14s %8s %8s %16s %s\n", "Module", "HMODULE", "hint", "VA", "Function");
     else
-        ret += string_formatted("  %14s %8s %8s %8s %s\n", "Module", "HMODULE", "hint", "RVA", "Function");
+        ret += string_formatted("  %14s %8s %8s %8s %s\n", "Module", "HMODULE", "hint", "VA", "Function");
 
     for (auto& entry : table)
     {
@@ -790,7 +790,7 @@ std::string string_of_delay(const DelayTable& table, bool is_64bit)
                     entry.module.c_str(),
                     entry.hmodule,
                     hint.c_str(),
-                    entry.rva,
+                    entry.va,
                     entry.func_name.c_str());
             }
             else
@@ -799,7 +799,7 @@ std::string string_of_delay(const DelayTable& table, bool is_64bit)
                     entry.module.c_str(),
                     static_cast<uint32_t>(entry.hmodule),
                     hint.c_str(),
-                    static_cast<uint32_t>(entry.rva),
+                    static_cast<uint32_t>(entry.va),
                     entry.func_name.c_str());
             }
         }
@@ -818,7 +818,7 @@ std::string string_of_delay(const DelayTable& table, bool is_64bit)
                     entry.module.c_str(),
                     entry.hmodule,
                     hint.c_str(),
-                    entry.rva,
+                    entry.va,
                     name.c_str());
             }
             else
@@ -827,7 +827,7 @@ std::string string_of_delay(const DelayTable& table, bool is_64bit)
                     entry.module.c_str(),
                     static_cast<uint32_t>(entry.hmodule),
                     hint.c_str(),
-                    static_cast<uint32_t>(entry.rva),
+                    static_cast<uint32_t>(entry.va),
                     name.c_str());
             }
         }

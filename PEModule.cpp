@@ -772,19 +772,19 @@ bool do_load_delay_proc32(const char *module, uint32_t hModule,
     const PEModule *this_ = load->this_;
     DelayTable *table = load->table;
 
-    auto rva = pIAT->u1.Function;
+    auto va = pIAT->u1.Function;
 
     if (IMAGE_SNAP_BY_ORDINAL32(pINT->u1.Ordinal))
     {
         auto ordinal = (WORD)IMAGE_ORDINAL32(pINT->u1.Ordinal);
-        DelayEntry entry = { module, hModule, rva, "", ordinal, -1 };
+        DelayEntry entry = { module, hModule, va, "", ordinal, -1 };
         table->push_back(entry);
     }
     else
     {
         auto pName = this_->ptr_from_rva<IMAGE_IMPORT_BY_NAME>(pINT->u1.AddressOfData);
         auto name = reinterpret_cast<const char *>(pName->Name);
-        DelayEntry entry = { module, hModule, rva, name, -1, pName->Hint};
+        DelayEntry entry = { module, hModule, va, name, -1, pName->Hint};
         table->push_back(entry);
     }
 
@@ -799,19 +799,19 @@ bool do_load_delay_proc64(const char *module, uint32_t hModule,
     const PEModule *this_ = load->this_;
     DelayTable *table = load->table;
 
-    auto rva = pIAT->u1.Function;
+    auto va = pIAT->u1.Function;
 
     if (IMAGE_SNAP_BY_ORDINAL64(pINT->u1.Ordinal))
     {
         auto ordinal = (WORD)IMAGE_ORDINAL64(pINT->u1.Ordinal);
-        DelayEntry entry = { module, hModule, rva, "", ordinal, -1 };
+        DelayEntry entry = { module, hModule, va, "", ordinal, -1 };
         table->push_back(entry);
     }
     else
     {
         auto pName = this_->ptr_from_rva<IMAGE_IMPORT_BY_NAME>(pINT->u1.AddressOfData);
         auto name = reinterpret_cast<const char *>(pName->Name);
-        DelayEntry entry = { module, hModule, rva, name, -1, pName->Hint };
+        DelayEntry entry = { module, hModule, va, name, -1, pName->Hint };
         table->push_back(entry);
     }
 

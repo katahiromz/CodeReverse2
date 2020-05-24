@@ -66,7 +66,7 @@ struct DelayEntry
 {
     std::string module;
     uint64_t hmodule;
-    uint64_t rva;
+    uint64_t va;
     std::string func_name;
     int ordinal;
     int hint;
