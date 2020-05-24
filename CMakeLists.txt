@@ -9,11 +9,16 @@ cmake_minimum_required(VERSION 2.4)
 # enable testing
 enable_testing()
 
-# project name and language
-project(CodeReverse2 CXX)
+# project name and languages
+project(CodeReverse2 C CXX)
 
 # use C++11
 set(CMAKE_CXX_STANDARD 11)
+
+##############################################################################
+
+# subdirectories
+subdirs(udis86)
 
 # libcr2.a
 add_library(cr2 STATIC dumping.cpp Module.cpp PEModule.cpp)
