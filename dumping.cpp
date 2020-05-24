@@ -200,14 +200,15 @@ std::string string_formatted(const char *fmt, ...)
     char buf[1024];
     va_list va;
     va_start(va, fmt);
-#if 1
     assert(std::strlen(fmt) < sizeof(buf));
-    std::vsprintf(buf, fmt, va);
-    assert(std::strlen(buf) < sizeof(buf));
+#ifdef _WIN32
+    wvsprintfA(buf, fmt, va);
 #else
-    std::vsnprintf(buf, sizeof(buf), fmt, va);
+    std::vsprintf(buf, fmt, va);
 #endif
+    assert(std::strlen(buf) < sizeof(buf));
     std::string ret = buf;
+    va_end(va);
     return ret;
 }
 
@@ -799,7 +800,7 @@ std::string string_of_delay(const DelayTable& table, bool is_64bit)
             {
                 ret += string_formatted("%16s %08X %8s %08X %s\n",
                     entry.module.c_str(),
-                    entry.hmodule,
+                    static_cast<uint32_t>(entry.hmodule),
                     hint.c_str(),
                     static_cast<uint32_t>(entry.rva),
                     entry.func_name.c_str());
@@ -827,7 +828,7 @@ std::string string_of_delay(const DelayTable& table, bool is_64bit)
             {
                 ret += string_formatted("%16s %08X %8s %08X %s\n",
                     entry.module.c_str(),
-                    entry.hmodule,
+                    static_cast<uint32_t>(entry.hmodule),
                     hint.c_str(),
                     static_cast<uint32_t>(entry.rva),
                     name.c_str());

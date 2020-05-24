@@ -91,7 +91,6 @@ bool PEModule::load(FILE *fp)
     IMAGE_OPTIONAL_HEADER64 *optional64 = NULL;
     IMAGE_SECTION_HEADER *sh;
     IMAGE_DATA_DIRECTORY *dd;
-    char *ptr;
 
     switch (file->SizeOfOptionalHeader)
     {
@@ -99,8 +98,7 @@ bool PEModule::load(FILE *fp)
         optional32 = &nt32->OptionalHeader;
         if (optional32->Magic != IMAGE_NT_OPTIONAL_HDR32_MAGIC)
             return false;
-        ptr = reinterpret_cast<char *>(optional32) + file->SizeOfOptionalHeader;
-        sh = reinterpret_cast<IMAGE_SECTION_HEADER *>(ptr);
+        sh = IMAGE_FIRST_SECTION(nt32);
         dd = reinterpret_cast<IMAGE_DATA_DIRECTORY *>(optional32->DataDirectory);
         break;
 
@@ -108,8 +106,7 @@ bool PEModule::load(FILE *fp)
         optional64 = &nt64->OptionalHeader;
         if (optional64->Magic != IMAGE_NT_OPTIONAL_HDR64_MAGIC)
             return false;
-        ptr = reinterpret_cast<char *>(optional64) + file->SizeOfOptionalHeader;
-        sh = reinterpret_cast<IMAGE_SECTION_HEADER *>(ptr);
+        sh = IMAGE_FIRST_SECTION(nt64);
         dd = reinterpret_cast<IMAGE_DATA_DIRECTORY *>(optional64->DataDirectory);
         break;
 
@@ -787,7 +784,7 @@ bool do_load_delay_proc32(const char *module, uint32_t hModule,
     {
         auto pName = this_->ptr_from_rva<IMAGE_IMPORT_BY_NAME>(pINT->u1.AddressOfData);
         auto name = reinterpret_cast<const char *>(pName->Name);
-        DelayEntry entry = { module, hModule, rva, name, -1, pName->Hint };
+        DelayEntry entry = { module, hModule, rva, name, -1, pName->Hint};
         table->push_back(entry);
     }
 
@@ -825,6 +822,10 @@ bool PEModule::load_delay_table(DelayTable& table) const
 {
     assert(is_loaded());
     table.clear();
+
+    auto data = &impl()->data_directories[IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT];
+    auto section = section_from_rva(data->VirtualAddress);
+    auto delta = section->VirtualAddress - section->PointerToRawData;
 
     LoadDelayTable load = { this, &table };
 

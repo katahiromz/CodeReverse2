@@ -38,3 +38,5 @@ lib*.a
 !/testdata/data-x64/*.exe
 !/testdata/data-x64/*.dll
 Testing
+*.ninja
+.ninja*
