@@ -715,7 +715,7 @@ bool PEModule::enum_delay_items32(DELAY_PROC32 callback, void *user_data) const
     for (; delay->rvaHmod != 0; ++delay)
     {
         auto module = ptr_from_rva<char>(delay->rvaDLLName);
-        auto hModule = delay->rvaHmod;
+        auto hModule = impl()->optional32->ImageBase + delay->rvaHmod;
         auto pINT = image_map_typed<IMAGE_THUNK_DATA32>(delay->rvaINT);
         auto pIAT = image_map_typed<IMAGE_THUNK_DATA32>(delay->rvaIAT);
 
@@ -741,7 +741,7 @@ bool PEModule::enum_delay_items64(DELAY_PROC64 callback, void *user_data) const
     for (; delay->rvaHmod != 0; ++delay)
     {
         auto module = ptr_from_rva<char>(delay->rvaDLLName);
-        auto hModule = delay->rvaHmod;
+        auto hModule = impl()->optional64->ImageBase + delay->rvaHmod;
         auto pINT = image_map_typed<IMAGE_THUNK_DATA64>(delay->rvaINT);
         auto pIAT = image_map_typed<IMAGE_THUNK_DATA64>(delay->rvaIAT);
 

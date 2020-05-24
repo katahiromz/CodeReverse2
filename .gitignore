@@ -40,3 +40,4 @@ lib*.a
 Testing
 *.ninja
 .ninja*
+dfmsc.exe.txt

@@ -200,13 +200,7 @@ std::string string_formatted(const char *fmt, ...)
     char buf[1024];
     va_list va;
     va_start(va, fmt);
-    assert(std::strlen(fmt) < sizeof(buf));
-#ifdef _WIN32
-    wvsprintfA(buf, fmt, va);
-#else
-    std::vsprintf(buf, fmt, va);
-#endif
-    assert(std::strlen(buf) < sizeof(buf));
+    std::vsnprintf(buf, sizeof(buf), fmt, va);
     std::string ret = buf;
     va_end(va);
     return ret;
