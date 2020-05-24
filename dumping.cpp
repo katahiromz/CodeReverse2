@@ -728,7 +728,10 @@ std::string string_of_exports(const IMAGE_EXPORT_DIRECTORY *exports, const Expor
 #endif
         }
         else
-            rva = string_formatted("%08X", entry.rva);
+        {
+            rva = string_formatted("%08X", static_cast<uint32_t>(entry.rva));
+        }
+
         if (entry.forwarded_to[0])
             rva = "";
 
