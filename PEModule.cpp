@@ -3,6 +3,7 @@
 #include "internal.h"
 #include <cstring>
 #include <cassert>
+#include "udis86/udis86.h"
 
 namespace cr2
 {

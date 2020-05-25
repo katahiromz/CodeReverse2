@@ -52,11 +52,10 @@ include_directories(udis86 udis86/libudis86)
 
 # libcr2.a
 add_library(cr2 STATIC dumping.cpp Module.cpp PEModule.cpp)
-add_dependencies(cr2 udis86)
 
 # cr2.exe
 add_executable(CodeReverse2 cr2.cpp)
-target_include_directories(CodeReverse2 PRIVATE udis86)
+target_link_libraries(CodeReverse2 PRIVATE udis86)
 set_target_properties(CodeReverse2 PROPERTIES OUTPUT_NAME "cr2")
 
 ##############################################################################

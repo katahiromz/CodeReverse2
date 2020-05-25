@@ -3,7 +3,8 @@
 #include "Module.h"
 #include "ports.h"
 #include "cr2.hpp"
-#include "udis86/udis86.h"
+
+struct ud_t;
 
 namespace cr2
 {
