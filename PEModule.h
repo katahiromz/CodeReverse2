@@ -123,7 +123,6 @@ public:
     /////////////////////////////////////////////////////////////////////////
     // DisAsm
 
-    bool get_func_names(std::unordered_map<uint64_t, std::string>& names) const;
     bool get_entry_points(std::unordered_set<uint64_t>& avas) const;
     bool do_disasm(std::map<uint64_t, Func>& ava_to_func) const;
     bool do_disasm_func(uint64_t func_ava, Func& func) const;
@@ -138,6 +137,7 @@ public:
 protected:
     PEModuleImpl *impl();
     const PEModuleImpl *impl() const;
+    bool get_func_names();
 
           void *data_from_dir(uint16_t dir, size_t *pSize = NULL);
     const void *data_from_dir(uint16_t dir, size_t *pSize = NULL) const;

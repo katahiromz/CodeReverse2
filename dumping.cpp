@@ -837,8 +837,8 @@ std::string string_of_delay(const DelayTable& table, bool is_64bit)
     return ret;
 }
 
-std::string string_of_disasm(std::map<uint64_t, Func>& ava_to_func,
-    std::unordered_map<uint64_t, std::string>& names, bool is_64bit)
+std::string string_of_disasm(const std::map<uint64_t, Func>& ava_to_func,
+    const std::unordered_map<uint64_t, std::string>& names, bool is_64bit)
 {
     std::string ret;
 

@@ -39,6 +39,7 @@ struct PEModuleImpl : public ModuleImpl
     IMAGE_OPTIONAL_HEADER64 *optional64;
     IMAGE_SECTION_HEADER *section_headers;
     IMAGE_DATA_DIRECTORY *data_directories;
+    std::unordered_map<uint64_t, std::string> names;
 
     PEModuleImpl()
         : dos(NULL)

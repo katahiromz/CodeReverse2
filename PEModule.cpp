@@ -123,7 +123,12 @@ bool PEModule::load(FILE *fp)
     impl()->optional64 = optional64;
     impl()->section_headers = sh;
     impl()->data_directories = dd;
-    return _map_image();
+
+    if (!_map_image())
+        return false;
+
+    get_func_names();
+    return true;
 }
 
 bool PEModule::is_32bit() const
@@ -833,9 +838,15 @@ bool PEModule::load_delay_table(DelayTable& table) const
 
 /////////////////////////////////////////////////////////////////////////////
 
-bool PEModule::get_func_names(std::unordered_map<uint64_t, std::string>& names) const
+bool PEModule::get_func_names()
 {
-    names[ava_from_rva(rva_of_entry_point())] = "EntryPoint";
+    auto& names = impl()->names;
+    if (is_dll())
+        names[ava_from_rva(rva_of_entry_point())] = "_DllMainCRTStartup";
+    else if (is_gui())
+        names[ava_from_rva(rva_of_entry_point())] = "WinMainCRTStartup";
+    else
+        names[ava_from_rva(rva_of_entry_point())] = "mainCRTStartup";
 
     ImportTable imports;
     if (load_import_table(imports))
@@ -1018,10 +1029,8 @@ std::string PEModule::dump(const std::string& name) const
     if (name == "disasm")
     {
         std::map<uint64_t, Func> ava_to_func;
-        std::unordered_map<uint64_t, std::string> names;
-        get_func_names(names);
         if (do_disasm(ava_to_func))
-            return string_of_disasm(ava_to_func, names, is_64bit());
+            return string_of_disasm(ava_to_func, impl()->names, is_64bit());
     }
 
     return Module::dump(name);
