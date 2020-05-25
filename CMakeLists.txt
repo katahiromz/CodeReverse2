@@ -49,6 +49,7 @@ subdirs(udis86)
 
 # libcr2.a
 add_library(cr2 STATIC dumping.cpp Module.cpp PEModule.cpp)
+target_include_directories(cr2 PRIVATE udis86)
 
 # cr2.exe
 add_executable(CodeReverse2 cr2.cpp)
