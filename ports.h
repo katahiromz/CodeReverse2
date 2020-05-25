@@ -58,7 +58,7 @@ typedef std::vector<ExportEntry> ExportTable;
 typedef bool (*DELAY_PROC32)(const char *module, uint32_t hmod,
                              const IMAGE_THUNK_DATA32 *pINT,
                              const IMAGE_THUNK_DATA32 *pIAT, void *user_data);
-typedef bool (*DELAY_PROC64)(const char *module, uint32_t hmod,
+typedef bool (*DELAY_PROC64)(const char *module, uint64_t hmod,
                              const IMAGE_THUNK_DATA64 *pINT,
                              const IMAGE_THUNK_DATA64 *pIAT, void *user_data);
 

@@ -770,9 +770,10 @@ struct LoadDelayTable
     DelayTable *table;
 };
 
-bool do_load_delay_proc32(const char *module, uint32_t hModule,
-                          const IMAGE_THUNK_DATA32 *pINT,
-                          const IMAGE_THUNK_DATA32 *pIAT, void *user_data)
+static bool
+do_load_delay_proc32(const char *module, uint32_t hModule,
+                     const IMAGE_THUNK_DATA32 *pINT,
+                     const IMAGE_THUNK_DATA32 *pIAT, void *user_data)
 {
     LoadDelayTable *load = reinterpret_cast<LoadDelayTable *>(user_data);
     const PEModule *this_ = load->this_;
@@ -797,9 +798,10 @@ bool do_load_delay_proc32(const char *module, uint32_t hModule,
     return true;
 }
 
-bool do_load_delay_proc64(const char *module, uint32_t hModule,
-                          const IMAGE_THUNK_DATA64 *pINT,
-                          const IMAGE_THUNK_DATA64 *pIAT, void *user_data)
+static bool
+do_load_delay_proc64(const char *module, uint64_t hModule,
+                     const IMAGE_THUNK_DATA64 *pINT,
+                     const IMAGE_THUNK_DATA64 *pIAT, void *user_data)
 {
     LoadDelayTable *load = reinterpret_cast<LoadDelayTable *>(user_data);
     const PEModule *this_ = load->this_;
