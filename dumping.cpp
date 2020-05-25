@@ -851,7 +851,7 @@ std::string string_of_disasm(const std::map<uint64_t, Func>& ava_to_func,
 
     for (auto& pair : ava_to_func)
     {
-        ret += ";; ";
+        ret += ";; Function ";
         if (is_64bit)
             ret += string_of_addr64(pair.first);
         else
@@ -862,6 +862,18 @@ std::string string_of_disasm(const std::map<uint64_t, Func>& ava_to_func,
         {
             ret += " : ";
             ret += it->second;
+        }
+
+        switch (pair.second.convention)
+        {
+        case C_STDCALL:
+            ret += " __stdcall";
+            break;
+        case C_CDECL:
+            ret += " __cdecl";
+            break;
+        default:
+            break;
         }
         ret += "\n\n";
 

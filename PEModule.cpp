@@ -518,7 +518,7 @@ bool PEModule::enum_import_items64(IMPORT_PROC64 callback, void *user_data) cons
 
 struct LoadImportTable
 {
-    const PEModule *this_;
+    const PEModule *s_this;
     ImportTable *table;
 };
 
@@ -528,10 +528,10 @@ do_load_import_table_proc32(const IMAGE_IMPORT_DESCRIPTOR *pImports,
                             const IMAGE_THUNK_DATA32 *pIAT, void *user_data)
 {
     LoadImportTable *load = reinterpret_cast<LoadImportTable *>(user_data);
-    const PEModule *this_ = load->this_;
+    const PEModule *s_this = load->s_this;
     ImportTable *table = load->table;
 
-    auto module = this_->ptr_from_rva<char>(pImports->Name);
+    auto module = s_this->ptr_from_rva<char>(pImports->Name);
     auto rva = pIAT->u1.Function;
 
     if (IMAGE_SNAP_BY_ORDINAL32(pINT->u1.Ordinal))
@@ -542,7 +542,7 @@ do_load_import_table_proc32(const IMAGE_IMPORT_DESCRIPTOR *pImports,
     }
     else
     {
-        auto pName = this_->ptr_from_rva<IMAGE_IMPORT_BY_NAME>(pINT->u1.AddressOfData);
+        auto pName = s_this->ptr_from_rva<IMAGE_IMPORT_BY_NAME>(pINT->u1.AddressOfData);
         auto name = reinterpret_cast<const char *>(pName->Name);
         ImportEntry entry = { module, rva, name, -1, pName->Hint };
         table->push_back(entry);
@@ -557,10 +557,10 @@ do_load_import_table_proc64(const IMAGE_IMPORT_DESCRIPTOR *pImports,
                             const IMAGE_THUNK_DATA64 *pIAT, void *user_data)
 {
     LoadImportTable *load = reinterpret_cast<LoadImportTable *>(user_data);
-    const PEModule *this_ = load->this_;
+    const PEModule *s_this = load->s_this;
     ImportTable *table = load->table;
 
-    auto module = this_->ptr_from_rva<char>(pImports->Name);
+    auto module = s_this->ptr_from_rva<char>(pImports->Name);
     auto rva = pIAT->u1.Function;
 
     if (IMAGE_SNAP_BY_ORDINAL64(pINT->u1.Ordinal))
@@ -571,7 +571,7 @@ do_load_import_table_proc64(const IMAGE_IMPORT_DESCRIPTOR *pImports,
     }
     else
     {
-        auto pName = this_->ptr_from_rva<IMAGE_IMPORT_BY_NAME>(pINT->u1.AddressOfData);
+        auto pName = s_this->ptr_from_rva<IMAGE_IMPORT_BY_NAME>(pINT->u1.AddressOfData);
         auto name = reinterpret_cast<const char *>(pName->Name);
         ImportEntry entry = { module, rva, name, 0, pName->Hint };
         table->push_back(entry);
@@ -766,7 +766,7 @@ bool PEModule::enum_delay_items64(DELAY_PROC64 callback, void *user_data) const
 
 struct LoadDelayTable
 {
-    const PEModule *this_;
+    const PEModule *s_this;
     DelayTable *table;
 };
 
@@ -776,7 +776,7 @@ do_load_delay_proc32(const char *module, uint32_t hModule,
                      const IMAGE_THUNK_DATA32 *pIAT, void *user_data)
 {
     LoadDelayTable *load = reinterpret_cast<LoadDelayTable *>(user_data);
-    const PEModule *this_ = load->this_;
+    const PEModule *s_this = load->s_this;
     DelayTable *table = load->table;
 
     auto va = pIAT->u1.Function;
@@ -789,7 +789,7 @@ do_load_delay_proc32(const char *module, uint32_t hModule,
     }
     else
     {
-        auto pName = this_->ptr_from_rva<IMAGE_IMPORT_BY_NAME>(pINT->u1.AddressOfData);
+        auto pName = s_this->ptr_from_rva<IMAGE_IMPORT_BY_NAME>(pINT->u1.AddressOfData);
         auto name = reinterpret_cast<const char *>(pName->Name);
         DelayEntry entry = { module, hModule, va, name, -1, pName->Hint};
         table->push_back(entry);
@@ -804,7 +804,7 @@ do_load_delay_proc64(const char *module, uint64_t hModule,
                      const IMAGE_THUNK_DATA64 *pIAT, void *user_data)
 {
     LoadDelayTable *load = reinterpret_cast<LoadDelayTable *>(user_data);
-    const PEModule *this_ = load->this_;
+    const PEModule *s_this = load->s_this;
     DelayTable *table = load->table;
 
     auto va = pIAT->u1.Function;
@@ -817,7 +817,7 @@ do_load_delay_proc64(const char *module, uint64_t hModule,
     }
     else
     {
-        auto pName = this_->ptr_from_rva<IMAGE_IMPORT_BY_NAME>(pINT->u1.AddressOfData);
+        auto pName = s_this->ptr_from_rva<IMAGE_IMPORT_BY_NAME>(pINT->u1.AddressOfData);
         auto name = reinterpret_cast<const char *>(pName->Name);
         DelayEntry entry = { module, hModule, va, name, -1, pName->Hint };
         table->push_back(entry);
@@ -915,15 +915,34 @@ bool PEModule::do_disasm(std::map<uint64_t, Func>& ava_to_func) const
         }
     }
 
+retry:
+    for (auto& pair : ava_to_func)
+    {
+        Func& func = pair.second;
+        for (auto to : func.call_to)
+        {
+            auto it = ava_to_func.find(to);
+            if (it == ava_to_func.end())
+            {
+                Func func;
+                if (do_disasm_func(to, func))
+                {
+                    ava_to_func[to] = func;
+                    goto retry;
+                }
+            }
+        }
+    }
+
     return true;
 }
 
-static const PEModule *this_ = NULL;
-static uint64_t s_ava;
+static const PEModule *s_this = NULL;
+static uint64_t s_ava = 0;
 
 /*static*/ int PEModule::input_hook_x(ud* u)
 {
-    return this_->input_hook(u);
+    return s_this->input_hook(u);
 }
 
 int PEModule::input_hook(ud* u) const
@@ -934,11 +953,21 @@ int PEModule::input_hook(ud* u) const
     return byte;
 }
 
-bool PEModule::do_disasm_func(uint64_t func_ava, Func& func) const
+static uint64_t
+get_disasm_first_imm_operand(const std::string& disasm)
 {
-    this_ = this;
-    uint64_t ava;
-    ava = func_ava;
+    const char *pch = strchr(disasm.c_str(), ' ');
+    if (!pch)
+        return 0;
+
+    pch++;
+    uint64_t imm = strtoll(pch, NULL, 16);
+    return imm;
+}
+
+bool PEModule::do_disasm_func(uint64_t ava, Func& func) const
+{
+    s_this = this;
 
     ud_t ud;
     ud_init(&ud);
@@ -946,6 +975,7 @@ bool PEModule::do_disasm_func(uint64_t func_ava, Func& func) const
     ud_set_mode(&ud, (is_64bit() ? 64 : 32));
     ud_set_syntax(&ud, UD_SYN_INTEL);
 
+retry:
     for (;;)
     {
         s_ava = ava;
@@ -953,12 +983,85 @@ bool PEModule::do_disasm_func(uint64_t func_ava, Func& func) const
         if (!ud_disassemble(&ud))
             break;
 
+        // TODO:
+        BOOL is_ret = FALSE;
+        BOOL is_jmp = FALSE;
         std::string disasm = ud_insn_asm(&ud);
+        uint64_t imm = get_disasm_first_imm_operand(disasm);
+        switch (ud.mnemonic)
+        {
+        case UD_Icall:
+            switch (ud.operand[0].type)
+            {
+            case UD_OP_IMM:
+            case UD_OP_JIMM:
+                printf("Icall: %I64X\n", imm);
+                func.call_to.insert(imm);
+                break;
+            }
+            break;
+        case UD_Ijmp:
+            switch (ud.operand[0].type)
+            {
+            case UD_OP_IMM:
+            case UD_OP_JIMM:
+                printf("Ijmp: %I64X\n", imm);
+                func.jump_to.insert(imm);
+                func.ava_to_disasm[ava].jump_to = imm;
+                is_jmp = TRUE;
+                break;
+            }
+            break;
+        case UD_Ija: case UD_Ijae: case UD_Ijb: case UD_Ijbe:
+        case UD_Ijcxz: case UD_Ijecxz: case UD_Ijg: case UD_Ijge:
+        case UD_Ijl: case UD_Ijle: case UD_Ijno: case UD_Ijnp:
+        case UD_Ijns: case UD_Ijnz: case UD_Ijo: case UD_Ijp:
+        case UD_Ijrcxz: case UD_Ijs: case UD_Ijz:
+            switch (ud.operand[0].type)
+            {
+            case UD_OP_IMM:
+            case UD_OP_JIMM:
+                printf("Ij: %I64X\n", imm);
+                func.jump_to.insert(imm);
+                func.ava_to_disasm[ava].jump_to = imm;
+                break;
+            }
+            break;
+        case UD_Iret: case UD_Iretf:
+        case UD_Iiretd: case UD_Iiretq: case UD_Iiretw:
+            printf("Iret: %I64X\n", imm);
+            is_ret = TRUE;
+            switch (ud.operand[0].type)
+            {
+            case UD_OP_IMM:
+            case UD_OP_JIMM:
+                func.convention = C_STDCALL;
+                break;
+            default:
+                func.convention = C_CDECL;
+                break;
+            }
+            break;
+        }
+
         func.ava_to_disasm[ava].disasm = disasm;
         func.ava_to_disasm[ava].bytes = int(s_ava - ava);
         ava = s_ava;
-        if (disasm.find("ret") != std::string::npos)
+
+        if (is_ret)
             break;
+
+        if (is_jmp)
+            ava = imm;
+    }
+
+    for (auto& to : func.jump_to)
+    {
+        if (func.ava_to_disasm.find(to) == func.ava_to_disasm.end())
+        {
+            ava = to;
+            goto retry;
+        }
     }
 
     return true;

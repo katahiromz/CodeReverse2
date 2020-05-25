@@ -126,7 +126,7 @@ public:
 
     bool get_entry_points(std::unordered_set<uint64_t>& avas) const;
     bool do_disasm(std::map<uint64_t, Func>& ava_to_func) const;
-    bool do_disasm_func(uint64_t func_ava, Func& func) const;
+    bool do_disasm_func(uint64_t ava, Func& func) const;
 
     static int input_hook_x(ud* u);
     int input_hook(ud* u) const;
