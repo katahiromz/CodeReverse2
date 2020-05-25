@@ -983,7 +983,7 @@ retry:
         if (!ud_disassemble(&ud))
             break;
 
-        bool is_ret = false, is_jmp = false;
+        bool is_quit = false;
         std::string disasm = ud_insn_asm(&ud);
         uint64_t imm = get_disasm_first_imm_operand(disasm);
 
@@ -996,6 +996,8 @@ retry:
             case UD_OP_JIMM:
                 func.call_to.insert(imm);
                 break;
+            default:
+                break;
             }
             break;
 
@@ -1006,7 +1008,9 @@ retry:
             case UD_OP_JIMM:
                 func.jump_to.insert(imm);
                 func.ava_to_disasm[ava].jump_to = imm;
-                is_jmp = true;
+                is_quit = true;
+                break;
+            default:
                 break;
             }
             break;
@@ -1023,12 +1027,14 @@ retry:
                 func.jump_to.insert(imm);
                 func.ava_to_disasm[ava].jump_to = imm;
                 break;
+            default:
+                break;
             }
             break;
 
         case UD_Iret: case UD_Iretf:
         case UD_Iiretd: case UD_Iiretq: case UD_Iiretw:
-            is_ret = true;
+            is_quit = true;
             switch (ud.operand[0].type)
             {
             case UD_OP_IMM:
@@ -1046,11 +1052,8 @@ retry:
         func.ava_to_disasm[ava].bytes = int(s_ava - ava);
         ava = s_ava;
 
-        if (is_ret)
+        if (is_quit)
             break;
-
-        if (is_jmp)
-            ava = imm;
     }
 
     for (auto& to : func.jump_to)
