@@ -854,7 +854,7 @@ bool PEModule::get_func_names(std::unordered_map<uint64_t, std::string>& names) 
             if (entry.name.empty())
             {
                 names[ava_from_rva(entry.rva)] =
-                    string_formatted("Ordinal_%u", entry.ordinal);
+                    string_formatted("ExportOrdinal_%u", entry.ordinal);
             }
             else
             {
