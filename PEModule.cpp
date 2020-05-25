@@ -127,7 +127,7 @@ bool PEModule::load(FILE *fp)
     if (!_map_image())
         return false;
 
-    get_func_names();
+    store_func_names();
     return true;
 }
 
@@ -838,7 +838,7 @@ bool PEModule::load_delay_table(DelayTable& table) const
 
 /////////////////////////////////////////////////////////////////////////////
 
-bool PEModule::get_func_names()
+bool PEModule::store_func_names()
 {
     auto& names = impl()->names;
     if (is_dll())

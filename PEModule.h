@@ -137,7 +137,7 @@ public:
 protected:
     PEModuleImpl *impl();
     const PEModuleImpl *impl() const;
-    bool get_func_names();
+    bool store_func_names();
 
           void *data_from_dir(uint16_t dir, size_t *pSize = NULL);
     const void *data_from_dir(uint16_t dir, size_t *pSize = NULL) const;
