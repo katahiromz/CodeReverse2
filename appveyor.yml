@@ -35,6 +35,7 @@ before_build:
   - cmake.exe -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
 
 build_script:
+  - git submodule update --init --recursive
   - cmake --build . --config %CONFIGURATION%
 
 test_script:
