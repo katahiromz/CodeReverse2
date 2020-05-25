@@ -919,12 +919,12 @@ bool PEModule::do_disasm(std::map<uint64_t, Func>& ava_to_func) const
 static const PEModule *this_ = NULL;
 static uint64_t s_ava;
 
-/*static*/ int PEModule::input_hook_x(ud_t* u)
+/*static*/ int PEModule::input_hook_x(ud* u)
 {
     return this_->input_hook(u);
 }
 
-int PEModule::input_hook(ud_t* u) const
+int PEModule::input_hook(ud* u) const
 {
     uint64_t rva = rva_from_ava(s_ava);
     uint8_t byte = *ptr_from_rva<uint8_t>(rva);
