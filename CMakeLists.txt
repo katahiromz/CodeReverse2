@@ -44,6 +44,9 @@ endif()
 
 ##############################################################################
 
+# kill security warnings
+add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+
 # subdirectories
 subdirs(udis86)
 
