@@ -32,10 +32,10 @@ configuration:
 
 before_build:
   - set CTEST_OUTPUT_ON_FAILURE=1
+  - git submodule update --init --recursive
   - cmake.exe -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
 
 build_script:
-  - git submodule update --init --recursive
   - cmake --build . --config %CONFIGURATION%
 
 test_script:
