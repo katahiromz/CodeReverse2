@@ -983,11 +983,10 @@ retry:
         if (!ud_disassemble(&ud))
             break;
 
-        // TODO:
-        BOOL is_ret = FALSE;
-        BOOL is_jmp = FALSE;
+        bool is_ret = false, is_jmp = false;
         std::string disasm = ud_insn_asm(&ud);
         uint64_t imm = get_disasm_first_imm_operand(disasm);
+
         switch (ud.mnemonic)
         {
         case UD_Icall:
@@ -995,23 +994,23 @@ retry:
             {
             case UD_OP_IMM:
             case UD_OP_JIMM:
-                printf("Icall: %I64X\n", imm);
                 func.call_to.insert(imm);
                 break;
             }
             break;
+
         case UD_Ijmp:
             switch (ud.operand[0].type)
             {
             case UD_OP_IMM:
             case UD_OP_JIMM:
-                printf("Ijmp: %I64X\n", imm);
                 func.jump_to.insert(imm);
                 func.ava_to_disasm[ava].jump_to = imm;
-                is_jmp = TRUE;
+                is_jmp = true;
                 break;
             }
             break;
+
         case UD_Ija: case UD_Ijae: case UD_Ijb: case UD_Ijbe:
         case UD_Ijcxz: case UD_Ijecxz: case UD_Ijg: case UD_Ijge:
         case UD_Ijl: case UD_Ijle: case UD_Ijno: case UD_Ijnp:
@@ -1021,16 +1020,15 @@ retry:
             {
             case UD_OP_IMM:
             case UD_OP_JIMM:
-                printf("Ij: %I64X\n", imm);
                 func.jump_to.insert(imm);
                 func.ava_to_disasm[ava].jump_to = imm;
                 break;
             }
             break;
+
         case UD_Iret: case UD_Iretf:
         case UD_Iiretd: case UD_Iiretq: case UD_Iiretw:
-            printf("Iret: %I64X\n", imm);
-            is_ret = TRUE;
+            is_ret = true;
             switch (ud.operand[0].type)
             {
             case UD_OP_IMM:
