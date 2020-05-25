@@ -50,26 +50,22 @@ subdirs(udis86)
 # include directories
 include_directories(udis86 udis86/libudis86)
 
-# libcr2.a
-add_library(cr2 STATIC dumping.cpp Module.cpp PEModule.cpp)
-
 # cr2.exe
-add_executable(CodeReverse2 cr2.cpp)
-target_link_libraries(CodeReverse2 PRIVATE cr2 udis86)
-set_target_properties(CodeReverse2 PROPERTIES OUTPUT_NAME "cr2")
+add_executable(cr2 cr2.cpp dumping.cpp Module.cpp PEModule.cpp)
+target_link_libraries(cr2 PRIVATE udis86)
 
 ##############################################################################
 # testing
 
 add_test(NAME x86-console
-    COMMAND $<TARGET_FILE:CodeReverse2> ${CMAKE_CURRENT_SOURCE_DIR}/testdata/data-x86/console.exe)
+    COMMAND $<TARGET_FILE:cr2> ${CMAKE_CURRENT_SOURCE_DIR}/testdata/data-x86/console.exe)
 add_test(NAME x86-win
-    COMMAND $<TARGET_FILE:CodeReverse2> ${CMAKE_CURRENT_SOURCE_DIR}/testdata/data-x86/win.exe)
+    COMMAND $<TARGET_FILE:cr2> ${CMAKE_CURRENT_SOURCE_DIR}/testdata/data-x86/win.exe)
 add_test(NAME x86-dll
-    COMMAND $<TARGET_FILE:CodeReverse2> ${CMAKE_CURRENT_SOURCE_DIR}/testdata/data-x86/dll.dll)
+    COMMAND $<TARGET_FILE:cr2> ${CMAKE_CURRENT_SOURCE_DIR}/testdata/data-x86/dll.dll)
 add_test(NAME x64-console
-    COMMAND $<TARGET_FILE:CodeReverse2> ${CMAKE_CURRENT_SOURCE_DIR}/testdata/data-x64/console.exe)
+    COMMAND $<TARGET_FILE:cr2> ${CMAKE_CURRENT_SOURCE_DIR}/testdata/data-x64/console.exe)
 add_test(NAME x64-win
-    COMMAND $<TARGET_FILE:CodeReverse2> ${CMAKE_CURRENT_SOURCE_DIR}/testdata/data-x64/win.exe)
+    COMMAND $<TARGET_FILE:cr2> ${CMAKE_CURRENT_SOURCE_DIR}/testdata/data-x64/win.exe)
 add_test(NAME x64-dll
-    COMMAND $<TARGET_FILE:CodeReverse2> ${CMAKE_CURRENT_SOURCE_DIR}/testdata/data-x64/dll.dll)
+    COMMAND $<TARGET_FILE:cr2> ${CMAKE_CURRENT_SOURCE_DIR}/testdata/data-x64/dll.dll)
