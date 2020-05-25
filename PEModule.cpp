@@ -832,6 +832,125 @@ bool PEModule::load_delay_table(DelayTable& table) const
 }
 
 /////////////////////////////////////////////////////////////////////////////
+
+bool PEModule::get_func_names(std::unordered_map<uint64_t, std::string>& names) const
+{
+    names[ava_from_rva(rva_of_entry_point())] = "EntryPoint";
+
+    ImportTable imports;
+    if (load_import_table(imports))
+    {
+        for (auto& entry : imports)
+        {
+            names[ava_from_rva(entry.rva)] = entry.func_name;
+        }
+    }
+
+    ExportTable exports;
+    if (load_export_table(exports))
+    {
+        for (auto& entry : exports)
+        {
+            if (entry.name.empty())
+            {
+                names[ava_from_rva(entry.rva)] =
+                    string_formatted("Ordinal_%u", entry.ordinal);
+            }
+            else
+            {
+                names[ava_from_rva(entry.rva)] = entry.name;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool PEModule::get_entry_points(std::unordered_set<uint64_t>& avas) const
+{
+    avas.clear();
+    avas.insert(ava_from_rva(rva_of_entry_point()));
+
+    ExportTable table;
+    if (load_export_table(table))
+    {
+        for (auto& entry : table)
+        {
+            if (entry.forwarded_to.empty())
+                avas.insert(ava_from_rva(entry.rva));
+        }
+    }
+
+    return true;
+}
+
+bool PEModule::do_disasm(std::map<uint64_t, Func>& ava_to_func) const
+{
+    ava_to_func.clear();
+
+    std::unordered_set<uint64_t> avas;
+    if (!get_entry_points(avas))
+        return false;
+
+    for (auto& ava : avas)
+    {
+        Func func;
+        if (do_disasm_func(ava, func))
+        {
+            ava_to_func[ava] = func;
+        }
+    }
+
+    return true;
+}
+
+static const PEModule *this_ = NULL;
+static uint64_t s_ava;
+
+/*static*/ int PEModule::input_hook_x(ud_t* u)
+{
+    return this_->input_hook(u);
+}
+
+int PEModule::input_hook(ud_t* u) const
+{
+    uint64_t rva = rva_from_ava(s_ava);
+    uint8_t byte = *ptr_from_rva<uint8_t>(rva);
+    ++s_ava;
+    return byte;
+}
+
+bool PEModule::do_disasm_func(uint64_t func_ava, Func& func) const
+{
+    this_ = this;
+    uint64_t ava;
+    ava = func_ava;
+
+    ud_t ud;
+    ud_init(&ud);
+    ud_set_input_hook(&ud, input_hook_x);
+    ud_set_mode(&ud, (is_64bit() ? 64 : 32));
+    ud_set_syntax(&ud, UD_SYN_INTEL);
+
+    for (;;)
+    {
+        s_ava = ava;
+        ud_set_pc(&ud, ava);
+        if (!ud_disassemble(&ud))
+            break;
+
+        std::string disasm = ud_insn_asm(&ud);
+        func.ava_to_disasm[ava].disasm = disasm;
+        func.ava_to_disasm[ava].bytes = int(s_ava - ava);
+        ava = s_ava;
+        if (disasm.find("ret") != std::string::npos)
+            break;
+    }
+
+    return true;
+}
+
+/////////////////////////////////////////////////////////////////////////////
 // Dumping
 
 std::string PEModule::dump(const std::string& name) const
@@ -848,6 +967,7 @@ std::string PEModule::dump(const std::string& name) const
         ret += dump("imports");
         ret += dump("exports");
         ret += dump("delay");
+        ret += dump("disasm");
         return ret;
     }
 
@@ -894,6 +1014,14 @@ std::string PEModule::dump(const std::string& name) const
         DelayTable table;
         load_delay_table(table);
         return string_of_delay(table, is_64bit());
+    }
+    if (name == "disasm")
+    {
+        std::map<uint64_t, Func> ava_to_func;
+        std::unordered_map<uint64_t, std::string> names;
+        get_func_names(names);
+        if (do_disasm(ava_to_func))
+            return string_of_disasm(ava_to_func, names, is_64bit());
     }
 
     return Module::dump(name);

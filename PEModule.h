@@ -2,6 +2,8 @@
 
 #include "Module.h"
 #include "ports.h"
+#include "cr2.hpp"
+#include "udis86/udis86.h"
 
 namespace cr2
 {
@@ -117,6 +119,17 @@ public:
     bool load_delay_table(DelayTable& table) const;
     bool enum_delay_items32(DELAY_PROC32 callback, void *user_data = NULL) const;
     bool enum_delay_items64(DELAY_PROC64 callback, void *user_data = NULL) const;
+
+    /////////////////////////////////////////////////////////////////////////
+    // DisAsm
+
+    bool get_func_names(std::unordered_map<uint64_t, std::string>& names) const;
+    bool get_entry_points(std::unordered_set<uint64_t>& avas) const;
+    bool do_disasm(std::map<uint64_t, Func>& ava_to_func) const;
+    bool do_disasm_func(uint64_t func_ava, Func& func) const;
+
+    static int input_hook_x(ud_t* u);
+    int input_hook(ud_t* u) const;
 
     /////////////////////////////////////////////////////////////////////////
     // Dumping

@@ -837,4 +837,50 @@ std::string string_of_delay(const DelayTable& table, bool is_64bit)
     return ret;
 }
 
+std::string string_of_disasm(std::map<uint64_t, Func>& ava_to_func,
+    std::unordered_map<uint64_t, std::string>& names, bool is_64bit)
+{
+    std::string ret;
+
+    ret += "## DisAsm ##\n";
+    if (ava_to_func.empty())
+    {
+        ret += "No disassembly.\n\n";
+        return ret;
+    }
+
+    for (auto& pair : ava_to_func)
+    {
+        ret += ";; ";
+        if (is_64bit)
+            ret += string_of_addr64(pair.first);
+        else
+            ret += string_of_addr32(static_cast<uint32_t>(pair.first));
+
+        auto it = names.find(pair.first);
+        if (it != names.end())
+        {
+            ret += " : ";
+            ret += it->second;
+        }
+        ret += "\n\n";
+
+        auto& ava_to_disasm = pair.second.ava_to_disasm;
+        for (auto& pair2 : ava_to_disasm)
+        {
+            if (is_64bit)
+                ret += string_of_addr64(pair2.first);
+            else
+                ret += string_of_addr32(static_cast<uint32_t>(pair2.first));
+            ret += " ";
+            ret += pair2.second.disasm;
+            ret += "\n";
+        }
+
+        ret += "\n";
+    }
+
+    return ret;
+}
+
 } // namespace cr2
