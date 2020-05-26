@@ -8,6 +8,39 @@
 namespace cr2
 {
 
+static uint64_t
+get_disasm_first_imm_operand(const std::string& disasm)
+{
+    const char *pch = strchr(disasm.c_str(), ' ');
+    if (!pch)
+        return invalid_ava;
+
+    pch++;
+    uint64_t imm = strtoll(pch, NULL, 16);
+    return imm;
+}
+
+static uint64_t
+get_disasm_first_mem_operand(const std::string& disasm, uint64_t ip)
+{
+    const char *pch = strchr(disasm.c_str(), '[');
+    if (!pch)
+        return invalid_ava;
+
+    pch++;
+    if (memcmp(pch, "rip+", 4) == 0 || memcmp(pch, "eip+", 4) == 0)
+    {
+        uint64_t mem = strtoll(&pch[4], NULL, 16);
+        return mem + ip;
+    }
+    else
+    {
+        uint64_t mem = strtoll(pch, NULL, 16);
+        return mem;
+    }
+}
+
+
 PEModuleImpl *
 PEModule::impl()
 {
@@ -878,6 +911,47 @@ bool PEModule::start_disasm(DisAsmData& data) const
     return true;
 }
 
+bool PEModule::end_disasm(DisAsmData& data) const
+{
+    auto& names = data.names;
+    auto& ava_to_func = data.ava_to_func;
+
+    for (auto& pair : ava_to_func)
+    {
+        auto& ava = pair.first;
+        auto& func = pair.second;
+
+        for (auto& pair2 : func.ava_to_asm)
+        {
+            auto& code = pair2.second;
+            uint64_t imm = get_disasm_first_imm_operand(code.disasm);
+            switch (code.mnemonic)
+            {
+            case UD_Icall:
+                if (imm != invalid_ava)
+                {
+                    auto it = names.find(imm);
+                    if (it != names.end())
+                    {
+                        auto& name = it->second;
+                        if (name.find("__imp_") == 0)
+                        {
+                            code.disasm = "call ";
+                            code.disasm += name.substr(strlen("__imp_"));
+                        }
+                    }
+                }
+                break;
+
+            default:
+                break;
+            }
+        }
+    }
+
+    return true;
+}
+
 bool PEModule::get_entry_points(std::unordered_set<uint64_t>& avas) const
 {
     avas.clear();
@@ -958,38 +1032,6 @@ int PEModule::input_hook(ud* u) const
     return byte;
 }
 
-static uint64_t
-get_disasm_first_imm_operand(const std::string& disasm)
-{
-    const char *pch = strchr(disasm.c_str(), ' ');
-    if (!pch)
-        return invalid_ava;
-
-    pch++;
-    uint64_t imm = strtoll(pch, NULL, 16);
-    return imm;
-}
-
-static uint64_t
-get_disasm_first_mem_operand(const std::string& disasm, uint64_t ip)
-{
-    const char *pch = strchr(disasm.c_str(), '[');
-    if (!pch)
-        return invalid_ava;
-
-    pch++;
-    if (memcmp(pch, "rip+", 4) == 0 || memcmp(pch, "eip+", 4) == 0)
-    {
-        uint64_t mem = strtoll(&pch[4], NULL, 16);
-        return mem + ip;
-    }
-    else
-    {
-        uint64_t mem = strtoll(pch, NULL, 16);
-        return mem;
-    }
-}
-
 bool PEModule::do_disasm_func(DisAsmData& data, uint64_t ava, Func& func) const
 {
     NameMap& names = data.names;
@@ -1020,6 +1062,8 @@ retry:
         auto ip = ava + bytes;
         uint64_t imm = get_disasm_first_imm_operand(disasm);
         uint64_t mem = get_disasm_first_mem_operand(disasm, ip);
+        func.ava_to_asm[ava].mnemonic = ud.mnemonic;
+        func.ava_to_asm[ava].ope1 = ud.operand[0].type;
 
         switch (ud.mnemonic)
         {
@@ -1213,6 +1257,7 @@ std::string PEModule::dump(const std::string& name) const
         DisAsmData data;
         start_disasm(data);
         do_disasm(data);
+        end_disasm(data);
         return string_of_disasm(data, is_64bit());
     }
 

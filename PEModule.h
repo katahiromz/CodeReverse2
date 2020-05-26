@@ -144,6 +144,7 @@ protected:
 
     bool _map_image();
     bool start_disasm(DisAsmData& data) const;
+    bool end_disasm(DisAsmData& data) const;
 };
 
 } // namespace cr2
