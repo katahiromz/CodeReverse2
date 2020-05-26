@@ -837,10 +837,12 @@ std::string string_of_delay(const DelayTable& table, bool is_64bit)
     return ret;
 }
 
-std::string string_of_disasm(const std::map<uint64_t, Func>& ava_to_func,
-    const std::unordered_map<uint64_t, std::string>& names, bool is_64bit)
+std::string string_of_disasm(DisAsmData& data, bool is_64bit)
 {
     std::string ret;
+
+    auto& ava_to_func = data.ava_to_func;
+    auto& names = data.names;
 
     ret += "## DisAsm ##\n";
     if (ava_to_func.empty())
@@ -871,6 +873,9 @@ std::string string_of_disasm(const std::map<uint64_t, Func>& ava_to_func,
             break;
         case C_CDECL:
             ret += " __cdecl";
+            break;
+        case C_JUMPFUNC:
+            ret += " (jump function)";
             break;
         default:
             break;
@@ -926,8 +931,8 @@ std::string string_of_disasm(const std::map<uint64_t, Func>& ava_to_func,
 
         ret += "\n";
 
-        auto& ava_to_disasm = pair.second.ava_to_disasm;
-        for (auto& pair2 : ava_to_disasm)
+        auto& ava_to_asm = pair.second.ava_to_asm;
+        for (auto& pair2 : ava_to_asm)
         {
             if (is_64bit)
                 ret += string_of_addr64(pair2.first);
@@ -938,7 +943,7 @@ std::string string_of_disasm(const std::map<uint64_t, Func>& ava_to_func,
 
             if (pair2.second.jump_from.size())
             {
-                ret += " ; jumped from";
+                ret += " ; jump_from :";
                 for (auto& from : pair2.second.jump_from)
                 {
                     ret += " ";

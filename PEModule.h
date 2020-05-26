@@ -125,8 +125,8 @@ public:
     // DisAsm
 
     bool get_entry_points(std::unordered_set<uint64_t>& avas) const;
-    bool do_disasm(std::map<uint64_t, Func>& ava_to_func) const;
-    bool do_disasm_func(uint64_t ava, Func& func) const;
+    bool do_disasm(DisAsmData& data) const;
+    bool do_disasm_func(DisAsmData& data, uint64_t ava, Func& func) const;
 
     static int input_hook_x(ud* u);
     int input_hook(ud* u) const;
@@ -138,12 +138,12 @@ public:
 protected:
     PEModuleImpl *impl();
     const PEModuleImpl *impl() const;
-    bool store_func_names();
 
           void *data_from_dir(uint16_t dir, size_t *pSize = NULL);
     const void *data_from_dir(uint16_t dir, size_t *pSize = NULL) const;
 
     bool _map_image();
+    bool start_disasm(DisAsmData& data) const;
 };
 
 } // namespace cr2

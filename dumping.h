@@ -29,7 +29,6 @@ std::string string_of_hex_dump64(const void *memory, size_t size, uint64_t base_
 std::string string_of_imports(const IMAGE_IMPORT_DESCRIPTOR *imports, const ImportTable& table, bool is_64bit);
 std::string string_of_exports(const IMAGE_EXPORT_DIRECTORY *exports, const ExportTable& table, bool is_64bit);
 std::string string_of_delay(const DelayTable& table, bool is_64bit);
-std::string string_of_disasm(const std::map<uint64_t, Func>& ava_to_func,
-                             const std::unordered_map<uint64_t, std::string>& names, bool is_64bit);
+std::string string_of_disasm(DisAsmData& data, bool is_64bit);
 
 } // namespace cr2

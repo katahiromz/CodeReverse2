@@ -5,13 +5,14 @@
 #include <set>
 #include <unordered_map>
 #include <unordered_set>
+#include "ports.h"
 
 namespace cr2
 {
 
 static const uint64_t invalid_ava = 0xFFFFFFFFFFFFFFFF;
 
-struct DisAsm
+struct AsmCode
 {
     int bytes;
     std::string disasm;
@@ -25,19 +26,32 @@ enum CONVENTION
     C_CDECL,
     C_STDCALL,
     C_FASTCALL,
-    C_THISCALL
+    C_THISCALL,
+    C_JUMPFUNC
 };
 
 struct Func
 {
     uint64_t ava = invalid_ava;
     std::string name;
-    std::map<uint64_t, DisAsm> ava_to_disasm;
+    std::map<uint64_t, AsmCode> ava_to_asm;
     CONVENTION convention = C_UNKNOWN;
     std::set<uint64_t> call_from;
     std::set<uint64_t> call_to;
     std::set<uint64_t> jump_to;
     bool is_entry = false;
+};
+
+typedef std::unordered_map<uint64_t, std::string> NameMap;
+
+struct DisAsmData
+{
+    std::unordered_set<uint64_t> entry_points;
+    NameMap names;
+    std::map<uint64_t, Func> ava_to_func;
+    ImportTable imports;
+    ExportTable exports;
+    DelayTable delays;
 };
 
 }

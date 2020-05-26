@@ -128,7 +128,6 @@ bool PEModule::load(FILE *fp)
     if (!_map_image())
         return false;
 
-    store_func_names();
     return true;
 }
 
@@ -841,9 +840,10 @@ bool PEModule::load_delay_table(DelayTable& table) const
 
 /////////////////////////////////////////////////////////////////////////////
 
-bool PEModule::store_func_names()
+bool PEModule::start_disasm(DisAsmData& data) const
 {
-    auto& names = impl()->names;
+    auto& names = data.names;
+
     if (is_dll())
         names[ava_from_rva(rva_of_entry_point())] = "_DllMainCRTStartup";
     else if (is_gui())
@@ -851,19 +851,17 @@ bool PEModule::store_func_names()
     else
         names[ava_from_rva(rva_of_entry_point())] = "mainCRTStartup";
 
-    ImportTable imports;
-    if (load_import_table(imports))
+    if (load_import_table(data.imports))
     {
-        for (auto& entry : imports)
+        for (auto& entry : data.imports)
         {
             names[ava_from_rva(entry.rva)] = entry.func_name;
         }
     }
 
-    ExportTable exports;
-    if (load_export_table(exports))
+    if (load_export_table(data.exports))
     {
-        for (auto& entry : exports)
+        for (auto& entry : data.exports)
         {
             if (entry.name.empty())
             {
@@ -898,8 +896,10 @@ bool PEModule::get_entry_points(std::unordered_set<uint64_t>& avas) const
     return true;
 }
 
-bool PEModule::do_disasm(std::map<uint64_t, Func>& ava_to_func) const
+bool PEModule::do_disasm(DisAsmData& data) const
 {
+    NameMap& names = data.names;
+    std::map<uint64_t, Func>& ava_to_func = data.ava_to_func;
     ava_to_func.clear();
 
     std::unordered_set<uint64_t> avas;
@@ -909,7 +909,7 @@ bool PEModule::do_disasm(std::map<uint64_t, Func>& ava_to_func) const
     for (auto& ava : avas)
     {
         Func func;
-        if (do_disasm_func(ava, func))
+        if (do_disasm_func(data, ava, func))
         {
             func.is_entry = true;
             ava_to_func[ava] = func;
@@ -926,7 +926,7 @@ retry:
             if (it == ava_to_func.end())
             {
                 Func func;
-                if (do_disasm_func(to, func))
+                if (do_disasm_func(data, to, func))
                 {
                     ava_to_func[to] = func;
                     goto retry;
@@ -970,8 +970,21 @@ get_disasm_first_imm_operand(const std::string& disasm)
     return imm;
 }
 
-bool PEModule::do_disasm_func(uint64_t ava, Func& func) const
+static uint64_t
+get_disasm_first_mem_operand(const std::string& disasm)
 {
+    const char *pch = strchr(disasm.c_str(), '[');
+    if (!pch)
+        return invalid_ava;
+
+    pch++;
+    uint64_t mem = strtoll(pch, NULL, 16);
+    return mem;
+}
+
+bool PEModule::do_disasm_func(DisAsmData& data, uint64_t ava, Func& func) const
+{
+    NameMap& names = data.names;
     s_this = this;
     func.ava = ava;
 
@@ -981,6 +994,7 @@ bool PEModule::do_disasm_func(uint64_t ava, Func& func) const
     ud_set_mode(&ud, (is_64bit() ? 64 : 32));
     ud_set_syntax(&ud, UD_SYN_INTEL);
 
+    bool first = true;
 retry:
     for (;;)
     {
@@ -992,6 +1006,7 @@ retry:
         bool is_quit = false;
         std::string disasm = ud_insn_asm(&ud);
         uint64_t imm = get_disasm_first_imm_operand(disasm);
+        uint64_t mem = get_disasm_first_mem_operand(disasm);
 
         switch (ud.mnemonic)
         {
@@ -1014,9 +1029,36 @@ retry:
             case UD_OP_IMM:
             case UD_OP_JIMM:
                 func.jump_to.insert(imm);
-                func.ava_to_disasm[ava].jump_to = imm;
+                func.ava_to_asm[ava].jump_to = imm;
                 break;
             default:
+                if (mem != invalid_ava && first)
+                {
+                    func.convention = C_JUMPFUNC;
+
+                    uint64_t jump_to;
+                    if (is_64bit())
+                    {
+                        jump_to = *ptr_from_rva<uint64_t>(rva_from_ava(mem));
+                    }
+                    else if (is_32bit())
+                    {
+                        jump_to = *ptr_from_rva<uint32_t>(rva_from_ava(mem));
+                    }
+                    else
+                    {
+                        assert(0);
+                    }
+
+                    uint64_t to = ava_from_rva(jump_to);
+
+                    if (names.find(to) != names.end())
+                    {
+                        std::string name = "__imp_";
+                        name += names[to];
+                        names[func.ava] = name;
+                    }
+                }
                 break;
             }
             break;
@@ -1031,7 +1073,7 @@ retry:
             case UD_OP_IMM:
             case UD_OP_JIMM:
                 func.jump_to.insert(imm);
-                func.ava_to_disasm[ava].jump_to = imm;
+                func.ava_to_asm[ava].jump_to = imm;
                 break;
             default:
                 break;
@@ -1054,31 +1096,32 @@ retry:
             break;
         }
 
-        func.ava_to_disasm[ava].disasm = disasm;
-        func.ava_to_disasm[ava].bytes = int(s_ava - ava);
+        func.ava_to_asm[ava].disasm = disasm;
+        func.ava_to_asm[ava].bytes = int(s_ava - ava);
         ava = s_ava;
 
+        first = false;
         if (is_quit)
             break;
     }
 
     for (auto& to : func.jump_to)
     {
-        auto it = func.ava_to_disasm.find(to);
-        if (it == func.ava_to_disasm.end())
+        auto it = func.ava_to_asm.find(to);
+        if (it == func.ava_to_asm.end())
         {
             ava = to;
             goto retry;
         }
     }
 
-    for (auto& pair : func.ava_to_disasm)
+    for (auto& pair : func.ava_to_asm)
     {
         auto to = pair.second.jump_to;
         if (to != invalid_ava)
         {
-            auto it = func.ava_to_disasm.find(to);
-            if (it != func.ava_to_disasm.end())
+            auto it = func.ava_to_asm.find(to);
+            if (it != func.ava_to_asm.end())
             {
                 it->second.jump_from.insert(pair.first);
             }
@@ -1155,9 +1198,10 @@ std::string PEModule::dump(const std::string& name) const
     }
     if (name == "disasm")
     {
-        std::map<uint64_t, Func> ava_to_func;
-        do_disasm(ava_to_func);
-        return string_of_disasm(ava_to_func, impl()->names, is_64bit());
+        DisAsmData data;
+        start_disasm(data);
+        do_disasm(data);
+        return string_of_disasm(data, is_64bit());
     }
 
     return Module::dump(name);
