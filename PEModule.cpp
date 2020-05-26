@@ -971,15 +971,23 @@ get_disasm_first_imm_operand(const std::string& disasm)
 }
 
 static uint64_t
-get_disasm_first_mem_operand(const std::string& disasm)
+get_disasm_first_mem_operand(const std::string& disasm, uint64_t ip)
 {
     const char *pch = strchr(disasm.c_str(), '[');
     if (!pch)
         return invalid_ava;
 
     pch++;
-    uint64_t mem = strtoll(pch, NULL, 16);
-    return mem;
+    if (memcmp(pch, "rip+", 4) == 0 || memcmp(pch, "eip+", 4) == 0)
+    {
+        uint64_t mem = strtoll(&pch[4], NULL, 16);
+        return mem + ip;
+    }
+    else
+    {
+        uint64_t mem = strtoll(pch, NULL, 16);
+        return mem;
+    }
 }
 
 bool PEModule::do_disasm_func(DisAsmData& data, uint64_t ava, Func& func) const
@@ -1003,10 +1011,15 @@ retry:
         if (!ud_disassemble(&ud))
             break;
 
-        bool is_quit = false;
         std::string disasm = ud_insn_asm(&ud);
+        func.ava_to_asm[ava].disasm = disasm;
+        auto bytes = int(s_ava - ava);
+        func.ava_to_asm[ava].bytes = bytes;
+
+        bool is_quit = false;
+        auto ip = ava + bytes;
         uint64_t imm = get_disasm_first_imm_operand(disasm);
-        uint64_t mem = get_disasm_first_mem_operand(disasm);
+        uint64_t mem = get_disasm_first_mem_operand(disasm, ip);
 
         switch (ud.mnemonic)
         {
@@ -1039,6 +1052,7 @@ retry:
                     uint64_t jump_to;
                     if (is_64bit())
                     {
+                        // FIXME
                         jump_to = *ptr_from_rva<uint64_t>(rva_from_ava(mem));
                     }
                     else if (is_32bit())
@@ -1096,8 +1110,6 @@ retry:
             break;
         }
 
-        func.ava_to_asm[ava].disasm = disasm;
-        func.ava_to_asm[ava].bytes = int(s_ava - ava);
         ava = s_ava;
 
         first = false;
