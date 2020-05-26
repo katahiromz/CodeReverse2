@@ -924,10 +924,11 @@ bool PEModule::end_disasm(DisAsmData& data) const
         for (auto& pair2 : func.ava_to_asm)
         {
             auto& code = pair2.second;
-            uint64_t imm = get_disasm_first_imm_operand(code.disasm);
+            uint64_t imm;
             switch (code.mnemonic)
             {
             case UD_Icall:
+                imm = get_disasm_first_imm_operand(code.disasm);
                 if (imm != invalid_ava)
                 {
                     auto it = names.find(imm);
@@ -1063,7 +1064,6 @@ retry:
         uint64_t imm = get_disasm_first_imm_operand(disasm);
         uint64_t mem = get_disasm_first_mem_operand(disasm, ip);
         func.ava_to_asm[ava].mnemonic = ud.mnemonic;
-        func.ava_to_asm[ava].ope1 = ud.operand[0].type;
 
         switch (ud.mnemonic)
         {

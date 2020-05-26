@@ -19,7 +19,6 @@ struct AsmCode
     std::set<uint64_t> jump_from;
     uint64_t jump_to = invalid_ava;
     int mnemonic;
-    int ope1;
 };
 
 enum CONVENTION
