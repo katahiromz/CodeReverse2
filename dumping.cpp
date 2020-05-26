@@ -407,7 +407,7 @@ std::string string_of_section_header(const void *section_header, uint32_t index)
     const IMAGE_SECTION_HEADER *sh =
         reinterpret_cast<const IMAGE_SECTION_HEADER *>(section_header);
 
-    ret += string_formatted("## Section Header #%u ##\n", index);
+    ret += string_formatted("## Section Header #%u ##\n", index + 1);
 
     ret += "  Name: ";
     for (uint32_t i = 0; i < IMAGE_SIZEOF_SHORT_NAME && sh->Name[i] != 0; ++i)
@@ -415,7 +415,7 @@ std::string string_of_section_header(const void *section_header, uint32_t index)
     ret += "\n";
 
     ret += string_formatted("  VirtualSize: 0x%08X (%u)\n", sh->Misc.VirtualSize, sh->Misc.VirtualSize);
-    ret += string_formatted("  VirtualAddress: 0x%08X (RVA, not absolute virtual address)\n", sh->VirtualAddress);
+    ret += string_formatted("  VirtualAddress: 0x%08X (RVA)\n", sh->VirtualAddress);
     ret += string_formatted("  SizeOfRawData: 0x%08X (%u)\n", sh->SizeOfRawData, sh->SizeOfRawData);
     ret += string_formatted("  PointerToRawData: 0x%08X\n", sh->PointerToRawData);
     ret += string_formatted("  PointerToRelocations: 0x%08X\n", sh->PointerToRelocations);
