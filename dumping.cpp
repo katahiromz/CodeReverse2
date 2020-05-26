@@ -875,7 +875,56 @@ std::string string_of_disasm(const std::map<uint64_t, Func>& ava_to_func,
         default:
             break;
         }
-        ret += "\n\n";
+        ret += "\n";
+
+        if (pair.second.is_entry)
+        {
+            ret += "; [EntryPoint]\n";
+        }
+
+        if (pair.second.call_from.size())
+        {
+            ret += "; call_from :";
+            for (auto& from : pair.second.call_from)
+            {
+                ret += " ";
+                if (is_64bit)
+                    ret += string_of_addr64(from);
+                else
+                    ret += string_of_addr32(static_cast<uint32_t>(from));
+            }
+            ret += "\n";
+        }
+
+        if (pair.second.call_to.size())
+        {
+            ret += "; call_to :";
+            for (auto& to : pair.second.call_to)
+            {
+                ret += " ";
+                if (is_64bit)
+                    ret += string_of_addr64(to);
+                else
+                    ret += string_of_addr32(static_cast<uint32_t>(to));
+            }
+            ret += "\n";
+        }
+
+        if (pair.second.jump_to.size())
+        {
+            ret += "; jump_to :";
+            for (auto& to : pair.second.jump_to)
+            {
+                ret += " ";
+                if (is_64bit)
+                    ret += string_of_addr64(to);
+                else
+                    ret += string_of_addr32(static_cast<uint32_t>(to));
+            }
+            ret += "\n";
+        }
+
+        ret += "\n";
 
         auto& ava_to_disasm = pair.second.ava_to_disasm;
         for (auto& pair2 : ava_to_disasm)
@@ -886,6 +935,19 @@ std::string string_of_disasm(const std::map<uint64_t, Func>& ava_to_func,
                 ret += string_of_addr32(static_cast<uint32_t>(pair2.first));
             ret += " ";
             ret += pair2.second.disasm;
+
+            if (pair2.second.jump_from.size())
+            {
+                ret += " ; jumped from";
+                for (auto& from : pair2.second.jump_from)
+                {
+                    ret += " ";
+                    if (is_64bit)
+                        ret += string_of_addr64(from);
+                    else
+                        ret += string_of_addr32(static_cast<uint32_t>(from));
+                }
+            }
             ret += "\n";
         }
 

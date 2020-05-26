@@ -30,17 +30,14 @@ enum CONVENTION
 
 struct Func
 {
-    uint64_t ava;
+    uint64_t ava = invalid_ava;
     std::string name;
     std::map<uint64_t, DisAsm> ava_to_disasm;
-    CONVENTION convention;
+    CONVENTION convention = C_UNKNOWN;
     std::set<uint64_t> call_from;
     std::set<uint64_t> call_to;
     std::set<uint64_t> jump_to;
-
-    Func() : convention(C_UNKNOWN)
-    {
-    }
+    bool is_entry = false;
 };
 
 }

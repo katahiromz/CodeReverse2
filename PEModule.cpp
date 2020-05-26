@@ -911,6 +911,7 @@ bool PEModule::do_disasm(std::map<uint64_t, Func>& ava_to_func) const
         Func func;
         if (do_disasm_func(ava, func))
         {
+            func.is_entry = true;
             ava_to_func[ava] = func;
         }
     }
@@ -930,6 +931,10 @@ retry:
                     ava_to_func[to] = func;
                     goto retry;
                 }
+            }
+            else
+            {
+                it->second.call_from.insert(pair.first);
             }
         }
     }
@@ -958,7 +963,7 @@ get_disasm_first_imm_operand(const std::string& disasm)
 {
     const char *pch = strchr(disasm.c_str(), ' ');
     if (!pch)
-        return 0;
+        return invalid_ava;
 
     pch++;
     uint64_t imm = strtoll(pch, NULL, 16);
@@ -968,6 +973,7 @@ get_disasm_first_imm_operand(const std::string& disasm)
 bool PEModule::do_disasm_func(uint64_t ava, Func& func) const
 {
     s_this = this;
+    func.ava = ava;
 
     ud_t ud;
     ud_init(&ud);
@@ -1002,13 +1008,13 @@ retry:
             break;
 
         case UD_Ijmp:
+            is_quit = true;
             switch (ud.operand[0].type)
             {
             case UD_OP_IMM:
             case UD_OP_JIMM:
                 func.jump_to.insert(imm);
                 func.ava_to_disasm[ava].jump_to = imm;
-                is_quit = true;
                 break;
             default:
                 break;
@@ -1058,10 +1064,24 @@ retry:
 
     for (auto& to : func.jump_to)
     {
-        if (func.ava_to_disasm.find(to) == func.ava_to_disasm.end())
+        auto it = func.ava_to_disasm.find(to);
+        if (it == func.ava_to_disasm.end())
         {
             ava = to;
             goto retry;
+        }
+    }
+
+    for (auto& pair : func.ava_to_disasm)
+    {
+        auto to = pair.second.jump_to;
+        if (to != invalid_ava)
+        {
+            auto it = func.ava_to_disasm.find(to);
+            if (it != func.ava_to_disasm.end())
+            {
+                it->second.jump_from.insert(pair.first);
+            }
         }
     }
 
@@ -1136,8 +1156,8 @@ std::string PEModule::dump(const std::string& name) const
     if (name == "disasm")
     {
         std::map<uint64_t, Func> ava_to_func;
-        if (do_disasm(ava_to_func))
-            return string_of_disasm(ava_to_func, impl()->names, is_64bit());
+        do_disasm(ava_to_func);
+        return string_of_disasm(ava_to_func, impl()->names, is_64bit());
     }
 
     return Module::dump(name);
