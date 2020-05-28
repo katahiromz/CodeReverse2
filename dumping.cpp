@@ -866,26 +866,12 @@ std::string string_of_disasm(DisAsmData& data, bool is_64bit)
             ret += it->second;
         }
 
-        switch (pair.second.convention)
+        ret += " ";
+        for (auto& attr : pair.second.attributes)
         {
-        case C_STDCALL:
-            ret += " __stdcall";
-            break;
-        case C_CDECL:
-            ret += " __cdecl";
-            break;
-        case C_JUMPFUNC:
-            ret += " (jump function)";
-            break;
-        default:
-            break;
+            ret += attr;
         }
         ret += "\n";
-
-        if (pair.second.is_entry)
-        {
-            ret += "; [EntryPoint]\n";
-        }
 
         if (pair.second.call_from.size())
         {

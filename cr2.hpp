@@ -21,26 +21,15 @@ struct AsmCode
     int mnemonic;
 };
 
-enum CONVENTION
-{
-    C_UNKNOWN,
-    C_CDECL,
-    C_STDCALL,
-    C_FASTCALL,
-    C_THISCALL,
-    C_JUMPFUNC
-};
-
 struct Func
 {
     uint64_t ava = invalid_ava;
     std::string name;
     std::map<uint64_t, AsmCode> ava_to_asm;
-    CONVENTION convention = C_UNKNOWN;
+    std::set<std::string> attributes;
     std::set<uint64_t> call_from;
     std::set<uint64_t> call_to;
     std::set<uint64_t> jump_to;
-    bool is_entry = false;
 };
 
 typedef std::unordered_map<uint64_t, std::string> NameMap;

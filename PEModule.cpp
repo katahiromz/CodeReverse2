@@ -1046,7 +1046,7 @@ bool PEModule::do_disasm(DisAsmData& data) const
         Func func;
         if (do_disasm_func(data, ava, func))
         {
-            func.is_entry = true;
+            func.attributes.insert("[[entry]]");
             ava_to_func[ava] = func;
         }
     }
@@ -1106,6 +1106,7 @@ bool PEModule::do_disasm_func(DisAsmData& data, uint64_t ava, Func& func) const
     ud_set_syntax(&ud, UD_SYN_INTEL);
 
     bool first = true;
+    func.attributes.insert("[[noreturn]]");
 retry:
     for (;;)
     {
@@ -1151,7 +1152,8 @@ retry:
             default:
                 if (mem != invalid_ava && first)
                 {
-                    func.convention = C_JUMPFUNC;
+                    func.attributes.insert("[[jumponly]]");
+                    func.attributes.erase("[[noreturn]]");
 
                     uint64_t jump_to;
                     if (is_64bit())
@@ -1200,14 +1202,15 @@ retry:
         case UD_Iret: case UD_Iretf:
         case UD_Iiretd: case UD_Iiretq: case UD_Iiretw:
             is_quit = true;
+            func.attributes.erase("[[noreturn]]");
             switch (ud.operand[0].type)
             {
             case UD_OP_IMM:
             case UD_OP_JIMM:
-                func.convention = C_STDCALL;
+                func.attributes.insert("[[stdcall]]");
                 break;
             default:
-                func.convention = C_CDECL;
+                func.attributes.insert("[[cdecl]]");
                 break;
             }
             break;
