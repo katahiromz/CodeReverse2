@@ -36,6 +36,28 @@ int main(int argc, char **argv)
         return 0;
     }
 
+    std::string commandline;
+    for (int i = 0; i < argc; ++i)
+    {
+        if (i != 0)
+            commandline += " ";
+
+        std::string str = argv[i];
+        if (str.find(' ') != std::string::npos || str.find('\t') != std::string::npos)
+        {
+            commandline += '"';
+            commandline += str;
+            commandline += '"';
+        }
+        else
+        {
+            commandline += str;
+        }
+    }
+
+    printf("## CommandLine ##\n");
+    printf("%s\n\n", commandline.c_str());
+
     cr2::PEModule mod;
     if (!mod.load(arg.c_str()))
     {
