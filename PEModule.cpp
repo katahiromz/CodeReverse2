@@ -208,6 +208,22 @@ bool PEModule::is_gui() const
     return get_subsystem() == IMAGE_SUBSYSTEM_WINDOWS_GUI;
 }
 
+bool PEModule::is_rva_code(uint64_t rva) const
+{
+    auto sh = section_from_rva(rva);
+    if (sh && sh->Characteristics & IMAGE_SCN_CNT_CODE)
+        return true;
+    return false;
+}
+
+bool PEModule::is_rva_writable(uint64_t rva) const
+{
+    auto sh = section_from_rva(rva);
+    if (sh && sh->Characteristics & IMAGE_SCN_MEM_WRITE)
+        return true;
+    return false;
+}
+
 void PEModule::unload()
 {
     m_pimpl.reset();
@@ -888,7 +904,22 @@ bool PEModule::start_disasm(DisAsmData& data) const
     {
         for (auto& entry : data.imports)
         {
-            names[ava_from_rva(entry.rva)] = entry.func_name;
+            auto module = entry.module;
+            auto i = module.find('.');
+            if (i != std::string::npos)
+            {
+                module = module.substr(0, i);
+            }
+
+            auto str = module + ".";
+            if (entry.func_name.empty())
+            {
+                names[ava_from_rva(entry.rva)] = str + string_formatted("%u", entry.ordinal);
+            }
+            else
+            {
+                names[ava_from_rva(entry.rva)] = str + entry.func_name;
+            }
         }
     }
 
@@ -896,6 +927,9 @@ bool PEModule::start_disasm(DisAsmData& data) const
     {
         for (auto& entry : data.exports)
         {
+            if (!is_rva_code(entry.rva))
+                continue;
+
             if (entry.name.empty())
             {
                 names[ava_from_rva(entry.rva)] =
@@ -904,6 +938,29 @@ bool PEModule::start_disasm(DisAsmData& data) const
             else
             {
                 names[ava_from_rva(entry.rva)] = entry.name;
+            }
+        }
+    }
+
+    if (load_delay_table(data.delays))
+    {
+        for (auto& entry : data.delays)
+        {
+            auto module = entry.module;
+            auto i = module.find('.');
+            if (i != std::string::npos)
+            {
+                module = module.substr(0, i);
+            }
+
+            auto str = module + ".";
+            if (entry.func_name.empty())
+            {
+                names[entry.va] = str + string_formatted("%u", entry.ordinal);
+            }
+            else
+            {
+                names[entry.va] = str + entry.func_name;
             }
         }
     }
@@ -935,10 +992,10 @@ bool PEModule::end_disasm(DisAsmData& data) const
                     if (it != names.end())
                     {
                         auto& name = it->second;
-                        if (name.find("__imp_") == 0)
+                        if (name.find("imp.") == 0)
                         {
                             code.disasm = "call ";
-                            code.disasm += name.substr(strlen("__imp_"));
+                            code.disasm += name.substr(strlen("imp."));
                         }
                     }
                 }
@@ -963,6 +1020,9 @@ bool PEModule::get_entry_points(std::unordered_set<uint64_t>& avas) const
     {
         for (auto& entry : table)
         {
+            if (!is_rva_code(entry.rva))
+                continue;
+
             if (entry.forwarded_to.empty())
                 avas.insert(ava_from_rva(entry.rva));
         }
@@ -1096,7 +1156,6 @@ retry:
                     uint64_t jump_to;
                     if (is_64bit())
                     {
-                        // FIXME
                         jump_to = *ptr_from_rva<uint64_t>(rva_from_ava(mem));
                     }
                     else if (is_32bit())
@@ -1112,7 +1171,7 @@ retry:
 
                     if (names.find(to) != names.end())
                     {
-                        std::string name = "__imp_";
+                        std::string name = "imp.";
                         name += names[to];
                         names[func.ava] = name;
                     }

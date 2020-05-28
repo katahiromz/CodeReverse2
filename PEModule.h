@@ -81,6 +81,8 @@ public:
     uint32_t size_of_image() const;
     uint32_t base_of_code() const;
     uint64_t rva_of_entry_point() const;
+    bool is_rva_code(uint64_t rva) const;
+    bool is_rva_writable(uint64_t rva) const;
 
     virtual bool get_binary(const std::string& group_name, std::string& binary) const;
 
