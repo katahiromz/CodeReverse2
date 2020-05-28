@@ -17,13 +17,11 @@ public:
     Module();
     Module(const char *filename);
     Module(const wchar_t *filename);
-    Module(FILE *fp);
     virtual ~Module();
 
     virtual bool is_loaded() const;
     bool load(const char *filename);
     bool load(const wchar_t *filename);
-    virtual bool load(FILE *fp);
     virtual void unload();
 
           void *file_map(uint64_t rva = 0, uint32_t size = 1);
@@ -55,9 +53,15 @@ public:
 
 protected:
     std::shared_ptr<ModuleImpl> m_pimpl;
+    std::string m_module_name;
+
+    void set_module_name(const char *filename);
+
     Module(std::shared_ptr<ModuleImpl> pimpl) : m_pimpl(pimpl)
     {
     }
+
+    virtual bool load(FILE *fp);
 
 private:
     Module(const Module&) /* = delete */;

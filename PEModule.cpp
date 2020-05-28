@@ -67,33 +67,14 @@ PEModule::PEModule(const wchar_t *filename) : Module(std::make_shared<PEModuleIm
     Module::load(filename);
 }
 
-PEModule::PEModule(FILE *fp) : Module(std::make_shared<PEModuleImpl>())
-{
-    load(fp);
-}
-
 bool PEModule::load(const char *filename)
 {
-    FILE *fp = fopen(filename, "rb");
-    if (!fp)
-        return false;
-    bool ret = load(fp);
-    fclose(fp);
-    return ret;
+    return Module::load(filename);
 }
 
 bool PEModule::load(const wchar_t *filename)
 {
-#ifdef _WIN32
-    FILE *fp = _wfopen(filename, L"rb");
-    if (!fp)
-        return false;
-    bool ret = load(fp);
-    fclose(fp);
-    return ret;
-#else
-    return false;
-#endif
+    return Module::load(filename);
 }
 
 bool PEModule::load(FILE *fp)
@@ -894,11 +875,11 @@ bool PEModule::start_disasm(DisAsmData& data) const
     auto& names = data.names;
 
     if (is_dll())
-        names[ava_from_rva(rva_of_entry_point())] = "_DllMainCRTStartup";
+        names[ava_from_rva(rva_of_entry_point())] = m_module_name + "._DllMainCRTStartup";
     else if (is_gui())
-        names[ava_from_rva(rva_of_entry_point())] = "WinMainCRTStartup";
+        names[ava_from_rva(rva_of_entry_point())] = m_module_name + ".WinMainCRTStartup";
     else
-        names[ava_from_rva(rva_of_entry_point())] = "mainCRTStartup";
+        names[ava_from_rva(rva_of_entry_point())] = m_module_name + ".mainCRTStartup";
 
     if (load_import_table(data.imports))
     {
@@ -914,7 +895,8 @@ bool PEModule::start_disasm(DisAsmData& data) const
             auto str = module + ".";
             if (entry.func_name.empty())
             {
-                names[ava_from_rva(entry.rva)] = str + string_formatted("%u", entry.ordinal);
+                names[ava_from_rva(entry.rva)] = str +
+                    string_formatted("Ordinal_%u", entry.ordinal);
             }
             else
             {
@@ -930,14 +912,15 @@ bool PEModule::start_disasm(DisAsmData& data) const
             if (!is_rva_code(entry.rva))
                 continue;
 
+            auto str = m_module_name + ".";
             if (entry.name.empty())
             {
                 names[ava_from_rva(entry.rva)] =
-                    string_formatted("ExportOrdinal_%u", entry.ordinal);
+                    str + string_formatted("Ordinal_%u", entry.ordinal);
             }
             else
             {
-                names[ava_from_rva(entry.rva)] = entry.name;
+                names[ava_from_rva(entry.rva)] = str + entry.name;
             }
         }
     }

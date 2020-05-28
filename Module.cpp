@@ -22,11 +22,6 @@ Module::Module(const wchar_t *filename) : m_pimpl(new ModuleImpl)
     load(filename);
 }
 
-Module::Module(FILE *fp) : m_pimpl(new ModuleImpl)
-{
-    load(fp);
-}
-
 Module::~Module()
 {
 }
@@ -36,6 +31,28 @@ bool Module::is_loaded() const
     return !m_pimpl->binary.empty();
 }
 
+void Module::set_module_name(const char *filename)
+{
+    std::string str = filename;
+    auto i1 = str.rfind('/');
+    if (i1 != std::string::npos)
+    {
+        str = str.substr(i1 + 1);
+    }
+    auto i2 = str.rfind('\\');
+    if (i2 != std::string::npos)
+    {
+        str = str.substr(i2 + 1);
+    }
+    auto i3 = str.rfind('.');
+    if (i3 != std::string::npos)
+    {
+        str = str.substr(0, i3);
+    }
+
+    m_module_name = str;
+}
+
 bool Module::load(const char *filename)
 {
     FILE *fp = fopen(filename, "rb");
@@ -43,6 +60,7 @@ bool Module::load(const char *filename)
         return false;
     bool ret = load(fp);
     fclose(fp);
+    set_module_name(filename);
     return ret;
 }
 
@@ -54,6 +72,9 @@ bool Module::load(const wchar_t *filename)
         return false;
     bool ret = load(fp);
     fclose(fp);
+    char buf[MAX_PATH];
+    WideCharToMultiByte(CP_ACP, 0, filename, -1, buf, MAX_PATH, NULL, NULL);
+    set_module_name(buf);
     return ret;
 #else
     return false;

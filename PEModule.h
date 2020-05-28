@@ -21,12 +21,10 @@ public:
     PEModule();
     PEModule(const char *filename);
     PEModule(const wchar_t *filename);
-    PEModule(FILE *fp);
 
     virtual bool is_loaded() const;
     bool load(const char *filename);
     bool load(const wchar_t *filename);
-    virtual bool load(FILE *fp);
     virtual void unload();
 
           void *image_map(uint64_t rva = 0, uint32_t size = 1);
@@ -140,6 +138,7 @@ public:
 protected:
     PEModuleImpl *impl();
     const PEModuleImpl *impl() const;
+    virtual bool load(FILE *fp);
 
           void *data_from_dir(uint16_t dir, size_t *pSize = NULL);
     const void *data_from_dir(uint16_t dir, size_t *pSize = NULL) const;
