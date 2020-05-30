@@ -869,6 +869,12 @@ std::string string_of_disasm(DisAsmData& data, bool is_64bit)
                 ret += string_of_addr32(static_cast<uint32_t>(pair.first));
         }
 
+        ret += " Label_";
+        if (is_64bit)
+            ret += string_of_addr64(pair.first);
+        else
+            ret += string_of_addr32(static_cast<uint32_t>(pair.first));
+
         ret += "\n";
         ret += "attrs ";
         for (auto& attr : pair.second.attributes)
@@ -954,8 +960,6 @@ std::string string_of_disasm(DisAsmData& data, bool is_64bit)
 
         ret += "end proc\n\n";
     }
-
-    ret += "\n";
 
     return ret;
 }
