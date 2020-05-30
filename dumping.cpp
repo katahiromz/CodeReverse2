@@ -853,20 +853,24 @@ std::string string_of_disasm(DisAsmData& data, bool is_64bit)
 
     for (auto& pair : ava_to_func)
     {
-        ret += ";; Function ";
-        if (is_64bit)
-            ret += string_of_addr64(pair.first);
-        else
-            ret += string_of_addr32(static_cast<uint32_t>(pair.first));
+        ret += "proc ";
 
         auto it = names.find(pair.first);
         if (it != names.end())
         {
-            ret += " : ";
             ret += it->second;
         }
+        else
+        {
+            ret += "Func";
+            if (is_64bit)
+                ret += string_of_addr64(pair.first);
+            else
+                ret += string_of_addr32(static_cast<uint32_t>(pair.first));
+        }
 
-        ret += " ";
+        ret += "\n";
+        ret += "attrs ";
         for (auto& attr : pair.second.attributes)
         {
             ret += attr;
@@ -915,16 +919,22 @@ std::string string_of_disasm(DisAsmData& data, bool is_64bit)
             ret += "\n";
         }
 
-        ret += "\n";
-
         auto& ava_to_asm = pair.second.ava_to_asm;
         for (auto& pair2 : ava_to_asm)
         {
-            if (is_64bit)
-                ret += string_of_addr64(pair2.first);
-            else
-                ret += string_of_addr32(static_cast<uint32_t>(pair2.first));
-            ret += " ";
+            if (pair2.first == pair.first ||
+                pair2.second.jump_from.size())
+            {
+                ret += "Label_";
+                if (is_64bit)
+                    ret += string_of_addr64(pair2.first);
+                else
+                    ret += string_of_addr32(static_cast<uint32_t>(pair2.first));
+
+                ret += ":\n";
+            }
+
+            ret += "asm ";
             ret += pair2.second.disasm;
 
             if (pair2.second.jump_from.size())
@@ -942,8 +952,10 @@ std::string string_of_disasm(DisAsmData& data, bool is_64bit)
             ret += "\n";
         }
 
-        ret += "\n";
+        ret += "end proc\n\n";
     }
+
+    ret += "\n";
 
     return ret;
 }

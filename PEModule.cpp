@@ -33,11 +33,12 @@ get_disasm_first_mem_operand(const std::string& disasm, uint64_t ip)
         uint64_t mem = strtoll(&pch[4], NULL, 16);
         return mem + ip;
     }
-    else
+    else if (memcmp(pch, "0x", 2) == 0)
     {
         uint64_t mem = strtoll(pch, NULL, 16);
         return mem;
     }
+    return invalid_ava;
 }
 
 
@@ -430,6 +431,38 @@ void *PEModule::data_from_dir(uint16_t iDir, size_t *pSize)
 const void *PEModule::data_from_dir(uint16_t dir, size_t *pSize) const
 {
     return const_cast<PEModule *>(this)->data_from_dir(dir, pSize);
+}
+
+uint16_t PEModule::get_dir_from_rva(uint64_t rva) const
+{
+    assert(is_loaded());
+
+    if (is_64bit())
+    {
+        auto opt = impl()->optional64;
+        for (uint32_t iDir = 0; iDir < opt->NumberOfRvaAndSizes; ++iDir)
+        {
+            auto& dir = opt->DataDirectory[iDir];
+            auto size = dir.Size;
+            auto offset = dir.VirtualAddress;
+            if (offset <= rva && rva < offset + size)
+                return iDir;
+        }
+    }
+    else if (is_32bit())
+    {
+        auto opt = impl()->optional32;
+        for (uint32_t iDir = 0; iDir < opt->NumberOfRvaAndSizes; ++iDir)
+        {
+            auto& dir = opt->DataDirectory[iDir];
+            auto size = dir.Size;
+            auto offset = dir.VirtualAddress;
+            if (offset <= rva && rva < offset + size)
+                return iDir;
+        }
+    }
+
+    return -1;
 }
 
 bool PEModule::_map_image()
@@ -959,17 +992,35 @@ bool PEModule::end_disasm(DisAsmData& data) const
     for (auto& pair : ava_to_func)
     {
         auto& ava = pair.first;
+        auto it = names.find(ava);
+        if (it == names.end())
+        {
+            if (is_64bit())
+            {
+                names[ava] = "Func" + string_of_addr64(ava);
+            }
+            else
+            {
+                names[ava] = "Func" + string_of_addr32(static_cast<uint32_t>(ava));
+            }
+        }
+    }
+
+    for (auto& pair : ava_to_func)
+    {
+        auto& ava = pair.first;
         auto& func = pair.second;
 
         for (auto& pair2 : func.ava_to_asm)
         {
             auto& code = pair2.second;
-            uint64_t imm;
+            uint64_t imm, mem;
             switch (code.mnemonic)
             {
             case UD_Icall:
                 imm = get_disasm_first_imm_operand(code.disasm);
-                if (imm != invalid_ava)
+                mem = get_disasm_first_mem_operand(code.disasm, 0);
+                if (imm != 0 && imm != invalid_ava)
                 {
                     auto it = names.find(imm);
                     if (it != names.end())
@@ -980,6 +1031,20 @@ bool PEModule::end_disasm(DisAsmData& data) const
                             code.disasm = "call ";
                             code.disasm += name.substr(strlen("imp."));
                         }
+                        else
+                        {
+                            code.disasm = "call ";
+                            code.disasm += name;
+                        }
+                    }
+                }
+                else if (mem != 0 && mem != invalid_ava)
+                {
+                    auto it = names.find(mem);
+                    if (it != names.end())
+                    {
+                        code.disasm = "call ";
+                        code.disasm += it->second;
                     }
                 }
                 break;
@@ -1040,6 +1105,10 @@ retry:
         Func& func = pair.second;
         for (auto to : func.call_to)
         {
+            auto rva = rva_from_ava(to);
+            if (!is_rva_code(rva))
+                continue;
+
             auto it = ava_to_func.find(to);
             if (it == ava_to_func.end())
             {
@@ -1116,7 +1185,40 @@ retry:
             {
             case UD_OP_IMM:
             case UD_OP_JIMM:
-                func.call_to.insert(imm);
+                if (imm != 0 && imm != invalid_ava)
+                {
+                    func.call_to.insert(imm);
+                }
+                break;
+            case UD_OP_MEM:
+                if (mem != invalid_ava)
+                {
+                    auto rva = rva_from_ava(mem);
+                    if (get_dir_from_rva(rva) == IMAGE_DIRECTORY_ENTRY_IMPORT)
+                    {
+                        uint64_t to;
+                        if (is_64bit())
+                        {
+                            to = *ptr_from_rva<uint64_t>(rva);
+                        }
+                        else if (is_32bit())
+                        {
+                            to = *ptr_from_rva<uint32_t>(rva);
+                        }
+                        else
+                        {
+                            assert(0);
+                        }
+
+                        auto call_to = ava_from_rva(to);
+                        auto it = names.find(call_to);
+                        if (it != names.end())
+                        {
+                            func.ava_to_asm[ava].disasm = "call ";
+                            func.ava_to_asm[ava].disasm += it->second;
+                        }
+                    }
+                }
                 break;
             default:
                 break;
@@ -1133,7 +1235,7 @@ retry:
                 func.ava_to_asm[ava].jump_to = imm;
                 break;
             default:
-                if (mem != invalid_ava && first)
+                if (first && mem != invalid_ava)
                 {
                     func.attributes.insert("[[jumponly]]");
                     func.attributes.erase("[[noreturn]]");

@@ -95,6 +95,8 @@ public:
         return reinterpret_cast<const T *>(data_from_dir(dir, pSize));
     }
 
+    uint16_t get_dir_from_rva(uint64_t rva) const;
+
     /////////////////////////////////////////////////////////////////////////
     // Imports
           IMAGE_IMPORT_DESCRIPTOR *get_imports(size_t *pSize = NULL);
