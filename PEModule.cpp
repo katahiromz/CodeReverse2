@@ -1049,6 +1049,36 @@ bool PEModule::end_disasm(DisAsmData& data) const
                 }
                 break;
 
+            case UD_Ijmp:
+            case UD_Ija: case UD_Ijae: case UD_Ijb: case UD_Ijbe:
+            case UD_Ijcxz: case UD_Ijecxz: case UD_Ijg: case UD_Ijge:
+            case UD_Ijl: case UD_Ijle: case UD_Ijno: case UD_Ijnp:
+            case UD_Ijns: case UD_Ijnz: case UD_Ijo: case UD_Ijp:
+            case UD_Ijrcxz: case UD_Ijs: case UD_Ijz:
+                imm = get_disasm_first_imm_operand(code.disasm);
+                if (imm != 0 && imm != invalid_ava)
+                {
+                    std::string str = code.disasm;
+                    size_t index = str.find(' ');
+                    if (index != std::string::npos)
+                    {
+                        std::string operands = str.substr(index + 1);
+                        if (memcmp(operands.c_str(), "0x", 2) == 0)
+                        {
+                            auto ava = strtoll(operands.c_str(), NULL, 16);
+                            std::string addr;
+                            if (is_64bit())
+                                addr = string_of_addr64(ava);
+                            else
+                                addr = string_of_addr32(static_cast<uint32_t>(ava));
+
+                            str = code.disasm.substr(0, index);
+                            code.disasm = str + " Label_" + addr;
+                        }
+                    }
+                }
+                break;
+
             default:
                 break;
             }
@@ -1194,7 +1224,8 @@ retry:
                 if (mem != invalid_ava)
                 {
                     auto rva = rva_from_ava(mem);
-                    if (get_dir_from_rva(rva) == IMAGE_DIRECTORY_ENTRY_IMPORT)
+                    if (!is_rva_writable(rva) ||
+                        get_dir_from_rva(rva) == IMAGE_DIRECTORY_ENTRY_IMPORT)
                     {
                         uint64_t to;
                         if (is_64bit())
