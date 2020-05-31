@@ -2,7 +2,7 @@ Microsoft (R) COFF/PE Dumper Version 11.00.61030.0
 Copyright (C) Microsoft Corporation.  All rights reserved.
 
 
-Dump of file console.exe
+Dump of file testdata\data-x64\console.exe
 
 PE signature found
 
