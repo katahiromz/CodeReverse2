@@ -15,7 +15,8 @@ static const uint64_t invalid_ava = 0xFFFFFFFFFFFFFFFF;
 struct AsmCode
 {
     int bytes;
-    std::string disasm;
+    std::string raw;
+    std::string cooked;
     std::set<uint64_t> jump_from;
     uint64_t jump_to = invalid_ava;
     int mnemonic;

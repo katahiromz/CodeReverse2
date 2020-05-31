@@ -1018,8 +1018,8 @@ bool PEModule::end_disasm(DisAsmData& data) const
             switch (code.mnemonic)
             {
             case UD_Icall:
-                imm = get_disasm_first_imm_operand(code.disasm);
-                mem = get_disasm_first_mem_operand(code.disasm, 0);
+                imm = get_disasm_first_imm_operand(code.raw);
+                mem = get_disasm_first_mem_operand(code.raw, 0);
                 if (imm != 0 && imm != invalid_ava)
                 {
                     auto it = names.find(imm);
@@ -1028,13 +1028,13 @@ bool PEModule::end_disasm(DisAsmData& data) const
                         auto& name = it->second;
                         if (name.find("imp.") == 0)
                         {
-                            code.disasm = "call ";
-                            code.disasm += name.substr(strlen("imp."));
+                            code.cooked = "call ";
+                            code.cooked += name.substr(strlen("imp."));
                         }
                         else
                         {
-                            code.disasm = "call ";
-                            code.disasm += name;
+                            code.cooked = "call ";
+                            code.cooked += name;
                         }
                     }
                 }
@@ -1043,8 +1043,8 @@ bool PEModule::end_disasm(DisAsmData& data) const
                     auto it = names.find(mem);
                     if (it != names.end())
                     {
-                        code.disasm = "call ";
-                        code.disasm += it->second;
+                        code.cooked = "call ";
+                        code.cooked += it->second;
                     }
                 }
                 break;
@@ -1055,10 +1055,10 @@ bool PEModule::end_disasm(DisAsmData& data) const
             case UD_Ijl: case UD_Ijle: case UD_Ijno: case UD_Ijnp:
             case UD_Ijns: case UD_Ijnz: case UD_Ijo: case UD_Ijp:
             case UD_Ijrcxz: case UD_Ijs: case UD_Ijz:
-                imm = get_disasm_first_imm_operand(code.disasm);
+                imm = get_disasm_first_imm_operand(code.raw);
                 if (imm != 0 && imm != invalid_ava)
                 {
-                    std::string str = code.disasm;
+                    std::string str = code.raw;
                     size_t index = str.find(' ');
                     if (index != std::string::npos)
                     {
@@ -1072,8 +1072,8 @@ bool PEModule::end_disasm(DisAsmData& data) const
                             else
                                 addr = string_of_addr32(static_cast<uint32_t>(ava));
 
-                            str = code.disasm.substr(0, index);
-                            code.disasm = str + " Label_" + addr;
+                            str = code.raw.substr(0, index);
+                            code.cooked = str + " Label_" + addr;
                         }
                     }
                 }
@@ -1198,7 +1198,8 @@ retry:
             break;
 
         std::string disasm = ud_insn_asm(&ud);
-        func.ava_to_asm[ava].disasm = disasm;
+        func.ava_to_asm[ava].raw = disasm;
+        func.ava_to_asm[ava].cooked = disasm;
         auto bytes = int(s_ava - ava);
         func.ava_to_asm[ava].bytes = bytes;
 
@@ -1245,8 +1246,8 @@ retry:
                         auto it = names.find(call_to);
                         if (it != names.end())
                         {
-                            func.ava_to_asm[ava].disasm = "call ";
-                            func.ava_to_asm[ava].disasm += it->second;
+                            func.ava_to_asm[ava].cooked = "call ";
+                            func.ava_to_asm[ava].cooked += it->second;
                         }
                     }
                 }

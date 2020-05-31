@@ -355,11 +355,7 @@ std::string string_of_optional64(const void *optional)
     ret += string_formatted("  SizeOfUninitializedData: 0x%08X (%u)\n", opt64->SizeOfUninitializedData, opt64->SizeOfUninitializedData);
     ret += string_formatted("  AddressOfEntryPoint: 0x%08X\n", opt64->AddressOfEntryPoint);
     ret += string_formatted("  BaseOfCode: 0x%08X\n", opt64->BaseOfCode);
-#ifdef _WIN32
-    ret += string_formatted("  ImageBase: 0x%016I64X\n", opt64->ImageBase);
-#else
     ret += string_formatted("  ImageBase: 0x%016llX\n", opt64->ImageBase);
-#endif
     ret += string_formatted("  SectionAlignment: 0x%08X\n", opt64->SectionAlignment);
     ret += string_formatted("  FileAlignment: 0x%08X\n", opt64->FileAlignment);
     ret += string_formatted("  OperatingSystemVersion: %u.%u\n", opt64->MajorOperatingSystemVersion, opt64->MinorOperatingSystemVersion);
@@ -371,17 +367,10 @@ std::string string_of_optional64(const void *optional)
     ret += string_formatted("  CheckSum: 0x%08X\n", opt64->CheckSum);
     ret += string_formatted("  Subsystem: 0x%04X (%s)\n", opt64->Subsystem, string_of_subsystem(opt64->Subsystem).c_str());
     ret += string_formatted("  DllCharacteristics: 0x%04X (%s)\n", opt64->DllCharacteristics, string_of_dll_flags(opt64->DllCharacteristics).c_str());
-#ifdef _WIN32
-    ret += string_formatted("  SizeOfStackReserve: 0x%016I64X (%I64u)\n", opt64->SizeOfStackReserve, opt64->SizeOfStackReserve);
-    ret += string_formatted("  SizeOfStackCommit: 0x%016I64X (%I64u)\n", opt64->SizeOfStackCommit, opt64->SizeOfStackCommit);
-    ret += string_formatted("  SizeOfHeapReserve: 0x%016I64X (%I64u)\n", opt64->SizeOfHeapReserve, opt64->SizeOfHeapReserve);
-    ret += string_formatted("  SizeOfHeapCommit: 0x%016I64X (%I64u)\n", opt64->SizeOfHeapCommit, opt64->SizeOfHeapCommit);
-#else
     ret += string_formatted("  SizeOfStackReserve: 0x%016llX (%llu)\n", opt64->SizeOfStackReserve, opt64->SizeOfStackReserve);
     ret += string_formatted("  SizeOfStackCommit: 0x%016llX (%llu)\n", opt64->SizeOfStackCommit, opt64->SizeOfStackCommit);
     ret += string_formatted("  SizeOfHeapReserve: 0x%016llX (%llu)\n", opt64->SizeOfHeapReserve, opt64->SizeOfHeapReserve);
     ret += string_formatted("  SizeOfHeapCommit: 0x%016llX (%llu)\n", opt64->SizeOfHeapCommit, opt64->SizeOfHeapCommit);
-#endif
     ret += string_formatted("  LoaderFlags: 0x%08X\n", opt64->LoaderFlags);
     ret += string_formatted("  NumberOfRvaAndSizes: 0x%08X (%u)\n", opt64->NumberOfRvaAndSizes, opt64->NumberOfRvaAndSizes);
     ret += "\n";
@@ -435,11 +424,7 @@ std::string string_of_addr32(uint32_t addr)
 
 std::string string_of_addr64(uint64_t addr)
 {
-#ifdef _WIN32
-    return string_formatted("%016I64X", addr);
-#else
     return string_formatted("%016llX", addr);
-#endif
 }
 
 static const char *s_hex = "0123456789ABCDEF";
@@ -628,11 +613,7 @@ std::string string_of_imports(const IMAGE_IMPORT_DESCRIPTOR *imports, const Impo
                 hint = string_formatted("%8X", entry.hint);
             if (is_64bit)
             {
-#ifdef _WIN32
-                ret += string_formatted("%16s %8s %016I64X %s\n",
-#else
                 ret += string_formatted("%16s %8s %016llX %s\n",
-#endif
                     entry.module.c_str(),
                     hint.c_str(),
                     entry.rva,
@@ -654,11 +635,7 @@ std::string string_of_imports(const IMAGE_IMPORT_DESCRIPTOR *imports, const Impo
             {
                 if (entry.hint != -1)
                     hint = string_formatted("%8X", entry.hint);
-#ifdef _WIN32
-                ret += string_formatted("%16s %8s %016I64X %s\n",
-#else
                 ret += string_formatted("%16s %8s %016llX %s\n",
-#endif
                     entry.module.c_str(),
                     hint.c_str(),
                     entry.rva,
@@ -721,11 +698,7 @@ std::string string_of_exports(const IMAGE_EXPORT_DIRECTORY *exports, const Expor
         std::string rva;
         if (is_64bit)
         {
-#ifdef _WIN32
-            rva = string_formatted("%016I64X", entry.rva);
-#else
             rva = string_formatted("%016llX", entry.rva);
-#endif
         }
         else
         {
@@ -782,11 +755,7 @@ std::string string_of_delay(const DelayTable& table, bool is_64bit)
                 hint = string_formatted("%8X", entry.hint);
             if (is_64bit)
             {
-#ifdef _WIN32
-                ret += string_formatted("%16s %016I64X %8s %016I64X %s\n",
-#else
                 ret += string_formatted("%16s %016llX %8s %016llX %s\n",
-#endif
                     entry.module.c_str(),
                     entry.hmodule,
                     hint.c_str(),
@@ -810,11 +779,7 @@ std::string string_of_delay(const DelayTable& table, bool is_64bit)
                 hint = string_formatted("%8X", entry.hint);
             if (is_64bit)
             {
-#ifdef _WIN32
-                ret += string_formatted("%16s %016I64X %8s %016I64X %s\n",
-#else
                 ret += string_formatted("%16s %016llX %8s %016llX %s\n",
-#endif
                     entry.module.c_str(),
                     entry.hmodule,
                     hint.c_str(),
@@ -941,7 +906,7 @@ std::string string_of_disasm(DisAsmData& data, bool is_64bit)
             }
 
             ret += "asm ";
-            ret += pair2.second.disasm;
+            ret += pair2.second.cooked;
 
             if (pair2.second.jump_from.size())
             {
