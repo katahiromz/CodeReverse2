@@ -1,0 +1,183 @@
+Turbo Dump  Version 5.0.16.12 Copyright (c) 1988, 2000 Inprise Corporation
+                    Display of File CONSOLE.EXE
+
+Old Executable Header
+
+DOS File Size                                      47B02h  (293634. )
+Load Image Size                                      450h  (  1104. )
+Relocation Table entry count                          0000h  (     0. )
+Relocation Table address                              0040h  (    64. )
+Size of header record      (in paragraphs)            0004h  (     4. )
+Minimum Memory Requirement (in paragraphs)            0000h  (     0. )
+Maximum Memory Requirement (in paragraphs)            FFFFh  ( 65535. )
+File load checksum                                    0000h  (     0. )
+Overlay Number                                        0000h  (     0. )
+
+Initial Stack Segment  (SS:SP)			  0000:00B8
+Program Entry Point    (CS:IP)			  0000:0000
+
+
+Portable Executable (PE) File
+
+Header base: 00000080
+
+CPU type                 80386
+Flags                    107 [ fixed executable symbols backwards 32bit ]
+DLL flags                0000 [ ]
+Linker Version           2.22
+Time stamp               5E82F67F : Tue Mar 31 16:51:27 2020
+O/S Version              4.0
+User Version             0.0
+Subsystem Version        4.0
+Subsystem                0003 [ Windows character ]
+Object count             00000010
+Symbols offset           00040C00
+Symbols count            00000511
+Optional header size     00E0
+Magic #                  10B
+Code size                00001800
+Init Data size           00003C00
+Uninit Data size         00000400
+Entry RVA                000014C0
+Image base               00400000
+Code base                00001000
+Data base                00003000
+Object/File align        00001000/00000200
+Reserved                 00000000
+Image size               0004D000
+Header size              00000400
+Checksum                 00055107
+Stack reserve/commit     00200000/00001000
+Heap reserve/commit      00100000/00001000
+Number interesting RVAs  00000010
+Name                   RVA       Size  
+------------------  --------  --------
+Exports             00000000  00000000
+Imports             00007000  0000059C
+Resources           0000A000  000004E8
+Exceptions          00000000  00000000
+Security            00000000  00000000
+Fixups              00000000  00000000
+Debug               00000000  00000000
+Description         00000000  00000000
+Global Ptr          00000000  00000000
+TLS                 00004060  00000018
+Callbacks           00000000  00000000
+Bound Imports       00000000  00000000
+Import Addr Table   00007104  000000C8
+Delayed Imports     00000000  00000000
+COM Runtime         00000000  00000000
+reserved            00000000  00000000
+
+Object table:
+#   Name      VirtSize    RVA     PhysSize  Phys off  Flags   
+--  --------  --------  --------  --------  --------  --------
+01  .text     00001754  00001000  00001800  00000400  60500060 [CEIR]
+02  .data     00000038  00003000  00000200  00001C00  C0300040 [IRW]
+03  .rdata    00000774  00004000  00000800  00001E00  40300040 [IR]
+04  /4        00000880  00005000  00000A00  00002600  40300040 [IR]
+05  .bss      000003EC  00006000  00000000  00000000  C0600080 [RUW]
+06  .idata    0000059C  00007000  00000600  00003000  C0300040 [IRW]
+07  .CRT      00000034  00008000  00000200  00003600  C0300040 [IRW]
+08  .tls      00000008  00009000  00000200  00003800  C0300040 [IRW]
+09  .rsrc     000004E8  0000A000  00000600  00003A00  C0300040 [IRW]
+0a  /14       000002B8  0000B000  00000400  00004000  42100040 [DIR]
+0b  /29       000356C4  0000C000  00035800  00004400  42100040 [DIR]
+0c  /41       000021B6  00042000  00002200  00039C00  42100040 [DIR]
+0d  /55       000030AA  00045000  00003200  0003BE00  42100040 [DIR]
+0e  /67       000004E3  00049000  00000600  0003F000  42100040 [DIR]
+0f  /78       000011E2  0004A000  00001200  0003F600  42100040 [DIR]
+10  /89       00000250  0004C000  00000400  00040800  42100040 [DIR]
+
+Key to section flags:
+  C - contains code
+  D - discardable
+  E - executable
+  I - contains initialized data
+  R - readable
+  U - contains uninitialized data
+  W - writeable
+
+******************************************************************************
+Section:             Import
+  ImportLookUpTblRVA:0000703C
+  Time Stamp:        00000000
+  Forwarder Chain:   00000000 (index of first forwarder reference)
+
+Imports from KERNEL32.dll
+    (hint = 0115) DeleteCriticalSection
+    (hint = 0136) EnterCriticalSection
+    (hint = 01B1) FreeLibrary
+    (hint = 021F) GetCurrentProcess
+    (hint = 0220) GetCurrentProcessId
+    (hint = 0224) GetCurrentThreadId
+    (hint = 0269) GetLastError
+    (hint = 027D) GetModuleHandleA
+    (hint = 02B6) GetProcAddress
+    (hint = 02D9) GetStartupInfoA
+    (hint = 02F3) GetSystemTimeAsFileTime
+    (hint = 0312) GetTickCount
+    (hint = 036D) InitializeCriticalSection
+    (hint = 03CD) LeaveCriticalSection
+    (hint = 03D1) LoadLibraryA
+    (hint = 045E) QueryPerformanceCounter
+    (hint = 055A) SetUnhandledExceptionFilter
+    (hint = 056A) Sleep
+    (hint = 0579) TerminateProcess
+    (hint = 058D) TlsGetValue
+    (hint = 059B) UnhandledExceptionFilter
+    (hint = 05BD) VirtualProtect
+    (hint = 05C0) VirtualQuery
+
+Imports from msvcrt.dll
+    (hint = 003A) __getmainargs
+    (hint = 003B) __initenv
+    (hint = 0044) __lconv_init
+    (hint = 004C) __p__acmdln
+    (hint = 0053) __p__fmode
+    (hint = 0068) __set_app_type
+    (hint = 006B) __setusermatherr
+    (hint = 0090) _amsg_exit
+    (hint = 00A1) _cexit
+    (hint = 0160) _initterm
+    (hint = 0164) _iob
+    (hint = 0274) _onexit
+    (hint = 0421) abort
+    (hint = 042F) calloc
+    (hint = 043B) exit
+    (hint = 044B) fprintf
+    (hint = 0452) free
+    (hint = 045E) fwrite
+    (hint = 048D) malloc
+    (hint = 0496) memcpy
+    (hint = 04A1) puts
+    (hint = 04B1) signal
+    (hint = 04C3) strlen
+    (hint = 04C6) strncmp
+    (hint = 04E7) vfprintf
+
+******************************************************************************
+Section:             Resources
+  Flags:             00000000
+  Time Stamp:        00000000
+  Major Version:     0000
+  Minor Version:     0000
+
+Resources:
+Type          Name                   Lang Id
+--------------------------------------------
+[0 named entries, 1 ID entries]
+type: Unknown (24)  (next directory @00000018)
+
+              [0 named entries, 1 ID entries]
+              type: Cursor (1)  (next directory @00000030)
+
+                                     [0 named entries, 1 ID entries]
+                                     type: Unknown (0)  (data @00000048)
+                                         Offset:    0000A058
+                                         Size:      0000048F
+                                         Code Page: 00000000
+                                         Reserved:  00000000
+
+
+

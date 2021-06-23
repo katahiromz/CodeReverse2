@@ -1,0 +1,407 @@
+Microsoft (R) COFF/PE Dumper Version 11.00.61030.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file testdata\data-x86\console.exe
+
+PE signature found
+
+File Type: EXECUTABLE IMAGE
+
+FILE HEADER VALUES
+             14C machine (x86)
+              10 number of sections
+        5E82F67F time date stamp Tue Mar 31 16:51:27 2020
+           40C00 file pointer to symbol table
+             511 number of symbols
+              E0 size of optional header
+             107 characteristics
+                   Relocations stripped
+                   Executable
+                   Line numbers stripped
+                   32 bit word machine
+
+OPTIONAL HEADER VALUES
+             10B magic # (PE32)
+            2.34 linker version
+            1800 size of code
+            3C00 size of initialized data
+             400 size of uninitialized data
+            14C0 entry point (004014C0)
+            1000 base of code
+            3000 base of data
+          400000 image base (00400000 to 0044CFFF)
+            1000 section alignment
+             200 file alignment
+            4.00 operating system version
+            0.00 image version
+            4.00 subsystem version
+               0 Win32 version
+           4D000 size of image
+             400 size of headers
+           55107 checksum
+               3 subsystem (Windows CUI)
+               0 DLL characteristics
+          200000 size of stack reserve
+            1000 size of stack commit
+          100000 size of heap reserve
+            1000 size of heap commit
+               0 loader flags
+              10 number of directories
+               0 [       0] RVA [size] of Export Directory
+            7000 [     59C] RVA [size] of Import Directory
+            A000 [     4E8] RVA [size] of Resource Directory
+               0 [       0] RVA [size] of Exception Directory
+               0 [       0] RVA [size] of Certificates Directory
+               0 [       0] RVA [size] of Base Relocation Directory
+               0 [       0] RVA [size] of Debug Directory
+               0 [       0] RVA [size] of Architecture Directory
+               0 [       0] RVA [size] of Global Pointer Directory
+            4060 [      18] RVA [size] of Thread Storage Directory
+               0 [       0] RVA [size] of Load Configuration Directory
+               0 [       0] RVA [size] of Bound Import Directory
+            7104 [      C8] RVA [size] of Import Address Table Directory
+               0 [       0] RVA [size] of Delay Import Directory
+               0 [       0] RVA [size] of COM Descriptor Directory
+               0 [       0] RVA [size] of Reserved Directory
+
+
+SECTION HEADER #1
+   .text name
+    1754 virtual size
+    1000 virtual address (00401000 to 00402753)
+    1800 size of raw data
+     400 file pointer to raw data (00000400 to 00001BFF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+60500060 flags
+         Code
+         Initialized Data
+         RESERVED - UNKNOWN
+         RESERVED - UNKNOWN
+         Execute Read
+
+SECTION HEADER #2
+   .data name
+      38 virtual size
+    3000 virtual address (00403000 to 00403037)
+     200 size of raw data
+    1C00 file pointer to raw data (00001C00 to 00001DFF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+C0300040 flags
+         Initialized Data
+         RESERVED - UNKNOWN
+         RESERVED - UNKNOWN
+         Read Write
+
+SECTION HEADER #3
+  .rdata name
+     774 virtual size
+    4000 virtual address (00404000 to 00404773)
+     800 size of raw data
+    1E00 file pointer to raw data (00001E00 to 000025FF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+40300040 flags
+         Initialized Data
+         RESERVED - UNKNOWN
+         RESERVED - UNKNOWN
+         Read Only
+
+SECTION HEADER #4
+      /4 name (.eh_frame)
+     880 virtual size
+    5000 virtual address (00405000 to 0040587F)
+     A00 size of raw data
+    2600 file pointer to raw data (00002600 to 00002FFF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+40300040 flags
+         Initialized Data
+         RESERVED - UNKNOWN
+         RESERVED - UNKNOWN
+         Read Only
+
+SECTION HEADER #5
+    .bss name
+     3EC virtual size
+    6000 virtual address (00406000 to 004063EB)
+       0 size of raw data
+       0 file pointer to raw data
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+C0600080 flags
+         Uninitialized Data
+         RESERVED - UNKNOWN
+         RESERVED - UNKNOWN
+         Read Write
+
+SECTION HEADER #6
+  .idata name
+     59C virtual size
+    7000 virtual address (00407000 to 0040759B)
+     600 size of raw data
+    3000 file pointer to raw data (00003000 to 000035FF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+C0300040 flags
+         Initialized Data
+         RESERVED - UNKNOWN
+         RESERVED - UNKNOWN
+         Read Write
+
+  Section contains the following imports:
+
+    KERNEL32.dll
+                407104 Import Address Table
+                40703C Import Name Table
+                     0 time date stamp
+                     0 Index of first forwarder reference
+
+                  115 DeleteCriticalSection
+                  136 EnterCriticalSection
+                  1B1 FreeLibrary
+                  21F GetCurrentProcess
+                  220 GetCurrentProcessId
+                  224 GetCurrentThreadId
+                  269 GetLastError
+                  27D GetModuleHandleA
+                  2B6 GetProcAddress
+                  2D9 GetStartupInfoA
+                  2F3 GetSystemTimeAsFileTime
+                  312 GetTickCount
+                  36D InitializeCriticalSection
+                  3CD LeaveCriticalSection
+                  3D1 LoadLibraryA
+                  45E QueryPerformanceCounter
+                  55A SetUnhandledExceptionFilter
+                  56A Sleep
+                  579 TerminateProcess
+                  58D TlsGetValue
+                  59B UnhandledExceptionFilter
+                  5BD VirtualProtect
+                  5C0 VirtualQuery
+
+    msvcrt.dll
+                407164 Import Address Table
+                40709C Import Name Table
+                     0 time date stamp
+                     0 Index of first forwarder reference
+
+                   3A __getmainargs
+                   3B __initenv
+                   44 __lconv_init
+                   4C __p__acmdln
+                   53 __p__fmode
+                   68 __set_app_type
+                   6B __setusermatherr
+                   90 _amsg_exit
+                   A1 _cexit
+                  160 _initterm
+                  164 _iob
+                  274 _onexit
+                  421 abort
+                  42F calloc
+                  43B exit
+                  44B fprintf
+                  452 free
+                  45E fwrite
+                  48D malloc
+                  496 memcpy
+                  4A1 puts
+                  4B1 signal
+                  4C3 strlen
+                  4C6 strncmp
+                  4E7 vfprintf
+
+SECTION HEADER #7
+    .CRT name
+      34 virtual size
+    8000 virtual address (00408000 to 00408033)
+     200 size of raw data
+    3600 file pointer to raw data (00003600 to 000037FF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+C0300040 flags
+         Initialized Data
+         RESERVED - UNKNOWN
+         RESERVED - UNKNOWN
+         Read Write
+
+SECTION HEADER #8
+    .tls name
+       8 virtual size
+    9000 virtual address (00409000 to 00409007)
+     200 size of raw data
+    3800 file pointer to raw data (00003800 to 000039FF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+C0300040 flags
+         Initialized Data
+         RESERVED - UNKNOWN
+         RESERVED - UNKNOWN
+         Read Write
+
+SECTION HEADER #9
+   .rsrc name
+     4E8 virtual size
+    A000 virtual address (0040A000 to 0040A4E7)
+     600 size of raw data
+    3A00 file pointer to raw data (00003A00 to 00003FFF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+C0300040 flags
+         Initialized Data
+         RESERVED - UNKNOWN
+         RESERVED - UNKNOWN
+         Read Write
+
+SECTION HEADER #A
+     /14 name (.debug_aranges)
+     2B8 virtual size
+    B000 virtual address (0040B000 to 0040B2B7)
+     400 size of raw data
+    4000 file pointer to raw data (00004000 to 000043FF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+42100040 flags
+         Initialized Data
+         RESERVED - UNKNOWN
+         Discardable
+         Read Only
+
+SECTION HEADER #B
+     /29 name (.debug_info)
+   356C4 virtual size
+    C000 virtual address (0040C000 to 004416C3)
+   35800 size of raw data
+    4400 file pointer to raw data (00004400 to 00039BFF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+42100040 flags
+         Initialized Data
+         RESERVED - UNKNOWN
+         Discardable
+         Read Only
+
+SECTION HEADER #C
+     /41 name (.debug_abbrev)
+    21B6 virtual size
+   42000 virtual address (00442000 to 004441B5)
+    2200 size of raw data
+   39C00 file pointer to raw data (00039C00 to 0003BDFF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+42100040 flags
+         Initialized Data
+         RESERVED - UNKNOWN
+         Discardable
+         Read Only
+
+SECTION HEADER #D
+     /55 name (.debug_line)
+    30AA virtual size
+   45000 virtual address (00445000 to 004480A9)
+    3200 size of raw data
+   3BE00 file pointer to raw data (0003BE00 to 0003EFFF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+42100040 flags
+         Initialized Data
+         RESERVED - UNKNOWN
+         Discardable
+         Read Only
+
+SECTION HEADER #E
+     /67 name (.debug_str)
+     4E3 virtual size
+   49000 virtual address (00449000 to 004494E2)
+     600 size of raw data
+   3F000 file pointer to raw data (0003F000 to 0003F5FF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+42100040 flags
+         Initialized Data
+         RESERVED - UNKNOWN
+         Discardable
+         Read Only
+
+SECTION HEADER #F
+     /78 name (.debug_loc)
+    11E2 virtual size
+   4A000 virtual address (0044A000 to 0044B1E1)
+    1200 size of raw data
+   3F600 file pointer to raw data (0003F600 to 000407FF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+42100040 flags
+         Initialized Data
+         RESERVED - UNKNOWN
+         Discardable
+         Read Only
+
+SECTION HEADER #10
+     /89 name (.debug_ranges)
+     250 virtual size
+   4C000 virtual address (0044C000 to 0044C24F)
+     400 size of raw data
+   40800 file pointer to raw data (00040800 to 00040BFF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+42100040 flags
+         Initialized Data
+         RESERVED - UNKNOWN
+         Discardable
+         Read Only
+
+  Summary
+
+        1000 .CRT
+        1000 .bss
+        1000 .data
+        3000 .debug_abbrev
+        1000 .debug_aranges
+       36000 .debug_info
+        4000 .debug_line
+        2000 .debug_loc
+        1000 .debug_ranges
+        1000 .debug_str
+        1000 .eh_frame
+        1000 .idata
+        1000 .rdata
+        1000 .rsrc
+        2000 .text
+        1000 .tls

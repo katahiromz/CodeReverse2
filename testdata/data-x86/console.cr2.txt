@@ -1,0 +1,1877 @@
+## CommandLine ##
+cr2.exe testdata\data-x86\console.exe
+
+## IMAGE_DOS_HEADER ##
+  e_magic: 0x5A4D
+  e_cblp: 0x0090
+  e_cp: 0x0003
+  e_crlc: 0x0000
+  e_cparhdr: 0x0004
+  e_minalloc: 0x0000
+  e_maxalloc: 0xFFFF
+  e_ss: 0x0000
+  e_sp: 0x00B8
+  e_csum: 0x0000
+  e_ip: 0x0000
+  e_cs: 0x0000
+  e_lfarlc: 0x0040
+  e_ovno: 0x0000
+  e_res[0]: 0x0000
+  e_res[1]: 0x0000
+  e_res[2]: 0x0000
+  e_res[3]: 0x0000
+  e_oemid: 0x0000
+  e_oeminfo: 0x0000
+  e_res2[0]: 0x0000
+  e_res2[1]: 0x0000
+  e_res2[2]: 0x0000
+  e_res2[3]: 0x0000
+  e_res2[4]: 0x0000
+  e_res2[5]: 0x0000
+  e_res2[6]: 0x0000
+  e_res2[7]: 0x0000
+  e_res2[8]: 0x0000
+  e_res2[9]: 0x0000
+  e_lfanew: 0x00000080
+
+## IMAGE_FILE_HEADER ##
+  Machine: 0x014C (IMAGE_FILE_MACHINE_I386)
+  NumberOfSections: 0x0010 (16)
+  TimeDateStamp: 0x5E82F67F (Tue Mar 31 07:51:27 2020)
+  PointerToSymbolTable: 0x00040C00
+  NumberOfSymbols: 0x00000511 (1297)
+  SizeOfOptionalHeader: 0x00E0 (224)
+  Characteristics: 0x0107 (IMAGE_FILE_RELOCS_STRIPPED IMAGE_FILE_EXECUTABLE_IMAGE IMAGE_FILE_LINE_NUMS_STRIPPED IMAGE_FILE_32BIT_MACHINE )
+
+## IMAGE_OPTIONAL_HEADER32 ##
+  Magic: 0x010B
+  LinkerVersion: 2.34
+  SizeOfCode: 0x00001800 (6144)
+  SizeOfInitializedData: 0x00003C00 (15360)
+  SizeOfUninitializedData: 0x00000400 (1024)
+  AddressOfEntryPoint: 0x000014C0
+  BaseOfCode: 0x00001000
+  BaseOfData: 0x00003000
+  ImageBase: 0x00400000
+  SectionAlignment: 0x00001000
+  FileAlignment: 0x00000200
+  OperatingSystemVersion: 4.0
+  ImageVersion: 0.0
+  SubsystemVersion: 4.0
+  Win32VersionValue: 0x00000000
+  SizeOfImage: 0x0004D000 (315392)
+  SizeOfHeaders: 0x00000400 (1024)
+  CheckSum: 0x00055107
+  Subsystem: 0x0003 (IMAGE_SUBSYSTEM_WINDOWS_CUI)
+  DllCharacteristics: 0x0000 ()
+  SizeOfStackReserve: 0x00200000 (2097152)
+  SizeOfStackCommit: 0x00001000 (4096)
+  SizeOfHeapReserve: 0x00100000 (1048576)
+  SizeOfHeapCommit: 0x00001000 (4096)
+  LoaderFlags: 0x00000000
+  NumberOfRvaAndSizes: 0x00000010 (16)
+
+## Data Directories ##
+    IMAGE_DIRECTORY_ENTRY_EXPORT (0): address 0x00000000, size 0x00000000 (0)
+    IMAGE_DIRECTORY_ENTRY_IMPORT (1): address 0x00007000, size 0x0000059C (1436)
+    IMAGE_DIRECTORY_ENTRY_RESOURCE (2): address 0x0000A000, size 0x000004E8 (1256)
+    IMAGE_DIRECTORY_ENTRY_EXCEPTION (3): address 0x00000000, size 0x00000000 (0)
+    IMAGE_DIRECTORY_ENTRY_SECURITY (4): address 0x00000000, size 0x00000000 (0)
+    IMAGE_DIRECTORY_ENTRY_BASERELOC (5): address 0x00000000, size 0x00000000 (0)
+    IMAGE_DIRECTORY_ENTRY_DEBUG (6): address 0x00000000, size 0x00000000 (0)
+    IMAGE_DIRECTORY_ENTRY_ARCHITECTURE (7): address 0x00000000, size 0x00000000 (0)
+    IMAGE_DIRECTORY_ENTRY_GLOBALPTR (8): address 0x00000000, size 0x00000000 (0)
+    IMAGE_DIRECTORY_ENTRY_TLS (9): address 0x00004060, size 0x00000018 (24)
+    IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG (10): address 0x00000000, size 0x00000000 (0)
+    IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT (11): address 0x00000000, size 0x00000000 (0)
+    IMAGE_DIRECTORY_ENTRY_IAT (12): address 0x00007104, size 0x000000C8 (200)
+    IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT (13): address 0x00000000, size 0x00000000 (0)
+    IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR (14): address 0x00000000, size 0x00000000 (0)
+    (Reserved Directory Entry) (15): address 0x00000000, size 0x00000000 (0)
+
+## Section Header #1 ##
+  Name: .text
+  VirtualSize: 0x00001754 (5972)
+  VirtualAddress: 0x00001000 (RVA)
+  SizeOfRawData: 0x00001800 (6144)
+  PointerToRawData: 0x00000400
+  PointerToRelocations: 0x00000000
+  PointerToLinenumbers: 0x00000000
+  NumberOfRelocations: 0x00000000 (0)
+  NumberOfLinenumbers: 0x00000000 (0)
+  Characteristics: 0x60500060 (IMAGE_SCN_CNT_CODE IMAGE_SCN_CNT_INITIALIZED_DATA IMAGE_SCN_ALIGN_16BYTES IMAGE_SCN_MEM_EXECUTE IMAGE_SCN_MEM_READ )
+
+## Section Header #2 ##
+  Name: .data
+  VirtualSize: 0x00000038 (56)
+  VirtualAddress: 0x00003000 (RVA)
+  SizeOfRawData: 0x00000200 (512)
+  PointerToRawData: 0x00001C00
+  PointerToRelocations: 0x00000000
+  PointerToLinenumbers: 0x00000000
+  NumberOfRelocations: 0x00000000 (0)
+  NumberOfLinenumbers: 0x00000000 (0)
+  Characteristics: 0xC0300040 (IMAGE_SCN_CNT_INITIALIZED_DATA IMAGE_SCN_ALIGN_4BYTES IMAGE_SCN_MEM_READ IMAGE_SCN_MEM_WRITE )
+
+## Section Header #3 ##
+  Name: .rdata
+  VirtualSize: 0x00000774 (1908)
+  VirtualAddress: 0x00004000 (RVA)
+  SizeOfRawData: 0x00000800 (2048)
+  PointerToRawData: 0x00001E00
+  PointerToRelocations: 0x00000000
+  PointerToLinenumbers: 0x00000000
+  NumberOfRelocations: 0x00000000 (0)
+  NumberOfLinenumbers: 0x00000000 (0)
+  Characteristics: 0x40300040 (IMAGE_SCN_CNT_INITIALIZED_DATA IMAGE_SCN_ALIGN_4BYTES IMAGE_SCN_MEM_READ )
+
+## Section Header #4 ##
+  Name: /4
+  VirtualSize: 0x00000880 (2176)
+  VirtualAddress: 0x00005000 (RVA)
+  SizeOfRawData: 0x00000A00 (2560)
+  PointerToRawData: 0x00002600
+  PointerToRelocations: 0x00000000
+  PointerToLinenumbers: 0x00000000
+  NumberOfRelocations: 0x00000000 (0)
+  NumberOfLinenumbers: 0x00000000 (0)
+  Characteristics: 0x40300040 (IMAGE_SCN_CNT_INITIALIZED_DATA IMAGE_SCN_ALIGN_4BYTES IMAGE_SCN_MEM_READ )
+
+## Section Header #5 ##
+  Name: .bss
+  VirtualSize: 0x000003EC (1004)
+  VirtualAddress: 0x00006000 (RVA)
+  SizeOfRawData: 0x00000000 (0)
+  PointerToRawData: 0x00000000
+  PointerToRelocations: 0x00000000
+  PointerToLinenumbers: 0x00000000
+  NumberOfRelocations: 0x00000000 (0)
+  NumberOfLinenumbers: 0x00000000 (0)
+  Characteristics: 0xC0600080 (IMAGE_SCN_CNT_UNINITIALIZED_DATA IMAGE_SCN_ALIGN_32BYTES IMAGE_SCN_MEM_READ IMAGE_SCN_MEM_WRITE )
+
+## Section Header #6 ##
+  Name: .idata
+  VirtualSize: 0x0000059C (1436)
+  VirtualAddress: 0x00007000 (RVA)
+  SizeOfRawData: 0x00000600 (1536)
+  PointerToRawData: 0x00003000
+  PointerToRelocations: 0x00000000
+  PointerToLinenumbers: 0x00000000
+  NumberOfRelocations: 0x00000000 (0)
+  NumberOfLinenumbers: 0x00000000 (0)
+  Characteristics: 0xC0300040 (IMAGE_SCN_CNT_INITIALIZED_DATA IMAGE_SCN_ALIGN_4BYTES IMAGE_SCN_MEM_READ IMAGE_SCN_MEM_WRITE )
+
+## Section Header #7 ##
+  Name: .CRT
+  VirtualSize: 0x00000034 (52)
+  VirtualAddress: 0x00008000 (RVA)
+  SizeOfRawData: 0x00000200 (512)
+  PointerToRawData: 0x00003600
+  PointerToRelocations: 0x00000000
+  PointerToLinenumbers: 0x00000000
+  NumberOfRelocations: 0x00000000 (0)
+  NumberOfLinenumbers: 0x00000000 (0)
+  Characteristics: 0xC0300040 (IMAGE_SCN_CNT_INITIALIZED_DATA IMAGE_SCN_ALIGN_4BYTES IMAGE_SCN_MEM_READ IMAGE_SCN_MEM_WRITE )
+
+## Section Header #8 ##
+  Name: .tls
+  VirtualSize: 0x00000008 (8)
+  VirtualAddress: 0x00009000 (RVA)
+  SizeOfRawData: 0x00000200 (512)
+  PointerToRawData: 0x00003800
+  PointerToRelocations: 0x00000000
+  PointerToLinenumbers: 0x00000000
+  NumberOfRelocations: 0x00000000 (0)
+  NumberOfLinenumbers: 0x00000000 (0)
+  Characteristics: 0xC0300040 (IMAGE_SCN_CNT_INITIALIZED_DATA IMAGE_SCN_ALIGN_4BYTES IMAGE_SCN_MEM_READ IMAGE_SCN_MEM_WRITE )
+
+## Section Header #9 ##
+  Name: .rsrc
+  VirtualSize: 0x000004E8 (1256)
+  VirtualAddress: 0x0000A000 (RVA)
+  SizeOfRawData: 0x00000600 (1536)
+  PointerToRawData: 0x00003A00
+  PointerToRelocations: 0x00000000
+  PointerToLinenumbers: 0x00000000
+  NumberOfRelocations: 0x00000000 (0)
+  NumberOfLinenumbers: 0x00000000 (0)
+  Characteristics: 0xC0300040 (IMAGE_SCN_CNT_INITIALIZED_DATA IMAGE_SCN_ALIGN_4BYTES IMAGE_SCN_MEM_READ IMAGE_SCN_MEM_WRITE )
+
+## Section Header #10 ##
+  Name: /14
+  VirtualSize: 0x000002B8 (696)
+  VirtualAddress: 0x0000B000 (RVA)
+  SizeOfRawData: 0x00000400 (1024)
+  PointerToRawData: 0x00004000
+  PointerToRelocations: 0x00000000
+  PointerToLinenumbers: 0x00000000
+  NumberOfRelocations: 0x00000000 (0)
+  NumberOfLinenumbers: 0x00000000 (0)
+  Characteristics: 0x42100040 (IMAGE_SCN_CNT_INITIALIZED_DATA IMAGE_SCN_ALIGN_1BYTES IMAGE_SCN_MEM_DISCARDABLE IMAGE_SCN_MEM_READ )
+
+## Section Header #11 ##
+  Name: /29
+  VirtualSize: 0x000356C4 (218820)
+  VirtualAddress: 0x0000C000 (RVA)
+  SizeOfRawData: 0x00035800 (219136)
+  PointerToRawData: 0x00004400
+  PointerToRelocations: 0x00000000
+  PointerToLinenumbers: 0x00000000
+  NumberOfRelocations: 0x00000000 (0)
+  NumberOfLinenumbers: 0x00000000 (0)
+  Characteristics: 0x42100040 (IMAGE_SCN_CNT_INITIALIZED_DATA IMAGE_SCN_ALIGN_1BYTES IMAGE_SCN_MEM_DISCARDABLE IMAGE_SCN_MEM_READ )
+
+## Section Header #12 ##
+  Name: /41
+  VirtualSize: 0x000021B6 (8630)
+  VirtualAddress: 0x00042000 (RVA)
+  SizeOfRawData: 0x00002200 (8704)
+  PointerToRawData: 0x00039C00
+  PointerToRelocations: 0x00000000
+  PointerToLinenumbers: 0x00000000
+  NumberOfRelocations: 0x00000000 (0)
+  NumberOfLinenumbers: 0x00000000 (0)
+  Characteristics: 0x42100040 (IMAGE_SCN_CNT_INITIALIZED_DATA IMAGE_SCN_ALIGN_1BYTES IMAGE_SCN_MEM_DISCARDABLE IMAGE_SCN_MEM_READ )
+
+## Section Header #13 ##
+  Name: /55
+  VirtualSize: 0x000030AA (12458)
+  VirtualAddress: 0x00045000 (RVA)
+  SizeOfRawData: 0x00003200 (12800)
+  PointerToRawData: 0x0003BE00
+  PointerToRelocations: 0x00000000
+  PointerToLinenumbers: 0x00000000
+  NumberOfRelocations: 0x00000000 (0)
+  NumberOfLinenumbers: 0x00000000 (0)
+  Characteristics: 0x42100040 (IMAGE_SCN_CNT_INITIALIZED_DATA IMAGE_SCN_ALIGN_1BYTES IMAGE_SCN_MEM_DISCARDABLE IMAGE_SCN_MEM_READ )
+
+## Section Header #14 ##
+  Name: /67
+  VirtualSize: 0x000004E3 (1251)
+  VirtualAddress: 0x00049000 (RVA)
+  SizeOfRawData: 0x00000600 (1536)
+  PointerToRawData: 0x0003F000
+  PointerToRelocations: 0x00000000
+  PointerToLinenumbers: 0x00000000
+  NumberOfRelocations: 0x00000000 (0)
+  NumberOfLinenumbers: 0x00000000 (0)
+  Characteristics: 0x42100040 (IMAGE_SCN_CNT_INITIALIZED_DATA IMAGE_SCN_ALIGN_1BYTES IMAGE_SCN_MEM_DISCARDABLE IMAGE_SCN_MEM_READ )
+
+## Section Header #15 ##
+  Name: /78
+  VirtualSize: 0x000011E2 (4578)
+  VirtualAddress: 0x0004A000 (RVA)
+  SizeOfRawData: 0x00001200 (4608)
+  PointerToRawData: 0x0003F600
+  PointerToRelocations: 0x00000000
+  PointerToLinenumbers: 0x00000000
+  NumberOfRelocations: 0x00000000 (0)
+  NumberOfLinenumbers: 0x00000000 (0)
+  Characteristics: 0x42100040 (IMAGE_SCN_CNT_INITIALIZED_DATA IMAGE_SCN_ALIGN_1BYTES IMAGE_SCN_MEM_DISCARDABLE IMAGE_SCN_MEM_READ )
+
+## Section Header #16 ##
+  Name: /89
+  VirtualSize: 0x00000250 (592)
+  VirtualAddress: 0x0004C000 (RVA)
+  SizeOfRawData: 0x00000400 (1024)
+  PointerToRawData: 0x00040800
+  PointerToRelocations: 0x00000000
+  PointerToLinenumbers: 0x00000000
+  NumberOfRelocations: 0x00000000 (0)
+  NumberOfLinenumbers: 0x00000000 (0)
+  Characteristics: 0x42100040 (IMAGE_SCN_CNT_INITIALIZED_DATA IMAGE_SCN_ALIGN_1BYTES IMAGE_SCN_MEM_DISCARDABLE IMAGE_SCN_MEM_READ )
+
+## Imports ##
+  Characteristics: 0x0000703C (28732)
+  TimeDateStamp: 0x00000000 ((null))
+  Name: 0x0000751C (29980)
+  FirstThunk: 0x00007104 (28932)
+          Module     hint      RVA Function
+    KERNEL32.dll      115 000071CC DeleteCriticalSection
+    KERNEL32.dll      136 000071E4 EnterCriticalSection
+    KERNEL32.dll      1B1 000071FC FreeLibrary
+    KERNEL32.dll      21F 0000720A GetCurrentProcess
+    KERNEL32.dll      220 0000721E GetCurrentProcessId
+    KERNEL32.dll      224 00007234 GetCurrentThreadId
+    KERNEL32.dll      269 0000724A GetLastError
+    KERNEL32.dll      27D 0000725A GetModuleHandleA
+    KERNEL32.dll      2B6 0000726E GetProcAddress
+    KERNEL32.dll      2D9 00007280 GetStartupInfoA
+    KERNEL32.dll      2F3 00007292 GetSystemTimeAsFileTime
+    KERNEL32.dll      312 000072AC GetTickCount
+    KERNEL32.dll      36D 000072BC InitializeCriticalSection
+    KERNEL32.dll      3CD 000072D8 LeaveCriticalSection
+    KERNEL32.dll      3D1 000072F0 LoadLibraryA
+    KERNEL32.dll      45E 00007300 QueryPerformanceCounter
+    KERNEL32.dll      55A 0000731A SetUnhandledExceptionFilter
+    KERNEL32.dll      56A 00007338 Sleep
+    KERNEL32.dll      579 00007340 TerminateProcess
+    KERNEL32.dll      58D 00007354 TlsGetValue
+    KERNEL32.dll      59B 00007362 UnhandledExceptionFilter
+    KERNEL32.dll      5BD 0000737E VirtualProtect
+    KERNEL32.dll      5C0 00007390 VirtualQuery
+      msvcrt.dll       3A 000073A0 __getmainargs
+      msvcrt.dll       3B 000073B0 __initenv
+      msvcrt.dll       44 000073BC __lconv_init
+      msvcrt.dll       4C 000073CC __p__acmdln
+      msvcrt.dll       53 000073DA __p__fmode
+      msvcrt.dll       68 000073E8 __set_app_type
+      msvcrt.dll       6B 000073FA __setusermatherr
+      msvcrt.dll       90 0000740E _amsg_exit
+      msvcrt.dll       A1 0000741C _cexit
+      msvcrt.dll      160 00007426 _initterm
+      msvcrt.dll      164 00007432 _iob
+      msvcrt.dll      274 0000743A _onexit
+      msvcrt.dll      421 00007444 abort
+      msvcrt.dll      42F 0000744C calloc
+      msvcrt.dll      43B 00007456 exit
+      msvcrt.dll      44B 0000745E fprintf
+      msvcrt.dll      452 00007468 free
+      msvcrt.dll      45E 00007470 fwrite
+      msvcrt.dll      48D 0000747A malloc
+      msvcrt.dll      496 00007484 memcpy
+      msvcrt.dll      4A1 0000748E puts
+      msvcrt.dll      4B1 00007496 signal
+      msvcrt.dll      4C3 000074A0 strlen
+      msvcrt.dll      4C6 000074AA strncmp
+      msvcrt.dll      4E7 000074B4 vfprintf
+
+## Exports ##
+No exports.
+
+## Delay ##
+No delays.
+
+## DisAsm ##
+proc console.mainCRTStartup Label_004014C0
+attrs [[cdecl]][[entry]]
+; call_to : 004015E0 004016B0 004016F0 004019C0 00401B70 0040265C 00402674 0040267C 0040269C 004026BC 004026C4 004026CC 004026EC 00402720
+; jump_to : 00401160 00401190 004011A8 004011BC 004011DA 004011F1 004011FF 00401207 0040122C 00401270 0040127E 00401281 004012A0 004012A8 004012B8 004012BD 004012D6 004012DB 00401310 0040134C 004013B8 004013C8 004013DB 004013F5 0040141B 00401430 00401448 00401460 00401483 0040148B
+Label_00401160:
+asm lea ecx, [esp+0x4] ; jump_from : 004014B5 004014D5
+asm and esp, 0xfffffff0
+asm xor eax, eax
+asm push dword [ecx-0x4]
+asm push ebp
+asm mov ebp, esp
+asm push edi
+asm push esi
+asm lea edx, [ebp-0x5c]
+asm push ebx
+asm mov edi, edx
+asm push ecx
+asm mov ecx, 0x11
+asm sub esp, 0x78
+asm mov esi, [0x406394]
+asm rep stosd
+asm test esi, esi
+asm jnz Label_00401430
+Label_00401190:
+asm mov eax, [fs:0x18] ; jump_from : 0040143C
+asm mov esi, [0x407148]
+asm mov edi, [eax+0x4]
+asm xor ebx, ebx
+asm jmp Label_004011BC
+Label_004011A8:
+asm cmp edi, eax ; jump_from : 004011C8
+asm jz Label_004013C8
+asm mov dword [esp], 0x3e8
+asm call esi
+asm sub esp, 0x4
+Label_004011BC:
+asm mov eax, ebx ; jump_from : 004011A1
+asm lock cmpxchg [0x4063e4], edi
+asm test eax, eax
+asm jnz Label_004011A8
+asm mov eax, [0x4063e8]
+asm xor ebx, ebx
+asm cmp eax, 0x1
+asm jz Label_004013DB
+Label_004011DA:
+asm mov eax, [0x4063e8] ; jump_from : 004013D5
+asm test eax, eax
+asm jz Label_00401460
+asm mov dword [0x406008], 0x1
+Label_004011F1:
+asm mov eax, [0x4063e8] ; jump_from : 0040147E
+asm cmp eax, 0x1
+asm jz Label_004013F5
+Label_004011FF:
+asm test ebx, ebx ; jump_from : 004013EF
+asm jz Label_0040141B
+Label_00401207:
+asm mov eax, [0x40405c] ; jump_from : 00401415 00401421
+asm test eax, eax
+asm jz Label_0040122C
+asm mov dword [esp+0x8], 0x0
+asm mov dword [esp+0x4], 0x2
+asm mov dword [esp], 0x0
+asm call eax
+asm sub esp, 0xc
+Label_0040122C:
+asm call Func00401B70 ; jump_from : 0040120E
+asm mov dword [esp], 0x401e60
+asm call KERNEL32.SetUnhandledExceptionFilter
+asm sub esp, 0x4
+asm mov [0x4063ac], eax
+asm mov dword [esp], 0x401000
+asm call Func00402720
+asm call Func004019C0
+asm mov dword [0x4063dc], 0x400000
+asm call msvcrt.__p__acmdln
+asm xor ecx, ecx
+asm mov eax, [eax]
+asm test eax, eax
+asm jnz Label_00401281
+asm jmp Label_004012BD
+Label_00401270:
+asm test dl, dl ; jump_from : 00401287
+asm jz Label_004012B8
+asm and ecx, 0x1
+asm jz Label_004012A0
+asm mov ecx, 0x1
+Label_0040127E:
+asm add eax, 0x1 ; jump_from : 00401294
+Label_00401281:
+asm movzx edx, byte [eax] ; jump_from : 0040126C
+asm cmp dl, 0x20
+asm jle Label_00401270
+asm mov ebx, ecx
+asm xor ebx, 0x1
+asm cmp dl, 0x22
+asm cmovz ecx, ebx
+asm jmp Label_0040127E
+Label_004012A0:
+asm test dl, dl ; jump_from : 00401277
+asm jz Label_004012B8
+asm lea esi, [esi]
+Label_004012A8:
+asm movzx edx, byte [eax+0x1] ; jump_from : 004012B6
+asm add eax, 0x1
+asm test dl, dl
+asm jz Label_004012B8
+asm cmp dl, 0x20
+asm jle Label_004012A8
+Label_004012B8:
+asm mov [0x4063d8], eax ; jump_from : 00401272 004012A2 004012B1
+Label_004012BD:
+asm mov ebx, [0x406394] ; jump_from : 0040126E
+asm test ebx, ebx
+asm jz Label_004012DB
+asm mov eax, 0xa
+asm test byte [ebp-0x30], 0x1
+asm jnz Label_004013B8
+Label_004012D6:
+asm mov [0x403000], eax ; jump_from : 004013BC
+Label_004012DB:
+asm mov ebx, [0x40601c] ; jump_from : 004012C5
+asm lea esi, [ebx*4+0x4]
+asm mov [esp], esi
+asm call msvcrt.malloc
+asm mov edx, [0x406018]
+asm mov [ebp-0x70], eax
+asm test ebx, ebx
+asm jle Label_00401483
+asm mov ebx, eax
+asm lea eax, [esi-0x4]
+asm mov edi, edx
+asm mov [ebp-0x74], eax
+asm add eax, edx
+asm mov [ebp-0x6c], eax
+Label_00401310:
+asm mov eax, [edi] ; jump_from : 00401344
+asm add ebx, 0x4
+asm add edi, 0x4
+asm mov [esp], eax
+asm call msvcrt.strlen
+asm lea esi, [eax+0x1]
+asm mov [esp], esi
+asm call msvcrt.malloc
+asm mov [ebx-0x4], eax
+asm mov ecx, [edi-0x4]
+asm mov [esp+0x8], esi
+asm mov [esp+0x4], ecx
+asm mov [esp], eax
+asm call msvcrt.memcpy
+asm cmp [ebp-0x6c], edi
+asm jnz Label_00401310
+asm mov eax, [ebp-0x74]
+asm add eax, [ebp-0x70]
+Label_0040134C:
+asm mov dword [eax], 0x0 ; jump_from : 00401486
+asm mov eax, [ebp-0x70]
+asm mov [0x406018], eax
+asm call Func004016B0
+asm mov eax, [0x406014]
+asm mov edx, [0x407168]
+asm mov [edx], eax
+asm mov [esp+0x8], eax
+asm mov eax, [0x406018]
+asm mov [esp+0x4], eax
+asm mov eax, [0x40601c]
+asm mov [esp], eax
+asm call Func004015E0
+asm mov ecx, [0x40600c]
+asm mov [0x406010], eax
+asm test ecx, ecx
+asm jz Label_0040148B
+asm mov edx, [0x406008]
+asm test edx, edx
+asm jz Label_00401448
+asm lea esp, [ebp-0x10]
+asm pop ecx
+asm pop ebx
+asm pop esi
+asm pop edi
+asm pop ebp
+asm lea esp, [ecx-0x4]
+asm ret
+Label_004013B8:
+asm movzx eax, word [ebp-0x2c] ; jump_from : 004012D0
+asm jmp Label_004012D6
+Label_004013C8:
+asm mov eax, [0x4063e8] ; jump_from : 004011AA
+asm mov ebx, 0x1
+asm cmp eax, 0x1
+asm jnz Label_004011DA
+Label_004013DB:
+asm mov dword [esp], 0x1f ; jump_from : 004011D4
+asm call msvcrt._amsg_exit
+asm mov eax, [0x4063e8]
+asm cmp eax, 0x1
+asm jnz Label_004011FF
+Label_004013F5:
+asm mov dword [esp+0x4], 0x408008 ; jump_from : 004011F9
+asm mov dword [esp], 0x408000
+asm call msvcrt._initterm
+asm mov dword [0x4063e8], 0x2
+asm test ebx, ebx
+asm jnz Label_00401207
+Label_0040141B:
+asm xchg [0x4063e4], ebx ; jump_from : 00401201
+asm jmp Label_00401207
+Label_00401430:
+asm mov [esp], edx ; jump_from : 0040118A
+asm call KERNEL32.GetStartupInfoA
+asm sub esp, 0x4
+asm jmp Label_00401190
+Label_00401448:
+asm call msvcrt._cexit ; jump_from : 004013A1
+asm mov eax, [0x406010]
+asm lea esp, [ebp-0x10]
+asm pop ecx
+asm pop ebx
+asm pop esi
+asm pop edi
+asm pop ebp
+asm lea esp, [ecx-0x4]
+asm ret
+Label_00401460:
+asm mov dword [esp+0x4], 0x408018 ; jump_from : 004011E1
+asm mov dword [esp], 0x40800c
+asm mov dword [0x4063e8], 0x1
+asm call msvcrt._initterm
+asm jmp Label_004011F1
+Label_00401483:
+asm mov eax, [ebp-0x70] ; jump_from : 004012FB
+asm jmp Label_0040134C
+Label_0040148B:
+asm mov [esp], eax ; jump_from : 00401393
+asm call msvcrt.exit
+asm lea esi, [esi]
+asm lea esi, [esi]
+asm sub esp, 0xc
+asm mov dword [0x406394], 0x1
+asm call Func004016F0
+asm add esp, 0xc
+asm jmp Label_00401160
+Label_004014C0:
+asm sub esp, 0xc
+asm mov dword [0x406394], 0x0
+asm call Func004016F0
+asm add esp, 0xc
+asm jmp Label_00401160
+end proc
+
+proc Func004014E0 Label_004014E0
+attrs [[cdecl]]
+; call_from : 004016B0
+; call_to : 004026B4
+Label_004014E0:
+asm sub esp, 0x1c
+asm mov eax, [esp+0x20]
+asm mov [esp], eax
+asm call msvcrt._onexit
+asm test eax, eax
+asm setz al
+asm add esp, 0x1c
+asm movzx eax, al
+asm neg eax
+asm ret
+end proc
+
+proc Func004015E0 Label_004015E0
+attrs [[cdecl]]
+; call_from : 004014C0
+; call_to : 004016B0 0040266C
+Label_004015E0:
+asm push ebp
+asm mov ebp, esp
+asm and esp, 0xfffffff0
+asm sub esp, 0x10
+asm call Func004016B0
+asm mov dword [esp], 0x404044
+asm call msvcrt.puts
+asm mov eax, 0x0
+asm leave
+asm ret
+end proc
+
+proc Func004016B0 Label_004016B0
+attrs [[cdecl]]
+; call_from : 004014C0 004015E0
+; call_to : 004014E0
+; jump_to : 00401650 0040165F 00401668 00401674 00401688 00401690 004016C0
+Label_00401650:
+asm push ebx ; jump_from : 004016CA
+asm sub esp, 0x18
+asm mov ebx, [0x402740]
+asm cmp ebx, 0xffffffff
+asm jz Label_00401688
+Label_0040165F:
+asm test ebx, ebx ; jump_from : 004016A0
+asm jz Label_00401674
+asm lea esi, [esi]
+asm nop
+Label_00401668:
+asm call dword [ebx*4+0x402740] ; jump_from : 00401672
+asm sub ebx, 0x1
+asm jnz Label_00401668
+Label_00401674:
+asm mov dword [esp], 0x401610 ; jump_from : 00401661
+asm call Func004014E0
+asm add esp, 0x18
+asm pop ebx
+asm ret
+Label_00401688:
+asm xor eax, eax ; jump_from : 0040165D
+asm lea esi, [esi]
+Label_00401690:
+asm mov ebx, eax ; jump_from : 0040169E
+asm add eax, 0x1
+asm mov edx, [eax*4+0x402740]
+asm test edx, edx
+asm jnz Label_00401690
+asm jmp Label_0040165F
+Label_004016B0:
+asm mov eax, [0x406038]
+asm test eax, eax
+asm jz Label_004016C0
+asm ret
+Label_004016C0:
+asm mov dword [0x406038], 0x1 ; jump_from : 004016B7
+asm jmp Label_00401650
+end proc
+
+proc Func004016F0 Label_004016F0
+attrs [[cdecl]]
+; call_from : 004014C0
+; jump_to : 00401728 00401783 004017A0
+Label_004016F0:
+asm push ebp
+asm push edi
+asm push esi
+asm push ebx
+asm sub esp, 0x2c
+asm mov eax, [0x403030]
+asm mov dword [esp+0x10], 0x0
+asm mov dword [esp+0x14], 0x0
+asm cmp eax, 0xbb40e64e
+asm jz Label_00401728
+asm not eax
+asm mov [0x403034], eax
+asm add esp, 0x2c
+asm pop ebx
+asm pop esi
+asm pop edi
+asm pop ebp
+asm ret
+Label_00401728:
+asm lea eax, [esp+0x10] ; jump_from : 00401711
+asm mov [esp], eax
+asm call KERNEL32.GetSystemTimeAsFileTime
+asm sub esp, 0x4
+asm mov ebx, [esp+0x10]
+asm xor ebx, [esp+0x14]
+asm call KERNEL32.GetCurrentProcessId
+asm mov ebp, eax
+asm call KERNEL32.GetCurrentThreadId
+asm mov edi, eax
+asm call KERNEL32.GetTickCount
+asm mov esi, eax
+asm lea eax, [esp+0x18]
+asm mov [esp], eax
+asm call KERNEL32.QueryPerformanceCounter
+asm sub esp, 0x4
+asm mov eax, [esp+0x18]
+asm xor eax, ebx
+asm xor eax, [esp+0x1c]
+asm xor eax, ebp
+asm xor eax, edi
+asm xor eax, esi
+asm cmp eax, 0xbb40e64e
+asm jz Label_004017A0
+asm mov edx, eax
+asm not edx
+Label_00401783:
+asm mov [0x403030], eax ; jump_from : 004017AA
+asm mov [0x403034], edx
+asm add esp, 0x2c
+asm pop ebx
+asm pop esi
+asm pop edi
+asm pop ebp
+asm ret
+Label_004017A0:
+asm mov edx, 0x44bf19b0 ; jump_from : 0040177D
+asm mov eax, 0xbb40e64f
+asm jmp Label_00401783
+end proc
+
+proc Func004019C0 Label_004019C0
+attrs [[cdecl]]
+; call_from : 004014C0
+Label_004019C0:
+asm fninit
+asm ret
+end proc
+
+proc Func004019D0 Label_004019D0
+attrs [[cdecl]]
+; call_from : 004019D0 00401A30 00401B70
+; call_to : 004019D0 00401A30 004023A0 00402420 004024B0 00402620 0040264C 00402684 004026AC 00402700
+; jump_to : 00401A50 00401A60 00401A6A 00401AD8 00401ADF 00401AE6 00401B30 00401B37 00401B57 00401B85 00401B90 00401BEF 00401BFA 00401C20 00401C30 00401C3F 00401C80 00401CB0 00401CF0 00401D10 00401D3C 00401D50 00401D80 00401D85 00401D98 00401DC8 00401DD2 00401E38 00401E3E
+Label_004019D0:
+asm push ebx
+asm sub esp, 0x18
+asm mov dword [esp], 0x2
+asm lea ebx, [esp+0x24]
+asm call Func00402700
+asm mov dword [esp+0x8], 0x1b
+asm mov [esp+0xc], eax
+asm mov dword [esp+0x4], 0x1
+asm mov dword [esp], 0x4041ac
+asm call msvcrt.fwrite
+asm mov dword [esp], 0x2
+asm call Func00402700
+asm mov edx, [esp+0x20]
+asm mov [esp+0x8], ebx
+asm mov [esp], eax
+asm mov [esp+0x4], edx
+asm call msvcrt.vfprintf
+asm call msvcrt.abort
+asm lea esi, [esi]
+asm push edi
+asm push esi
+asm push ebx
+asm mov ebx, eax
+asm sub esp, 0x30
+asm mov esi, [0x40639c]
+asm test esi, esi
+asm jle Label_00401B30
+asm mov eax, [0x4063a0]
+asm xor ecx, ecx
+asm add eax, 0xc
+Label_00401A50:
+asm mov edx, [eax] ; jump_from : 00401A68
+asm cmp edx, ebx
+asm ja Label_00401A60
+asm mov edi, [eax+0x4]
+asm add edx, [edi+0x8]
+asm cmp ebx, edx
+asm jb Label_00401ADF
+Label_00401A60:
+asm add ecx, 0x1 ; jump_from : 00401A54
+asm add eax, 0x14
+asm cmp ecx, esi
+asm jnz Label_00401A50
+Label_00401A6A:
+asm mov [esp], ebx ; jump_from : 00401B32
+asm call Func004023A0
+asm mov edi, eax
+asm test eax, eax
+asm jz Label_00401B57
+asm mov eax, [0x4063a0]
+asm lea ebx, [esi+esi*4]
+asm shl ebx, 0x2
+asm add eax, ebx
+asm mov [eax+0x10], edi
+asm mov dword [eax], 0x0
+asm call Func004024B0
+asm mov edx, [0x4063a0]
+asm add eax, [edi+0xc]
+asm mov [edx+ebx+0xc], eax
+asm lea edx, [esp+0x14]
+asm mov dword [esp+0x8], 0x1c
+asm mov [esp+0x4], edx
+asm mov [esp], eax
+asm call KERNEL32.VirtualQuery
+asm sub esp, 0xc
+asm test eax, eax
+asm jz Label_00401B37
+asm mov eax, [esp+0x28]
+asm lea edx, [eax-0x40]
+asm and edx, 0xffffffbf
+asm jz Label_00401AD8
+asm sub eax, 0x4
+asm and eax, 0xfffffffb
+asm jnz Label_00401AE6
+Label_00401AD8:
+asm add dword [0x40639c], 0x1 ; jump_from : 00401ACE 00401B18
+Label_00401ADF:
+asm add esp, 0x30 ; jump_from : 00401A5E
+asm pop ebx
+asm pop esi
+asm pop edi
+asm ret
+Label_00401AE6:
+asm mov eax, [esp+0x14] ; jump_from : 00401AD6
+asm mov edx, [esp+0x20]
+asm add ebx, [0x4063a0]
+asm mov [ebx+0x4], eax
+asm mov [ebx+0x8], edx
+asm mov [esp+0xc], ebx
+asm mov dword [esp+0x8], 0x40
+asm mov [esp+0x4], edx
+asm mov [esp], eax
+asm call KERNEL32.VirtualProtect
+asm sub esp, 0x10
+asm test eax, eax
+asm jnz Label_00401AD8
+asm call KERNEL32.GetLastError
+asm mov dword [esp], 0x40421c
+asm mov [esp+0x4], eax
+asm call Func004019D0
+Label_00401B30:
+asm xor esi, esi ; jump_from : 00401A40
+asm jmp Label_00401A6A
+Label_00401B37:
+asm mov eax, [0x4063a0] ; jump_from : 00401AC2
+asm mov eax, [eax+ebx+0xc]
+asm mov [esp+0x8], eax
+asm mov eax, [edi+0x8]
+asm mov dword [esp], 0x4041e8
+asm mov [esp+0x4], eax
+asm call Func004019D0
+Label_00401B57:
+asm mov [esp+0x4], ebx ; jump_from : 00401A76
+asm mov dword [esp], 0x4041c8
+asm call Func004019D0
+asm lea esi, [esi]
+asm nop
+asm push ebp
+asm mov ebp, esp
+asm push edi
+asm push esi
+asm push ebx
+asm sub esp, 0x3c
+asm mov eax, [0x406398]
+asm mov [ebp-0x34], eax
+asm test eax, eax
+asm jz Label_00401B90
+Label_00401B85:
+asm lea esp, [ebp-0xc] ; jump_from : 00401BD9 00401C19 00401CF7 00401D8B
+asm pop ebx
+asm pop esi
+asm pop edi
+asm pop ebp
+asm ret
+Label_00401B90:
+asm mov dword [0x406398], 0x1 ; jump_from : 00401B83
+asm call Func00402420
+asm lea eax, [eax+eax*4]
+asm lea eax, [eax*4+0x1b]
+asm shr eax, 0x4
+asm shl eax, 0x4
+asm call Func00402620
+asm mov dword [0x40639c], 0x0
+asm sub esp, eax
+asm lea eax, [esp+0x1f]
+asm and eax, 0xfffffff0
+asm mov [0x4063a0], eax
+asm mov eax, 0x404774
+asm sub eax, 0x404774
+asm cmp eax, 0x7
+asm jle Label_00401B85
+asm mov edx, [0x404774]
+asm cmp eax, 0xb
+asm jg Label_00401C80
+asm mov ebx, 0x404774
+Label_00401BEF:
+asm test edx, edx ; jump_from : 00401CA6
+asm jnz Label_00401D85
+asm mov eax, [ebx+0x4]
+Label_00401BFA:
+asm test eax, eax ; jump_from : 00401DCD
+asm jnz Label_00401D85
+asm mov eax, [ebx+0x8]
+asm cmp eax, 0x1
+asm jnz Label_00401DD2
+asm lea edi, [ebx+0xc]
+asm cmp edi, 0x404774
+asm jb Label_00401C3F
+asm jmp Label_00401B85
+Label_00401C20:
+asm sub eax, [ebp-0x2c] ; jump_from : 00401C65
+asm add eax, [ebx]
+asm mov esi, eax
+asm mov eax, ebx
+asm call Func00401A30
+asm mov [ebx], esi
+Label_00401C30:
+asm add edi, 0xc ; jump_from : 00401D71
+asm cmp edi, 0x404774
+asm jae Label_00401CF0
+Label_00401C3F:
+asm mov eax, [edi] ; jump_from : 00401C17 00401CE7
+asm mov ecx, [edi+0x4]
+asm movzx edx, byte [edi+0x8]
+asm lea esi, [eax+0x400000]
+asm lea ebx, [ecx+0x400000]
+asm mov eax, [eax+0x400000]
+asm mov [ebp-0x2c], esi
+asm cmp edx, 0x10
+asm jz Label_00401CB0
+asm cmp edx, 0x20
+asm jz Label_00401C20
+asm cmp edx, 0x8
+asm jz Label_00401D50
+asm mov [esp+0x4], edx
+asm mov dword [esp], 0x404278
+asm call Func004019D0
+Label_00401C80:
+asm test edx, edx ; jump_from : 00401BE4
+asm jnz Label_00401D80
+asm mov eax, [0x404778]
+asm mov edi, eax
+asm or edi, [0x40477c]
+asm jnz Label_00401DC8
+asm mov edx, [0x404780]
+asm mov ebx, 0x404780
+asm jmp Label_00401BEF
+Label_00401CB0:
+asm movzx esi, word [ecx+0x400000] ; jump_from : 00401C60
+asm mov [ebp-0x30], ecx
+asm mov ecx, esi
+asm or ecx, 0xffff0000
+asm test si, si
+asm cmovs esi, ecx
+asm sub esi, [ebp-0x2c]
+asm add edi, 0xc
+asm add esi, eax
+asm mov eax, ebx
+asm call Func00401A30
+asm mov ecx, [ebp-0x30]
+asm mov [ecx+0x400000], si
+asm cmp edi, 0x404774
+asm jb Label_00401C3F
+asm lea esi, [esi]
+Label_00401CF0:
+asm mov eax, [0x40639c] ; jump_from : 00401C39 00401DBF
+asm test eax, eax
+asm jle Label_00401B85
+asm mov ebx, [0x407158]
+asm mov edi, [ebp-0x34]
+asm lea esi, [ebp-0x1c]
+asm lea esi, [esi]
+Label_00401D10:
+asm mov edx, [0x4063a0] ; jump_from : 00401D45
+asm lea eax, [edi+edi*4]
+asm lea eax, [edx+eax*4]
+asm mov edx, [eax]
+asm test edx, edx
+asm jz Label_00401D3C
+asm mov [esp+0xc], esi
+asm mov [esp+0x8], edx
+asm mov edx, [eax+0x8]
+asm mov [esp+0x4], edx
+asm mov eax, [eax+0x4]
+asm mov [esp], eax
+asm call ebx
+asm sub esp, 0x10
+Label_00401D3C:
+asm add edi, 0x1 ; jump_from : 00401D20
+asm cmp edi, [0x40639c]
+asm jl Label_00401D10
+asm lea esp, [ebp-0xc]
+asm pop ebx
+asm pop esi
+asm pop edi
+asm pop ebp
+asm ret
+Label_00401D50:
+asm movzx edx, byte [ebx] ; jump_from : 00401C6A
+asm mov esi, edx
+asm or esi, 0xffffff00
+asm test dl, dl
+asm cmovs edx, esi
+asm sub edx, [ebp-0x2c]
+asm lea esi, [edx+eax]
+asm mov eax, ebx
+asm call Func00401A30
+asm mov eax, esi
+asm mov [ebx], al
+asm jmp Label_00401C30
+Label_00401D80:
+asm mov ebx, 0x404774 ; jump_from : 00401C82
+Label_00401D85:
+asm cmp ebx, 0x404774 ; jump_from : 00401BF1 00401BFC
+asm jae Label_00401B85
+asm lea esi, [esi]
+Label_00401D98:
+asm mov esi, [ebx+0x4] ; jump_from : 00401DBD
+asm mov edi, [ebx]
+asm add ebx, 0x8
+asm add edi, [esi+0x400000]
+asm lea eax, [esi+0x400000]
+asm call Func00401A30
+asm mov [esi+0x400000], edi
+asm cmp ebx, 0x404774
+asm jb Label_00401D98
+asm jmp Label_00401CF0
+Label_00401DC8:
+asm mov ebx, 0x404774 ; jump_from : 00401C95
+asm jmp Label_00401BFA
+Label_00401DD2:
+asm mov [esp+0x4], eax ; jump_from : 00401C08
+asm mov dword [esp], 0x404244
+asm call Func004019D0
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm sub esp, 0x3c
+asm mov eax, [0x4063a4]
+asm fld qword [esp+0x48]
+asm fld qword [esp+0x50]
+asm fld qword [esp+0x58]
+asm test eax, eax
+asm jz Label_00401E38
+asm fxch st0, st2
+asm mov edx, [esp+0x40]
+asm fstp qword [esp+0x18]
+asm fstp qword [esp+0x20]
+asm mov [esp+0x10], edx
+asm mov edx, [esp+0x44]
+asm fstp qword [esp+0x28]
+asm mov [esp+0x14], edx
+asm lea edx, [esp+0x10]
+asm mov [esp], edx
+asm call eax
+asm jmp Label_00401E3E
+Label_00401E38:
+asm fstp st0 ; jump_from : 00401E06
+asm fstp st0
+asm fstp st0
+Label_00401E3E:
+asm add esp, 0x3c ; jump_from : 00401E2F
+asm ret
+end proc
+
+proc Func00401A30 Label_00401A30
+attrs [[cdecl]]
+; call_from : 004019D0 00401A30 00401B70
+; call_to : 004019D0 00401A30 004023A0 00402420 004024B0 00402620
+; jump_to : 00401A50 00401A60 00401A6A 00401AD8 00401ADF 00401AE6 00401B30 00401B37 00401B57 00401B85 00401B90 00401BEF 00401BFA 00401C20 00401C30 00401C3F 00401C80 00401CB0 00401CF0 00401D10 00401D3C 00401D50 00401D80 00401D85 00401D98 00401DC8 00401DD2 00401E38 00401E3E
+Label_00401A30:
+asm push edi
+asm push esi
+asm push ebx
+asm mov ebx, eax
+asm sub esp, 0x30
+asm mov esi, [0x40639c]
+asm test esi, esi
+asm jle Label_00401B30
+asm mov eax, [0x4063a0]
+asm xor ecx, ecx
+asm add eax, 0xc
+Label_00401A50:
+asm mov edx, [eax] ; jump_from : 00401A68
+asm cmp edx, ebx
+asm ja Label_00401A60
+asm mov edi, [eax+0x4]
+asm add edx, [edi+0x8]
+asm cmp ebx, edx
+asm jb Label_00401ADF
+Label_00401A60:
+asm add ecx, 0x1 ; jump_from : 00401A54
+asm add eax, 0x14
+asm cmp ecx, esi
+asm jnz Label_00401A50
+Label_00401A6A:
+asm mov [esp], ebx ; jump_from : 00401B32
+asm call Func004023A0
+asm mov edi, eax
+asm test eax, eax
+asm jz Label_00401B57
+asm mov eax, [0x4063a0]
+asm lea ebx, [esi+esi*4]
+asm shl ebx, 0x2
+asm add eax, ebx
+asm mov [eax+0x10], edi
+asm mov dword [eax], 0x0
+asm call Func004024B0
+asm mov edx, [0x4063a0]
+asm add eax, [edi+0xc]
+asm mov [edx+ebx+0xc], eax
+asm lea edx, [esp+0x14]
+asm mov dword [esp+0x8], 0x1c
+asm mov [esp+0x4], edx
+asm mov [esp], eax
+asm call KERNEL32.VirtualQuery
+asm sub esp, 0xc
+asm test eax, eax
+asm jz Label_00401B37
+asm mov eax, [esp+0x28]
+asm lea edx, [eax-0x40]
+asm and edx, 0xffffffbf
+asm jz Label_00401AD8
+asm sub eax, 0x4
+asm and eax, 0xfffffffb
+asm jnz Label_00401AE6
+Label_00401AD8:
+asm add dword [0x40639c], 0x1 ; jump_from : 00401ACE 00401B18
+Label_00401ADF:
+asm add esp, 0x30 ; jump_from : 00401A5E
+asm pop ebx
+asm pop esi
+asm pop edi
+asm ret
+Label_00401AE6:
+asm mov eax, [esp+0x14] ; jump_from : 00401AD6
+asm mov edx, [esp+0x20]
+asm add ebx, [0x4063a0]
+asm mov [ebx+0x4], eax
+asm mov [ebx+0x8], edx
+asm mov [esp+0xc], ebx
+asm mov dword [esp+0x8], 0x40
+asm mov [esp+0x4], edx
+asm mov [esp], eax
+asm call KERNEL32.VirtualProtect
+asm sub esp, 0x10
+asm test eax, eax
+asm jnz Label_00401AD8
+asm call KERNEL32.GetLastError
+asm mov dword [esp], 0x40421c
+asm mov [esp+0x4], eax
+asm call Func004019D0
+Label_00401B30:
+asm xor esi, esi ; jump_from : 00401A40
+asm jmp Label_00401A6A
+Label_00401B37:
+asm mov eax, [0x4063a0] ; jump_from : 00401AC2
+asm mov eax, [eax+ebx+0xc]
+asm mov [esp+0x8], eax
+asm mov eax, [edi+0x8]
+asm mov dword [esp], 0x4041e8
+asm mov [esp+0x4], eax
+asm call Func004019D0
+Label_00401B57:
+asm mov [esp+0x4], ebx ; jump_from : 00401A76
+asm mov dword [esp], 0x4041c8
+asm call Func004019D0
+asm lea esi, [esi]
+asm nop
+asm push ebp
+asm mov ebp, esp
+asm push edi
+asm push esi
+asm push ebx
+asm sub esp, 0x3c
+asm mov eax, [0x406398]
+asm mov [ebp-0x34], eax
+asm test eax, eax
+asm jz Label_00401B90
+Label_00401B85:
+asm lea esp, [ebp-0xc] ; jump_from : 00401BD9 00401C19 00401CF7 00401D8B
+asm pop ebx
+asm pop esi
+asm pop edi
+asm pop ebp
+asm ret
+Label_00401B90:
+asm mov dword [0x406398], 0x1 ; jump_from : 00401B83
+asm call Func00402420
+asm lea eax, [eax+eax*4]
+asm lea eax, [eax*4+0x1b]
+asm shr eax, 0x4
+asm shl eax, 0x4
+asm call Func00402620
+asm mov dword [0x40639c], 0x0
+asm sub esp, eax
+asm lea eax, [esp+0x1f]
+asm and eax, 0xfffffff0
+asm mov [0x4063a0], eax
+asm mov eax, 0x404774
+asm sub eax, 0x404774
+asm cmp eax, 0x7
+asm jle Label_00401B85
+asm mov edx, [0x404774]
+asm cmp eax, 0xb
+asm jg Label_00401C80
+asm mov ebx, 0x404774
+Label_00401BEF:
+asm test edx, edx ; jump_from : 00401CA6
+asm jnz Label_00401D85
+asm mov eax, [ebx+0x4]
+Label_00401BFA:
+asm test eax, eax ; jump_from : 00401DCD
+asm jnz Label_00401D85
+asm mov eax, [ebx+0x8]
+asm cmp eax, 0x1
+asm jnz Label_00401DD2
+asm lea edi, [ebx+0xc]
+asm cmp edi, 0x404774
+asm jb Label_00401C3F
+asm jmp Label_00401B85
+Label_00401C20:
+asm sub eax, [ebp-0x2c] ; jump_from : 00401C65
+asm add eax, [ebx]
+asm mov esi, eax
+asm mov eax, ebx
+asm call Func00401A30
+asm mov [ebx], esi
+Label_00401C30:
+asm add edi, 0xc ; jump_from : 00401D71
+asm cmp edi, 0x404774
+asm jae Label_00401CF0
+Label_00401C3F:
+asm mov eax, [edi] ; jump_from : 00401C17 00401CE7
+asm mov ecx, [edi+0x4]
+asm movzx edx, byte [edi+0x8]
+asm lea esi, [eax+0x400000]
+asm lea ebx, [ecx+0x400000]
+asm mov eax, [eax+0x400000]
+asm mov [ebp-0x2c], esi
+asm cmp edx, 0x10
+asm jz Label_00401CB0
+asm cmp edx, 0x20
+asm jz Label_00401C20
+asm cmp edx, 0x8
+asm jz Label_00401D50
+asm mov [esp+0x4], edx
+asm mov dword [esp], 0x404278
+asm call Func004019D0
+Label_00401C80:
+asm test edx, edx ; jump_from : 00401BE4
+asm jnz Label_00401D80
+asm mov eax, [0x404778]
+asm mov edi, eax
+asm or edi, [0x40477c]
+asm jnz Label_00401DC8
+asm mov edx, [0x404780]
+asm mov ebx, 0x404780
+asm jmp Label_00401BEF
+Label_00401CB0:
+asm movzx esi, word [ecx+0x400000] ; jump_from : 00401C60
+asm mov [ebp-0x30], ecx
+asm mov ecx, esi
+asm or ecx, 0xffff0000
+asm test si, si
+asm cmovs esi, ecx
+asm sub esi, [ebp-0x2c]
+asm add edi, 0xc
+asm add esi, eax
+asm mov eax, ebx
+asm call Func00401A30
+asm mov ecx, [ebp-0x30]
+asm mov [ecx+0x400000], si
+asm cmp edi, 0x404774
+asm jb Label_00401C3F
+asm lea esi, [esi]
+Label_00401CF0:
+asm mov eax, [0x40639c] ; jump_from : 00401C39 00401DBF
+asm test eax, eax
+asm jle Label_00401B85
+asm mov ebx, [0x407158]
+asm mov edi, [ebp-0x34]
+asm lea esi, [ebp-0x1c]
+asm lea esi, [esi]
+Label_00401D10:
+asm mov edx, [0x4063a0] ; jump_from : 00401D45
+asm lea eax, [edi+edi*4]
+asm lea eax, [edx+eax*4]
+asm mov edx, [eax]
+asm test edx, edx
+asm jz Label_00401D3C
+asm mov [esp+0xc], esi
+asm mov [esp+0x8], edx
+asm mov edx, [eax+0x8]
+asm mov [esp+0x4], edx
+asm mov eax, [eax+0x4]
+asm mov [esp], eax
+asm call ebx
+asm sub esp, 0x10
+Label_00401D3C:
+asm add edi, 0x1 ; jump_from : 00401D20
+asm cmp edi, [0x40639c]
+asm jl Label_00401D10
+asm lea esp, [ebp-0xc]
+asm pop ebx
+asm pop esi
+asm pop edi
+asm pop ebp
+asm ret
+Label_00401D50:
+asm movzx edx, byte [ebx] ; jump_from : 00401C6A
+asm mov esi, edx
+asm or esi, 0xffffff00
+asm test dl, dl
+asm cmovs edx, esi
+asm sub edx, [ebp-0x2c]
+asm lea esi, [edx+eax]
+asm mov eax, ebx
+asm call Func00401A30
+asm mov eax, esi
+asm mov [ebx], al
+asm jmp Label_00401C30
+Label_00401D80:
+asm mov ebx, 0x404774 ; jump_from : 00401C82
+Label_00401D85:
+asm cmp ebx, 0x404774 ; jump_from : 00401BF1 00401BFC
+asm jae Label_00401B85
+asm lea esi, [esi]
+Label_00401D98:
+asm mov esi, [ebx+0x4] ; jump_from : 00401DBD
+asm mov edi, [ebx]
+asm add ebx, 0x8
+asm add edi, [esi+0x400000]
+asm lea eax, [esi+0x400000]
+asm call Func00401A30
+asm mov [esi+0x400000], edi
+asm cmp ebx, 0x404774
+asm jb Label_00401D98
+asm jmp Label_00401CF0
+Label_00401DC8:
+asm mov ebx, 0x404774 ; jump_from : 00401C95
+asm jmp Label_00401BFA
+Label_00401DD2:
+asm mov [esp+0x4], eax ; jump_from : 00401C08
+asm mov dword [esp], 0x404244
+asm call Func004019D0
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm sub esp, 0x3c
+asm mov eax, [0x4063a4]
+asm fld qword [esp+0x48]
+asm fld qword [esp+0x50]
+asm fld qword [esp+0x58]
+asm test eax, eax
+asm jz Label_00401E38
+asm fxch st0, st2
+asm mov edx, [esp+0x40]
+asm fstp qword [esp+0x18]
+asm fstp qword [esp+0x20]
+asm mov [esp+0x10], edx
+asm mov edx, [esp+0x44]
+asm fstp qword [esp+0x28]
+asm mov [esp+0x14], edx
+asm lea edx, [esp+0x10]
+asm mov [esp], edx
+asm call eax
+asm jmp Label_00401E3E
+Label_00401E38:
+asm fstp st0 ; jump_from : 00401E06
+asm fstp st0
+asm fstp st0
+Label_00401E3E:
+asm add esp, 0x3c ; jump_from : 00401E2F
+asm ret
+end proc
+
+proc Func00401B70 Label_00401B70
+attrs [[cdecl]]
+; call_from : 004014C0
+; call_to : 004019D0 00401A30 00402420 00402620
+; jump_to : 00401B85 00401B90 00401BEF 00401BFA 00401C20 00401C30 00401C3F 00401C80 00401CB0 00401CF0 00401D10 00401D3C 00401D50 00401D80 00401D85 00401D98 00401DC8 00401DD2 00401E38 00401E3E
+Label_00401B70:
+asm push ebp
+asm mov ebp, esp
+asm push edi
+asm push esi
+asm push ebx
+asm sub esp, 0x3c
+asm mov eax, [0x406398]
+asm mov [ebp-0x34], eax
+asm test eax, eax
+asm jz Label_00401B90
+Label_00401B85:
+asm lea esp, [ebp-0xc] ; jump_from : 00401BD9 00401C19 00401CF7 00401D8B
+asm pop ebx
+asm pop esi
+asm pop edi
+asm pop ebp
+asm ret
+Label_00401B90:
+asm mov dword [0x406398], 0x1 ; jump_from : 00401B83
+asm call Func00402420
+asm lea eax, [eax+eax*4]
+asm lea eax, [eax*4+0x1b]
+asm shr eax, 0x4
+asm shl eax, 0x4
+asm call Func00402620
+asm mov dword [0x40639c], 0x0
+asm sub esp, eax
+asm lea eax, [esp+0x1f]
+asm and eax, 0xfffffff0
+asm mov [0x4063a0], eax
+asm mov eax, 0x404774
+asm sub eax, 0x404774
+asm cmp eax, 0x7
+asm jle Label_00401B85
+asm mov edx, [0x404774]
+asm cmp eax, 0xb
+asm jg Label_00401C80
+asm mov ebx, 0x404774
+Label_00401BEF:
+asm test edx, edx ; jump_from : 00401CA6
+asm jnz Label_00401D85
+asm mov eax, [ebx+0x4]
+Label_00401BFA:
+asm test eax, eax ; jump_from : 00401DCD
+asm jnz Label_00401D85
+asm mov eax, [ebx+0x8]
+asm cmp eax, 0x1
+asm jnz Label_00401DD2
+asm lea edi, [ebx+0xc]
+asm cmp edi, 0x404774
+asm jb Label_00401C3F
+asm jmp Label_00401B85
+Label_00401C20:
+asm sub eax, [ebp-0x2c] ; jump_from : 00401C65
+asm add eax, [ebx]
+asm mov esi, eax
+asm mov eax, ebx
+asm call Func00401A30
+asm mov [ebx], esi
+Label_00401C30:
+asm add edi, 0xc ; jump_from : 00401D71
+asm cmp edi, 0x404774
+asm jae Label_00401CF0
+Label_00401C3F:
+asm mov eax, [edi] ; jump_from : 00401C17 00401CE7
+asm mov ecx, [edi+0x4]
+asm movzx edx, byte [edi+0x8]
+asm lea esi, [eax+0x400000]
+asm lea ebx, [ecx+0x400000]
+asm mov eax, [eax+0x400000]
+asm mov [ebp-0x2c], esi
+asm cmp edx, 0x10
+asm jz Label_00401CB0
+asm cmp edx, 0x20
+asm jz Label_00401C20
+asm cmp edx, 0x8
+asm jz Label_00401D50
+asm mov [esp+0x4], edx
+asm mov dword [esp], 0x404278
+asm call Func004019D0
+Label_00401C80:
+asm test edx, edx ; jump_from : 00401BE4
+asm jnz Label_00401D80
+asm mov eax, [0x404778]
+asm mov edi, eax
+asm or edi, [0x40477c]
+asm jnz Label_00401DC8
+asm mov edx, [0x404780]
+asm mov ebx, 0x404780
+asm jmp Label_00401BEF
+Label_00401CB0:
+asm movzx esi, word [ecx+0x400000] ; jump_from : 00401C60
+asm mov [ebp-0x30], ecx
+asm mov ecx, esi
+asm or ecx, 0xffff0000
+asm test si, si
+asm cmovs esi, ecx
+asm sub esi, [ebp-0x2c]
+asm add edi, 0xc
+asm add esi, eax
+asm mov eax, ebx
+asm call Func00401A30
+asm mov ecx, [ebp-0x30]
+asm mov [ecx+0x400000], si
+asm cmp edi, 0x404774
+asm jb Label_00401C3F
+asm lea esi, [esi]
+Label_00401CF0:
+asm mov eax, [0x40639c] ; jump_from : 00401C39 00401DBF
+asm test eax, eax
+asm jle Label_00401B85
+asm mov ebx, [0x407158]
+asm mov edi, [ebp-0x34]
+asm lea esi, [ebp-0x1c]
+asm lea esi, [esi]
+Label_00401D10:
+asm mov edx, [0x4063a0] ; jump_from : 00401D45
+asm lea eax, [edi+edi*4]
+asm lea eax, [edx+eax*4]
+asm mov edx, [eax]
+asm test edx, edx
+asm jz Label_00401D3C
+asm mov [esp+0xc], esi
+asm mov [esp+0x8], edx
+asm mov edx, [eax+0x8]
+asm mov [esp+0x4], edx
+asm mov eax, [eax+0x4]
+asm mov [esp], eax
+asm call ebx
+asm sub esp, 0x10
+Label_00401D3C:
+asm add edi, 0x1 ; jump_from : 00401D20
+asm cmp edi, [0x40639c]
+asm jl Label_00401D10
+asm lea esp, [ebp-0xc]
+asm pop ebx
+asm pop esi
+asm pop edi
+asm pop ebp
+asm ret
+Label_00401D50:
+asm movzx edx, byte [ebx] ; jump_from : 00401C6A
+asm mov esi, edx
+asm or esi, 0xffffff00
+asm test dl, dl
+asm cmovs edx, esi
+asm sub edx, [ebp-0x2c]
+asm lea esi, [edx+eax]
+asm mov eax, ebx
+asm call Func00401A30
+asm mov eax, esi
+asm mov [ebx], al
+asm jmp Label_00401C30
+Label_00401D80:
+asm mov ebx, 0x404774 ; jump_from : 00401C82
+Label_00401D85:
+asm cmp ebx, 0x404774 ; jump_from : 00401BF1 00401BFC
+asm jae Label_00401B85
+asm lea esi, [esi]
+Label_00401D98:
+asm mov esi, [ebx+0x4] ; jump_from : 00401DBD
+asm mov edi, [ebx]
+asm add ebx, 0x8
+asm add edi, [esi+0x400000]
+asm lea eax, [esi+0x400000]
+asm call Func00401A30
+asm mov [esi+0x400000], edi
+asm cmp ebx, 0x404774
+asm jb Label_00401D98
+asm jmp Label_00401CF0
+Label_00401DC8:
+asm mov ebx, 0x404774 ; jump_from : 00401C95
+asm jmp Label_00401BFA
+Label_00401DD2:
+asm mov [esp+0x4], eax ; jump_from : 00401C08
+asm mov dword [esp], 0x404244
+asm call Func004019D0
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm nop
+asm sub esp, 0x3c
+asm mov eax, [0x4063a4]
+asm fld qword [esp+0x48]
+asm fld qword [esp+0x50]
+asm fld qword [esp+0x58]
+asm test eax, eax
+asm jz Label_00401E38
+asm fxch st0, st2
+asm mov edx, [esp+0x40]
+asm fstp qword [esp+0x18]
+asm fstp qword [esp+0x20]
+asm mov [esp+0x10], edx
+asm mov edx, [esp+0x44]
+asm fstp qword [esp+0x28]
+asm mov [esp+0x14], edx
+asm lea edx, [esp+0x10]
+asm mov [esp], edx
+asm call eax
+asm jmp Label_00401E3E
+Label_00401E38:
+asm fstp st0 ; jump_from : 00401E06
+asm fstp st0
+asm fstp st0
+Label_00401E3E:
+asm add esp, 0x3c ; jump_from : 00401E2F
+asm ret
+end proc
+
+proc Func00402270 Label_00402270
+attrs [[cdecl]]
+; call_from : 004023A0 00402420 004024B0
+; jump_to : 00402290
+Label_00402270:
+asm add eax, [eax+0x3c]
+asm cmp dword [eax], 0x4550
+asm jnz Label_00402290
+asm cmp word [eax+0x18], 0x10b
+asm setz al
+asm movzx eax, al
+asm ret
+Label_00402290:
+asm xor eax, eax ; jump_from : 00402279
+asm ret
+end proc
+
+proc Func004023A0 Label_004023A0
+attrs [[cdecl]]
+; call_from : 004019D0 00401A30
+; call_to : 00402270
+; jump_to : 004023F0 004023FE 00402408 0040240A 00402410
+Label_004023A0:
+asm xor edx, edx
+asm cmp word [0x400000], 0x5a4d
+asm jnz Label_00402410
+asm push esi
+asm mov eax, 0x400000
+asm push ebx
+asm call Func00402270
+asm test eax, eax
+asm jz Label_0040240A
+asm mov eax, [0x40003c]
+asm mov ebx, [esp+0xc]
+asm movzx edx, word [eax+0x400014]
+asm movzx esi, word [eax+0x400006]
+asm sub ebx, 0x400000
+asm lea edx, [eax+edx+0x400018]
+asm test esi, esi
+asm jz Label_00402408
+asm xor ecx, ecx
+asm lea esi, [esi]
+asm nop
+Label_004023F0:
+asm mov eax, [edx+0xc] ; jump_from : 00402406
+asm cmp ebx, eax
+asm jb Label_004023FE
+asm add eax, [edx+0x8]
+asm cmp ebx, eax
+asm jb Label_0040240A
+Label_004023FE:
+asm add ecx, 0x1 ; jump_from : 004023F5
+asm add edx, 0x28
+asm cmp ecx, esi
+asm jnz Label_004023F0
+Label_00402408:
+asm xor edx, edx ; jump_from : 004023E3
+Label_0040240A:
+asm mov eax, edx ; jump_from : 004023BB 004023FC
+asm pop ebx
+asm pop esi
+asm ret
+Label_00402410:
+asm mov eax, edx ; jump_from : 004023AB
+asm ret
+end proc
+
+proc Func00402420 Label_00402420
+attrs [[cdecl]]
+; call_from : 004019D0 00401A30 00401B70
+; call_to : 00402270
+; jump_to : 00402447
+Label_00402420:
+asm xor eax, eax
+asm cmp word [0x400000], 0x5a4d
+asm jnz Label_00402447
+asm mov eax, 0x400000
+asm call Func00402270
+asm test eax, eax
+asm jz Label_00402447
+asm mov eax, [0x40003c]
+asm movzx eax, word [eax+0x400006]
+Label_00402447:
+asm ret ; jump_from : 0040242B 00402439
+end proc
+
+proc Func004024B0 Label_004024B0
+attrs [[cdecl]]
+; call_from : 004019D0 00401A30
+; call_to : 00402270
+; jump_to : 004024D1
+Label_004024B0:
+asm xor edx, edx
+asm cmp word [0x400000], 0x5a4d
+asm jnz Label_004024D1
+asm mov eax, 0x400000
+asm call Func00402270
+asm test eax, eax
+asm mov eax, 0x400000
+asm cmovnz edx, eax
+Label_004024D1:
+asm mov eax, edx ; jump_from : 004024BB
+asm ret
+end proc
+
+proc Func00402620 Label_00402620
+attrs [[cdecl]]
+; call_from : 004019D0 00401A30 00401B70
+; jump_to : 0040262D 00402642
+Label_00402620:
+asm push ecx
+asm push eax
+asm cmp eax, 0x1000
+asm lea ecx, [esp+0xc]
+asm jb Label_00402642
+Label_0040262D:
+asm sub ecx, 0x1000 ; jump_from : 00402640
+asm or dword [ecx], 0x0
+asm sub eax, 0x1000
+asm cmp eax, 0x1000
+asm ja Label_0040262D
+Label_00402642:
+asm sub ecx, eax ; jump_from : 0040262B
+asm or dword [ecx], 0x0
+asm pop eax
+asm pop ecx
+asm ret
+end proc
+
+proc imp.msvcrt.vfprintf Label_0040264C
+attrs [[jumponly]]
+; call_from : 004019D0
+Label_0040264C:
+asm jmp dword [0x4071c4]
+end proc
+
+proc imp.msvcrt.strlen Label_0040265C
+attrs [[jumponly]]
+; call_from : 004014C0
+Label_0040265C:
+asm jmp dword [0x4071bc]
+end proc
+
+proc imp.msvcrt.puts Label_0040266C
+attrs [[jumponly]]
+; call_from : 004015E0
+Label_0040266C:
+asm jmp dword [0x4071b4]
+end proc
+
+proc imp.msvcrt.memcpy Label_00402674
+attrs [[jumponly]]
+; call_from : 004014C0
+Label_00402674:
+asm jmp dword [0x4071b0]
+end proc
+
+proc imp.msvcrt.malloc Label_0040267C
+attrs [[jumponly]]
+; call_from : 004014C0
+Label_0040267C:
+asm jmp dword [0x4071ac]
+end proc
+
+proc imp.msvcrt.fwrite Label_00402684
+attrs [[jumponly]]
+; call_from : 004019D0
+Label_00402684:
+asm jmp dword [0x4071a8]
+end proc
+
+proc imp.msvcrt.exit Label_0040269C
+attrs [[jumponly]]
+; call_from : 004014C0
+Label_0040269C:
+asm jmp dword [0x40719c]
+end proc
+
+proc imp.msvcrt.abort Label_004026AC
+attrs [[jumponly]]
+; call_from : 004019D0
+Label_004026AC:
+asm jmp dword [0x407194]
+end proc
+
+proc imp.msvcrt._onexit Label_004026B4
+attrs [[jumponly]]
+; call_from : 004014E0
+Label_004026B4:
+asm jmp dword [0x407190]
+end proc
+
+proc imp.msvcrt._initterm Label_004026BC
+attrs [[jumponly]]
+; call_from : 004014C0
+Label_004026BC:
+asm jmp dword [0x407188]
+end proc
+
+proc imp.msvcrt._cexit Label_004026C4
+attrs [[jumponly]]
+; call_from : 004014C0
+Label_004026C4:
+asm jmp dword [0x407184]
+end proc
+
+proc imp.msvcrt._amsg_exit Label_004026CC
+attrs [[jumponly]]
+; call_from : 004014C0
+Label_004026CC:
+asm jmp dword [0x407180]
+end proc
+
+proc imp.msvcrt.__p__acmdln Label_004026EC
+attrs [[jumponly]]
+; call_from : 004014C0
+Label_004026EC:
+asm jmp dword [0x407170]
+end proc
+
+proc Func00402700 Label_00402700
+attrs [[cdecl]]
+; call_from : 004019D0
+Label_00402700:
+asm mov eax, [esp+0x4]
+asm shl eax, 0x5
+asm add eax, [0x40718c]
+asm ret
+end proc
+
+proc Func00402720 Label_00402720
+attrs [[cdecl]]
+; call_from : 004014C0
+Label_00402720:
+asm mov eax, [esp+0x4]
+asm xchg [0x4063d4], eax
+asm ret
+end proc
+

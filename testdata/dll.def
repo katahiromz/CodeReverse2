@@ -1,0 +1,4 @@
+EXPORTS
+  Foo @2
+  Bar @5 NONAME
+  Baz = user32.MessageBoxA

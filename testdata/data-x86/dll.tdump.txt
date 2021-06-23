@@ -1,0 +1,162 @@
+Turbo Dump  Version 5.0.16.12 Copyright (c) 1988, 2000 Inprise Corporation
+                      Display of File DLL.DLL
+
+Old Executable Header
+
+DOS File Size                                      38BCBh  (232395. )
+Load Image Size                                      450h  (  1104. )
+Relocation Table entry count                          0000h  (     0. )
+Relocation Table address                              0040h  (    64. )
+Size of header record      (in paragraphs)            0004h  (     4. )
+Minimum Memory Requirement (in paragraphs)            0000h  (     0. )
+Maximum Memory Requirement (in paragraphs)            FFFFh  ( 65535. )
+File load checksum                                    0000h  (     0. )
+Overlay Number                                        0000h  (     0. )
+
+Initial Stack Segment  (SS:SP)			  0000:00B8
+Program Entry Point    (CS:IP)			  0000:0000
+
+
+Portable Executable (PE) File
+
+Header base: 00000080
+
+CPU type                 80386
+Flags                    2106 [ executable symbols backwards 32bit library ]
+DLL flags                0000 [ ]
+Linker Version           2.22
+Time stamp               5E82F681 : Tue Mar 31 16:51:29 2020
+O/S Version              4.0
+User Version             0.0
+Subsystem Version        4.0
+Subsystem                0003 [ Windows character ]
+Object count             00000011
+Symbols offset           00033600
+Symbols count            000003D6
+Optional header size     00E0
+Magic #                  10B
+Code size                00001600
+Init Data size           00003600
+Uninit Data size         00000400
+Entry RVA                000013B0
+Image base               625C0000
+Code base                00001000
+Data base                00003000
+Object/File align        00001000/00000200
+Reserved                 00000000
+Image size               00040000
+Header size              00000600
+Checksum                 000391E5
+Stack reserve/commit     00200000/00001000
+Heap reserve/commit      00100000/00001000
+Number interesting RVAs  00000010
+Name                   RVA       Size  
+------------------  --------  --------
+Exports             00007000  0000006B
+Imports             00008000  00000450
+Resources           00000000  00000000
+Exceptions          00000000  00000000
+Security            00000000  00000000
+Fixups              0000B000  000001F8
+Debug               00000000  00000000
+Description         00000000  00000000
+Global Ptr          00000000  00000000
+TLS                 00004050  00000018
+Callbacks           00000000  00000000
+Bound Imports       00000000  00000000
+Import Addr Table   000080D0  00000094
+Delayed Imports     00000000  00000000
+COM Runtime         00000000  00000000
+reserved            00000000  00000000
+
+Object table:
+#   Name      VirtSize    RVA     PhysSize  Phys off  Flags   
+--  --------  --------  --------  --------  --------  --------
+01  .text     000014C4  00001000  00001600  00000600  60500060 [CEIR]
+02  .data     00000030  00003000  00000200  00001C00  C0300040 [IRW]
+03  .rdata    000004D0  00004000  00000600  00001E00  40300040 [IR]
+04  /4        00000860  00005000  00000A00  00002400  40300040 [IR]
+05  .bss      000003D0  00006000  00000000  00000000  C0600080 [RUW]
+06  .edata    0000006B  00007000  00000200  00002E00  40300040 [IR]
+07  .idata    00000450  00008000  00000600  00003000  C0300040 [IRW]
+08  .CRT      0000002C  00009000  00000200  00003600  C0300040 [IRW]
+09  .tls      00000008  0000A000  00000200  00003800  C0300040 [IRW]
+0a  .reloc    000001F8  0000B000  00000200  00003A00  42300040 [DIR]
+0b  /14       000001D8  0000C000  00000200  00003C00  42100040 [DIR]
+0c  /29       0002965E  0000D000  00029800  00003E00  42100040 [DIR]
+0d  /41       00001B6B  00037000  00001C00  0002D600  42100040 [DIR]
+0e  /55       000026EC  00039000  00002800  0002F200  42100040 [DIR]
+0f  /67       00000281  0003C000  00000400  00031A00  42100040 [DIR]
+10  /78       0000125D  0003D000  00001400  00031E00  42100040 [DIR]
+11  /89       00000258  0003F000  00000400  00033200  42100040 [DIR]
+
+Key to section flags:
+  C - contains code
+  D - discardable
+  E - executable
+  I - contains initialized data
+  R - readable
+  U - contains uninitialized data
+  W - writeable
+
+******************************************************************************
+Section:             Import
+  ImportLookUpTblRVA:0000803C
+  Time Stamp:        00000000
+  Forwarder Chain:   00000000 (index of first forwarder reference)
+
+Imports from KERNEL32.dll
+    (hint = 0115) DeleteCriticalSection
+    (hint = 0136) EnterCriticalSection
+    (hint = 01B1) FreeLibrary
+    (hint = 021F) GetCurrentProcess
+    (hint = 0220) GetCurrentProcessId
+    (hint = 0224) GetCurrentThreadId
+    (hint = 0269) GetLastError
+    (hint = 027D) GetModuleHandleA
+    (hint = 02B6) GetProcAddress
+    (hint = 02F3) GetSystemTimeAsFileTime
+    (hint = 0312) GetTickCount
+    (hint = 036D) InitializeCriticalSection
+    (hint = 03CD) LeaveCriticalSection
+    (hint = 03D1) LoadLibraryA
+    (hint = 045E) QueryPerformanceCounter
+    (hint = 055A) SetUnhandledExceptionFilter
+    (hint = 056A) Sleep
+    (hint = 0579) TerminateProcess
+    (hint = 058D) TlsGetValue
+    (hint = 059B) UnhandledExceptionFilter
+    (hint = 05BD) VirtualProtect
+    (hint = 05C0) VirtualQuery
+
+Imports from msvcrt.dll
+    (hint = 0090) _amsg_exit
+    (hint = 0160) _initterm
+    (hint = 0164) _iob
+    (hint = 01D1) _lock
+    (hint = 034A) _unlock
+    (hint = 0421) abort
+    (hint = 042F) calloc
+    (hint = 0452) free
+    (hint = 045E) fwrite
+    (hint = 04A8) realloc
+    (hint = 04C3) strlen
+    (hint = 04C6) strncmp
+    (hint = 04E7) vfprintf
+
+******************************************************************************
+Section:             Exports
+  Flags:             00000000
+  Time Stamp:        5E82F681 : Tue Mar 31 16:51:29 2020
+  Major Version:     0000
+  Minor Version:     0000
+
+Exports from dll.dll
+  2 exported name(s), 4 export addresse(s).  Ordinal base is 2.
+  Sorted by Name:
+    RVA      Ord. Hint Name
+    -------- ---- ---- ----
+    0000704C    3 0000 Baz => user32.MessageBoxA
+    000014F0    2 0001 Foo
+
+
