@@ -135,7 +135,7 @@ public:
     int input_hook(ud* u) const;
     bool add_func_by_ava(uint64_t ava);
     std::string read(uint64_t ava, uint32_t size, bool force = false);
-    std::string write(uint64_t ava, uint32_t size, const char *hex = NULL, bool force = false);
+    std::string write(uint64_t ava, const char *hex, bool force = false);
 
     /////////////////////////////////////////////////////////////////////////
     // Dumping

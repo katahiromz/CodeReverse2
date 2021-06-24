@@ -16,7 +16,7 @@ Options:
 --version             Show version info.
 --add-func AVA        Add an additional function AVA.
 --read AVA SIZE       Read the module memory.
---write AVA SIZE HEX  Write the module memory.
+--write AVA "HEX"     Write the module memory.
 --addr                Show address in disassembly code.
 --hex                 Show hexadecimals in disassembly code.
 --force               Force reading/writing even if not readable/writable.

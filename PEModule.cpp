@@ -1489,18 +1489,16 @@ std::string decode_hex(const char *hex)
     return ret;
 }
 
-std::string PEModule::write(uint64_t ava, uint32_t size, const char *hex, bool force)
+std::string PEModule::write(uint64_t ava, const char *hex, bool force)
 {
     std::string binary;
     if (hex && *hex)
         binary = decode_hex(hex);
-    if (binary.size() < size)
-        binary.resize(size);
 
     std::string ret;
     ret += "## Write Memory ##\n";
 
-    for (size_t i = 0; i < size; ++i)
+    for (size_t i = 0; i < binary.size(); ++i)
     {
         auto addr = ava + i;
         if (is_64bit())

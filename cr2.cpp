@@ -16,7 +16,7 @@ void show_help(void)
         "--version             Show version info.\n"
         "--add-func AVA        Add an additional function AVA.\n"
         "--read AVA SIZE       Read the module memory.\n"
-        "--write AVA SIZE HEX  Write the module memory.\n"
+        "--write AVA \"HEX\"     Write the module memory.\n"
         "--addr                Show address in disassembly code.\n"
         "--hex                 Show hexadecimals in disassembly code.\n"
         "--force               Force reading/writing even if not readable/writable.\n"
@@ -108,12 +108,10 @@ int main(int argc, char **argv)
         if (arg == "--write")
         {
             std::string ava_str = argv[++i];
-            std::string size_str = argv[++i];
             std::string hex = argv[++i];
             auto ava = std::strtoull(ava_str.c_str(), NULL, 16);
-            auto size = uint32_t(std::strtoul(size_str.c_str(), NULL, 0));
             READ_WRITE_INFO info = {
-                true, ava, size, hex
+                true, ava, 0, hex
             };
             read_write.push_back(info);
             continue;
@@ -139,7 +137,7 @@ int main(int argc, char **argv)
     for (auto& info : read_write)
     {
         if (info.do_write)
-            text += mod.write(info.ava, info.size, info.hex.c_str(), force);
+            text += mod.write(info.ava, info.hex.c_str(), force);
         else
             text += mod.read(info.ava, info.size, force);
     }
