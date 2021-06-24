@@ -147,6 +147,7 @@ bool PEModule::load(FILE *fp)
 
     if (auto NumberOfSections = impl()->file->NumberOfSections)
     {
+        delete[] impl()->section_headers;
         impl()->section_headers = new IMAGE_SECTION_HEADER_DX[NumberOfSections];
         for (uint32_t i = 0; i < NumberOfSections; ++i)
         {
@@ -1590,7 +1591,7 @@ std::string PEModule::dump(const std::string& name) const
     if (name == "datadir")
         return string_of_data_directories(&impl()->data_directories, is_64bit());
     if (name == "sections")
-        return string_of_section_headers(&impl()->section_headers, impl()->file->NumberOfSections, is_64bit());
+        return string_of_section_headers(impl()->section_headers, impl()->file->NumberOfSections, is_64bit());
     if (name == "imports")
     {
         ImportTable table;
