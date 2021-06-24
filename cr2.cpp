@@ -17,8 +17,8 @@ void show_help(void)
         "--add-func AVA        Add an additional function AVA.\n"
         "--read AVA SIZE       Read the module memory.\n"
         "--write AVA SIZE HEX  Write the module memory.\n"
-        "--show-addr           Show address in disassembly code.\n"
-        "--show-hex            Show hexadecimals in disassembly code.\n"
+        "--addr                Show address in disassembly code.\n"
+        "--hex                 Show hexadecimals in disassembly code.\n"
         "--force               Force reading/writing even if not readable/writable.\n"
         "\n"
         "* AVA stands for 'absolute virtual address'.\n");
@@ -71,12 +71,12 @@ int main(int argc, char **argv)
             show_version();
             return 0;
         }
-        if (arg == "--show-addr")
+        if (arg == "--addr")
         {
             show_addr = true;
             continue;
         }
-        if (arg == "--show-hex")
+        if (arg == "--hex")
         {
             show_hex = true;
             continue;
