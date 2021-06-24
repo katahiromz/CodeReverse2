@@ -3,7 +3,7 @@
 
 void show_version(void)
 {
-    std::puts("CodeReverse2 0.3.7 by katahiromz\n");
+    std::puts("CodeReverse2 2.3.7 by katahiromz\n");
 }
 
 void show_help(void)
