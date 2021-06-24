@@ -98,7 +98,7 @@ int main(int argc, char **argv)
             std::string ava_str = argv[++i];
             std::string size_str = argv[++i];
             auto ava = std::strtoull(ava_str.c_str(), NULL, 16);
-            auto size = std::strtoul(size_str.c_str(), NULL, 0);
+            auto size = uint32_t(std::strtoul(size_str.c_str(), NULL, 0));
             READ_WRITE_INFO info = {
                 false, ava, size
             };
@@ -111,7 +111,7 @@ int main(int argc, char **argv)
             std::string size_str = argv[++i];
             std::string hex = argv[++i];
             auto ava = std::strtoull(ava_str.c_str(), NULL, 16);
-            auto size = std::strtoul(size_str.c_str(), NULL, 0);
+            auto size = uint32_t(std::strtoul(size_str.c_str(), NULL, 0));
             READ_WRITE_INFO info = {
                 true, ava, size, hex
             };

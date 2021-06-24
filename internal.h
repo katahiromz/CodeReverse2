@@ -60,7 +60,7 @@ struct PEModuleImpl : public ModuleImpl
         , optional64(NULL)
         , section_headers(NULL)
     {
-        ZeroMemory(data_directories, sizeof(data_directories));
+        memset(data_directories, 0, sizeof(data_directories));
     }
 
     virtual ~PEModuleImpl()
