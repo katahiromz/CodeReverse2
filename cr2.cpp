@@ -21,7 +21,7 @@ void show_help(void)
         "--write AVA SIZE HEX  Write the module memory.\n"
         "--force  Force reading/writing even if not readable/writable.\n"
         "\n"
-        "* AVA is absolute virtual address.\n");
+        "* AVA stands for 'absolute virtual address'.\n");
 }
 
 int main(int argc, char **argv)
