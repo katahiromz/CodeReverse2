@@ -10,7 +10,7 @@ void show_help(void)
 {
     show_version();
     std::puts(
-        "Usage: cr2 [options] [input-file]\n"
+        "Usage: cr2 [options] [input.exe]\n"
         "Options:\n"
         " --help                Show this message.\n"
         " --version             Show version info.\n"
@@ -23,8 +23,8 @@ void show_help(void)
         " --dump WHAT           Specify what to dump (default: all).\n"
         "\n"
         "* AVA stands for 'absolute virtual address'.\n"
-        "* WHAT is either all, dos, file, optional, datadir, sections,\n"
-        "  imports, exports, delay, or disasm.");
+        "* WHAT is either all, dos, fileh, opt, datadir, sections, imports, exports,\n"
+        "  delay, or disasm.");
 }
 
 struct READ_WRITE_INFO
@@ -92,8 +92,8 @@ int main(int argc, char **argv)
         if (arg == "--dump")
         {
             arg = argv[++i];
-            if (arg == "all" || arg == "dos" || arg == "file" ||
-                arg == "optional" || arg == "datadir" || arg == "sections" ||
+            if (arg == "all" || arg == "dos" || arg == "fileh" ||
+                arg == "opt" || arg == "datadir" || arg == "sections" ||
                 arg == "imports" || arg == "exports" || arg == "delay" ||
                 arg == "disasm")
             {

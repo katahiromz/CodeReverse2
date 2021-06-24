@@ -360,7 +360,7 @@ bool PEModule::get_binary(const std::string& group_name, std::string& binary) co
     {
         return do_get(binary, impl()->dos);
     }
-    else if (group_name == "file")
+    else if (group_name == "fileh")
     {
         return do_get(binary, impl()->file);
     }
@@ -1570,8 +1570,8 @@ std::string PEModule::dump(const std::string& name, bool show_addr, bool show_he
     {
         std::string ret;
         ret += dump("dos");
-        ret += dump("file");
-        ret += dump("optional");
+        ret += dump("fileh");
+        ret += dump("opt");
         ret += dump("datadir");
         ret += dump("sections");
         ret += dump("imports");
@@ -1583,9 +1583,9 @@ std::string PEModule::dump(const std::string& name, bool show_addr, bool show_he
 
     if (name == "dos")
         return string_of_dos_header(impl()->dos);
-    if (name == "file")
+    if (name == "fileh")
         return string_of_file_header(impl()->file);
-    if (name == "optional")
+    if (name == "opt")
     {
         if (is_64bit())
             return string_of_optional64(impl()->optional64);

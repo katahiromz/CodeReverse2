@@ -10,7 +10,7 @@ It works on Windows, Linux and MacOS.
 ## Usage
 
 ```txt
-Usage: cr2 [options] [input-file]
+Usage: cr2 [options] [input.exe]
 Options:
  --help                Show this message.
  --version             Show version info.
@@ -23,8 +23,8 @@ Options:
  --dump WHAT           Specify what to dump (default: all).
 
 * AVA stands for 'absolute virtual address'.
-* WHAT is either all, dos, file, optional, datadir, sections,
-  imports, exports, delay, or disasm.
+* WHAT is either all, dos, fileh, opt, datadir, sections, imports, exports,
+  delay, or disasm.
 ```
 
 Under construction...
