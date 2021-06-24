@@ -1489,6 +1489,68 @@ std::string decode_hex(const char *hex)
     return ret;
 }
 
+std::string PEModule::read(uint64_t ava, uint32_t size, bool force)
+{
+    std::string ret;
+    ret += "## Read Memory ##\n";
+
+    if (size <= 10)
+    {
+        for (size_t i = 0; i < size; ++i)
+        {
+            auto addr = ava + i;
+            if (is_64bit())
+                ret += string_of_addr64(addr) + ": ";
+            else
+                ret += string_of_addr32(addr) + ": ";
+            if (!is_valid_ava(addr))
+            {
+                ret += "Not valid address.\n";
+                break;
+            }
+            auto rva = rva_from_ava(addr);
+            if (!force && !is_rva_readable(rva))
+            {
+                ret += "Not readable.\n";
+                break;
+            }
+            auto ptr = ptr_from_rva<uint8_t>(rva);
+            ret += string_formatted("%02X\n", uint8_t(*ptr));
+        }
+    }
+    else
+    {
+        std::string binary;
+        for (size_t i = 0; i < size; ++i)
+        {
+            auto addr = ava + i;
+            if (!is_valid_ava(addr))
+            {
+                ret += "Not valid address.\n";
+                break;
+            }
+            auto rva = rva_from_ava(addr);
+            if (!force && !is_rva_readable(rva))
+            {
+                ret += "Not readable.\n";
+                break;
+            }
+            binary += *ptr_from_rva<uint8_t>(rva);
+        }
+        if (size == binary.size())
+        {
+            if (is_64bit())
+                ret += string_of_hex_dump64(binary.c_str(), binary.size(), ava);
+            else
+                ret += string_of_hex_dump32(binary.c_str(), binary.size(), uint32_t(ava));
+            ret += string_formatted("%zu (0x%zX) bytes read.\n", binary.size(), binary.size());
+        }
+    }
+
+    ret += "\n";
+    return ret;
+}
+
 std::string PEModule::write(uint64_t ava, const char *hex, bool force)
 {
     std::string binary;
@@ -1498,61 +1560,64 @@ std::string PEModule::write(uint64_t ava, const char *hex, bool force)
     std::string ret;
     ret += "## Write Memory ##\n";
 
-    for (size_t i = 0; i < binary.size(); ++i)
+    if (binary.size() <= 10)
     {
-        auto addr = ava + i;
-        if (is_64bit())
-            ret += string_of_addr64(addr) + ": ";
-        else
-            ret += string_of_addr32(addr) + ": ";
-        if (!is_valid_ava(addr))
+        for (size_t i = 0; i < binary.size(); ++i)
         {
-            ret += "Not valid address.\n";
-            break;
+            auto addr = ava + i;
+            if (is_64bit())
+                ret += string_of_addr64(addr) + ": ";
+            else
+                ret += string_of_addr32(addr) + ": ";
+            if (!is_valid_ava(addr))
+            {
+                ret += "Not valid address.\n";
+                break;
+            }
+            auto rva = rva_from_ava(addr);
+            if (!force && !is_rva_writable(rva))
+            {
+                ret += "Not writable.\n";
+                break;
+            }
+            auto ptr = ptr_from_rva<uint8_t>(rva);
+            if (force || is_rva_readable(rva))
+                ret += string_formatted("%02X --> %02X\n", (uint8_t)*ptr, (uint8_t)binary[i]);
+            else
+                ret += string_formatted("(unreadable) --> %02X\n", (uint8_t)binary[i]);
+            *ptr = binary[i];
         }
-        auto rva = rva_from_ava(addr);
-        if (!force && !is_rva_writable(rva))
-        {
-            ret += "Not writable.\n";
-            break;
-        }
-        auto ptr = ptr_from_rva<uint8_t>(rva);
-        if (force || is_rva_readable(rva))
-            ret += string_formatted("%02X --> %02X\n", (uint8_t)*ptr, (uint8_t)binary[i]);
-        else
-            ret += string_formatted("(unreadable) --> %02X\n", (uint8_t)binary[i]);
-        *ptr = binary[i];
     }
-
-    ret += "\n";
-    return ret;
-}
-
-std::string PEModule::read(uint64_t ava, uint32_t size, bool force)
-{
-    std::string ret;
-    ret += "## Read Memory ##\n";
-
-    for (size_t i = 0; i < size; ++i)
+    else
     {
-        auto addr = ava + i;
-        if (is_64bit())
-            ret += string_of_addr64(addr) + ": ";
-        else
-            ret += string_of_addr32(addr) + ": ";
-        if (!is_valid_ava(addr))
+        bool failed = false;
+        for (size_t i = 0; i < binary.size(); ++i)
         {
-            ret += "Not valid address.\n";
-            break;
+            auto addr = ava + i;
+            if (!is_valid_ava(addr))
+            {
+                ret += "Not valid address.\n";
+                failed = true;
+                break;
+            }
+            auto rva = rva_from_ava(addr);
+            if (!force && !is_rva_writable(rva))
+            {
+                ret += "Not writable.\n";
+                failed = true;
+                break;
+            }
+            auto ptr = ptr_from_rva<uint8_t>(rva);
+            *ptr = binary[i];
         }
-        auto rva = rva_from_ava(addr);
-        if (!force && !is_rva_readable(rva))
+        if (!failed)
         {
-            ret += "Not readable.\n";
-            break;
+            if (is_64bit())
+                ret += string_of_hex_dump64(binary.c_str(), binary.size(), ava);
+            else
+                ret += string_of_hex_dump32(binary.c_str(), binary.size(), uint32_t(ava));
+            ret += string_formatted("%zu (0x%zX) bytes written.\n", binary.size(), binary.size());
         }
-        auto ptr = ptr_from_rva<uint8_t>(rva);
-        ret += string_formatted("%02X\n", (uint8_t)*ptr);
     }
 
     ret += "\n";
