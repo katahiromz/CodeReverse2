@@ -436,11 +436,10 @@ std::string string_of_optional64(const void *optional)
     return ret;
 }
 
-std::string string_of_section_header(const void *section_header, uint32_t index)
+std::string string_of_section_header(const void *section_header, uint32_t index, bool is_64bit)
 {
     std::string ret;
-    const IMAGE_SECTION_HEADER *sh =
-        reinterpret_cast<const IMAGE_SECTION_HEADER *>(section_header);
+    auto sh = reinterpret_cast<const IMAGE_SECTION_HEADER_DX *>(section_header);
 
     ret += string_formatted("## Section Header #%u ##\n", index + 1);
 
@@ -451,6 +450,10 @@ std::string string_of_section_header(const void *section_header, uint32_t index)
 
     ret += string_formatted("  VirtualSize: 0x%08X (%u)\n", sh->Misc.VirtualSize, sh->Misc.VirtualSize);
     ret += string_formatted("  VirtualAddress: 0x%08X (RVA)\n", sh->VirtualAddress);
+    if (is_64bit)
+        ret += string_formatted("  VirtualAddress: 0x%08X%08X (AVA)\n", DWORD(sh->AVA >> 32), DWORD(sh->AVA));
+    else
+        ret += string_formatted("  VirtualAddress: 0x%08X (AVA)\n", DWORD(sh->AVA));
     ret += string_formatted("  SizeOfRawData: 0x%08X (%u)\n", sh->SizeOfRawData, sh->SizeOfRawData);
     ret += string_formatted("  PointerToRawData: 0x%08X\n", sh->PointerToRawData);
     ret += string_formatted("  PointerToRelocations: 0x%08X\n", sh->PointerToRelocations);
@@ -460,6 +463,17 @@ std::string string_of_section_header(const void *section_header, uint32_t index)
     ret += string_formatted("  Characteristics: 0x%08X (%s)\n", sh->Characteristics, string_of_section_flags(sh->Characteristics).c_str());
     ret += "\n";
 
+    return ret;
+}
+
+std::string string_of_section_headers(const void *section_headers, uint32_t count, bool is_64bit)
+{
+    std::string ret;
+    auto sh = reinterpret_cast<const IMAGE_SECTION_HEADER_DX *>(section_headers);
+    for (uint32_t i = 0; i < count; ++i)
+    {
+        ret += string_of_section_header(&sh[i], i, is_64bit);
+    }
     return ret;
 }
 

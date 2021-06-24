@@ -4,7 +4,7 @@
 void show_version(void)
 {
     printf("####################################\n");
-    printf("# CodeReverse2 0.3.2 by katahiromz #\n");
+    printf("# CodeReverse2 0.3.3 by katahiromz #\n");
     printf("####################################\n");
 }
 

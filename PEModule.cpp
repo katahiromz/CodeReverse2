@@ -144,7 +144,20 @@ bool PEModule::load(FILE *fp)
     impl()->file = file;
     impl()->optional32 = optional32;
     impl()->optional64 = optional64;
-    impl()->section_headers = sh;
+
+    if (auto NumberOfSections = impl()->file->NumberOfSections)
+    {
+        impl()->section_headers = new IMAGE_SECTION_HEADER_DX[NumberOfSections];
+        for (uint32_t i = 0; i < NumberOfSections; ++i)
+        {
+            memcpy(&impl()->section_headers[i], &sh[i], sizeof(sh[i]));
+            if (sh[i].VirtualAddress && sh[i].Misc.VirtualSize)
+                impl()->section_headers[i].AVA = ava_from_rva(sh[i].VirtualAddress);
+            else
+                impl()->section_headers[i].AVA = 0;
+        }
+    }
+
     for (size_t i = 0; i < IMAGE_NUMBEROF_DIRECTORY_ENTRIES; ++i)
     {
         memcpy(&impl()->data_directories[i], &dd[i], sizeof(dd[i]));
@@ -1577,16 +1590,7 @@ std::string PEModule::dump(const std::string& name) const
     if (name == "datadir")
         return string_of_data_directories(&impl()->data_directories, is_64bit());
     if (name == "sections")
-    {
-        std::string ret;
-        auto sh = impl()->section_headers;
-        uint32_t i, count = impl()->file->NumberOfSections;
-        for (i = 0; i < count; ++i)
-        {
-            ret += string_of_section_header(&sh[i], i);
-        }
-        return ret;
-    }
+        return string_of_section_headers(&impl()->section_headers, impl()->file->NumberOfSections, is_64bit());
     if (name == "imports")
     {
         ImportTable table;

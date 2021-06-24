@@ -26,7 +26,12 @@ private:
 
 struct IMAGE_DATA_DIRECTORY_DX : IMAGE_DATA_DIRECTORY
 {
-    DWORDLONG AVA;
+    uint64_t AVA;
+};
+
+struct IMAGE_SECTION_HEADER_DX : IMAGE_SECTION_HEADER
+{
+    uint64_t AVA;
 };
 
 struct PEModuleImpl : public ModuleImpl
@@ -42,7 +47,7 @@ struct PEModuleImpl : public ModuleImpl
     };
     IMAGE_OPTIONAL_HEADER32 *optional32;
     IMAGE_OPTIONAL_HEADER64 *optional64;
-    IMAGE_SECTION_HEADER *section_headers;
+    IMAGE_SECTION_HEADER_DX *section_headers;
     IMAGE_DATA_DIRECTORY_DX data_directories[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
     NameMap func_names;
     std::vector<uint64_t> additional_func_avas;
@@ -60,6 +65,7 @@ struct PEModuleImpl : public ModuleImpl
 
     virtual ~PEModuleImpl()
     {
+        delete[] section_headers;
     }
 };
 
