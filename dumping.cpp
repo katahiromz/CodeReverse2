@@ -30,6 +30,7 @@ std::string string_of_timestamp(uint32_t timestamp)
 std::string string_of_command_line(int argc, char **argv)
 {
     std::string ret;
+    ret += "## CommandLine ##\n";
     for (int i = 0; i < argc; ++i)
     {
         if (i != 0)
@@ -47,19 +48,22 @@ std::string string_of_command_line(int argc, char **argv)
             ret += str;
         }
     }
+    ret += "\n\n";
     return ret;
 }
 
 std::string string_of_os_info(void)
 {
     std::string ret;
+    ret += "## OS Info ##\n";
+
 #ifdef _WIN32
     OSVERSIONINFOA verinfo = { sizeof(verinfo) };
     GetVersionExA(&verinfo);
 # ifdef _WIN64
-    ret += string_formatted("Windows %u.%u (x64)\n\n", verinfo.dwMajorVersion, verinfo.dwMinorVersion);
+    ret += string_formatted("Windows %u.%u (x64)\n", verinfo.dwMajorVersion, verinfo.dwMinorVersion);
 # else
-    ret += string_formatted("Windows %u.%u (x86)\n\n", verinfo.dwMajorVersion, verinfo.dwMinorVersion);
+    ret += string_formatted("Windows %u.%u (x86)\n", verinfo.dwMajorVersion, verinfo.dwMinorVersion);
 # endif
 #elif defined(__linux__)
     ret += "Linux\n";
@@ -68,6 +72,8 @@ std::string string_of_os_info(void)
 #else
     ret += "Unknown OS\n";
 #endif
+
+    ret += "\n";
     return ret;
 }
 

@@ -4,7 +4,7 @@
 void show_version(void)
 {
     printf("####################################\n");
-    printf("# CodeReverse2 0.3.3 by katahiromz #\n");
+    printf("# CodeReverse2 0.3.4 by katahiromz #\n");
     printf("####################################\n");
 }
 
@@ -24,6 +24,14 @@ void show_help(void)
         "* AVA stands for 'absolute virtual address'.\n");
 }
 
+struct READ_WRITE_INFO
+{
+    bool do_write;
+    uint64_t ava;
+    uint32_t size;
+    std::string hex;
+};
+
 int main(int argc, char **argv)
 {
     if (argc <= 1)
@@ -32,70 +40,97 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    std::string arg = argv[1];
-    if (arg == "--help")
-    {
-        show_help();
-        return 0;
-    }
-    if (arg == "--version")
-    {
-        show_version();
-        return 0;
-    }
-
-    printf("## CommandLine ##\n");
-    printf("%s\n\n", cr2::string_of_command_line(argc, argv).c_str());
-
-    printf("## OS Info ##\n");
-    printf("%s", cr2::string_of_os_info().c_str());
-
-    cr2::PEModule mod;
-    if (!mod.load(arg.c_str()))
-    {
-        fprintf(stderr, "ERROR: Cannot load '%s'\n", arg.c_str());
-        return -1;
-    }
-
-    std::string text;
+    std::string file;
+    std::vector<uint64_t> func_avas;
+    std::vector<READ_WRITE_INFO> read_write;
     bool force = false;
     for (int i = 1; i < argc; ++i)
     {
-        std::string str = argv[i];
-        if (str == "--force")
+        std::string arg = argv[i];
+        if (arg[0] != '-')
+        {
+            if (file.empty())
+            {
+                file = arg;
+            }
+            else
+            {
+                fprintf(stderr, "ERROR: Too many arguments\n");
+                return 1;
+            }
+            continue;
+        }
+        if (arg == "--help")
+        {
+            show_help();
+            return 0;
+        }
+        if (arg == "--version")
+        {
+            show_version();
+            return 0;
+        }
+        if (arg == "--force")
         {
             force = true;
+            continue;
+        }
+        if (arg == "--add-func")
+        {
+            arg = argv[++i];
+            auto ava = std::strtoull(arg.c_str(), NULL, 16);
+            func_avas.push_back(ava);
+            continue;
+        }
+        if (arg == "--read")
+        {
+            std::string ava_str = argv[++i];
+            std::string size_str = argv[++i];
+            auto ava = std::strtoull(ava_str.c_str(), NULL, 16);
+            auto size = std::strtoul(size_str.c_str(), NULL, 0);
+            READ_WRITE_INFO info = {
+                false, ava, size
+            };
+            read_write.push_back(info);
+            continue;
+        }
+        if (arg == "--write")
+        {
+            std::string ava_str = argv[++i];
+            std::string size_str = argv[++i];
+            std::string hex = argv[++i];
+            auto ava = std::strtoull(ava_str.c_str(), NULL, 16);
+            auto size = std::strtoul(size_str.c_str(), NULL, 0);
+            READ_WRITE_INFO info = {
+                true, ava, size, hex
+            };
+            read_write.push_back(info);
+            continue;
         }
     }
-    for (int i = 1; i < argc; ++i)
+
+    std::string text;
+    text += cr2::string_of_command_line(argc, argv);
+    text += cr2::string_of_os_info();
+
+    cr2::PEModule mod;
+    if (!mod.load(file.c_str()))
     {
-        std::string str = argv[i];
-        if (str == "--add-func")
-        {
-            str = argv[++i];
-            auto ava = std::strtoull(str.c_str(), NULL, 16);
-            mod.add_func_by_ava(ava);
-            continue;
-        }
-        if (str == "--read")
-        {
-            std::string ava_str = argv[++i];
-            std::string size_str = argv[++i];
-            auto ava = std::strtoull(ava_str.c_str(), NULL, 16);
-            auto size = std::strtoull(size_str.c_str(), NULL, 0);
-            text += mod.read(ava, size, force);
-            continue;
-        }
-        if (str == "--write")
-        {
-            std::string ava_str = argv[++i];
-            std::string size_str = argv[++i];
-            std::string hex_str = argv[++i];
-            auto ava = std::strtoull(ava_str.c_str(), NULL, 16);
-            auto size = std::strtoull(size_str.c_str(), NULL, 0);
-            text += mod.write(ava, size, hex_str.c_str(), force);
-            continue;
-        }
+        fprintf(stderr, "ERROR: Cannot load '%s'\n", file.c_str());
+        return -1;
+    }
+
+    for (auto ava : func_avas)
+    {
+        mod.add_func_by_ava(ava);
+    }
+
+    for (auto& info : read_write)
+    {
+        if (info.do_write)
+            text += mod.write(info.ava, info.size, info.hex.c_str(), force);
+        else
+            text += mod.read(info.ava, info.size, force);
     }
 
     text += mod.dump("all");

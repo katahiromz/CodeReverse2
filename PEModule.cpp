@@ -1465,11 +1465,11 @@ std::string decode_hex(const char *hex)
         ++hex;
         byte <<= 4;
         if ('0' <= *hex && *hex <= '9')
-            byte = *hex - '0';
+            byte |= *hex - '0';
         else if ('A' <= *hex && *hex <= 'F')
-            byte = *hex + (10 - 'A');
+            byte |= *hex + (10 - 'A');
         else if ('a' <= *hex && *hex <= 'f')
-            byte = *hex + (10 - 'a');
+            byte |= *hex + (10 - 'a');
         else
             break;
         ++hex;
@@ -1510,9 +1510,9 @@ std::string PEModule::write(uint64_t ava, uint32_t size, const char *hex, bool f
         }
         auto ptr = ptr_from_rva<uint8_t>(rva);
         if (force || is_rva_readable(rva))
-            ret += string_formatted("%02X --> %02X\n", *ptr, binary[i]);
+            ret += string_formatted("%02X --> %02X\n", (uint8_t)*ptr, (uint8_t)binary[i]);
         else
-            ret += string_formatted("(unreadable) --> %02X\n", binary[i]);
+            ret += string_formatted("(unreadable) --> %02X\n", (uint8_t)binary[i]);
         *ptr = binary[i];
     }
 
@@ -1544,7 +1544,7 @@ std::string PEModule::read(uint64_t ava, uint32_t size, bool force)
             break;
         }
         auto ptr = ptr_from_rva<uint8_t>(rva);
-        ret += string_formatted("%02X\n", *ptr);
+        ret += string_formatted("%02X\n", (uint8_t)*ptr);
     }
 
     ret += "\n";
