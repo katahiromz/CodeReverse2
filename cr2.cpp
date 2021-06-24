@@ -3,9 +3,7 @@
 
 void show_version(void)
 {
-    printf("####################################\n");
-    printf("# CodeReverse2 0.3.5 by katahiromz #\n");
-    printf("####################################\n");
+    std::puts("CodeReverse2 0.3.6 by katahiromz");
 }
 
 void show_help(void)
