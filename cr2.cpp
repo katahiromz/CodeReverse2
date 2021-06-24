@@ -139,6 +139,8 @@ int main(int argc, char **argv)
         }
     }
 
+    show_version();
+
     std::string text;
     text += cr2::string_of_command_line(argc, argv);
     text += cr2::string_of_os_info();
