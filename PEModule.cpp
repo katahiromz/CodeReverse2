@@ -60,7 +60,7 @@ PEModule::impl() const
 
 PEModule::PEModule() : Module(std::make_shared<PEModuleImpl>())
 {
-    memset(impl()->data_directories, 0, sizeof(impl()->data_directories));
+    std::memset(impl()->data_directories, 0, sizeof(impl()->data_directories));
 }
 
 PEModule::PEModule(const char *filename) : Module(std::make_shared<PEModuleImpl>())
@@ -85,7 +85,7 @@ bool PEModule::load(const wchar_t *filename)
 
 bool PEModule::load(FILE *fp)
 {
-    memset(impl()->data_directories, 0, sizeof(impl()->data_directories));
+    std::memset(impl()->data_directories, 0, sizeof(impl()->data_directories));
 
     if (!Module::load(fp))
         return false;

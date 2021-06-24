@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PEModule.h"
+#include <cstring>
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -60,7 +61,7 @@ struct PEModuleImpl : public ModuleImpl
         , optional64(NULL)
         , section_headers(NULL)
     {
-        memset(data_directories, 0, sizeof(data_directories));
+        std::memset(data_directories, 0, sizeof(data_directories));
     }
 
     virtual ~PEModuleImpl()
