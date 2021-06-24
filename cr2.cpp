@@ -3,9 +3,9 @@
 
 void show_version(void)
 {
-    printf("##################################\n");
-    printf("# CodeReverse2 0.3 by katahiromz #\n");
-    printf("##################################\n");
+    printf("####################################\n");
+    printf("# CodeReverse2 0.3.2 by katahiromz #\n");
+    printf("####################################\n");
 }
 
 void show_help(void)
@@ -14,12 +14,12 @@ void show_help(void)
     std::puts(
         "Usage: cr2 [options] [input-file]\n"
         "Options:\n"
-        "--help  Show this message.\n"
-        "--version  Show version information.\n"
-        "--add-func AVA  Add an additional function AVA.\n"
-        "--read AVA SIZE  Read the module memory.\n"
+        "--help                Show this message.\n"
+        "--version             Show version info.\n"
+        "--add-func AVA        Add an additional function AVA.\n"
+        "--read AVA SIZE       Read the module memory.\n"
         "--write AVA SIZE HEX  Write the module memory.\n"
-        "--force  Force reading/writing even if not readable/writable.\n"
+        "--force               Force reading/writing even if not readable/writable.\n"
         "\n"
         "* AVA stands for 'absolute virtual address'.\n");
 }

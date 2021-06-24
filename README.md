@@ -12,12 +12,12 @@ It works on Windows, Linux and MacOS.
 ```txt
 Usage: cr2 [options] [input-file]
 Options:
---help  Show this message.
---version  Show version information.
---add-func AVA  Add an additional function AVA.
---read AVA SIZE  Read the module memory.
+--help                Show this message.
+--version             Show version info.
+--add-func AVA        Add an additional function AVA.
+--read AVA SIZE       Read the module memory.
 --write AVA SIZE HEX  Write the module memory.
---force  Force reading/writing even if not readable/writable.
+--force               Force reading/writing even if not readable/writable.
 
 * AVA stands for 'absolute virtual address'.
 ```
