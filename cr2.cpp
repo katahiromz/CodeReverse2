@@ -3,7 +3,7 @@
 
 void show_version(void)
 {
-    std::puts("CodeReverse2 0.3.6 by katahiromz");
+    std::puts("CodeReverse2 0.3.7 by katahiromz");
 }
 
 void show_help(void)
@@ -12,16 +12,19 @@ void show_help(void)
     std::puts(
         "Usage: cr2 [options] [input-file]\n"
         "Options:\n"
-        "--help                Show this message.\n"
-        "--version             Show version info.\n"
-        "--add-func AVA        Add an additional function AVA.\n"
-        "--read AVA SIZE       Read the module memory.\n"
-        "--write AVA \"HEX\"     Write the module memory.\n"
-        "--addr                Show address in disassembly code.\n"
-        "--hex                 Show hexadecimals in disassembly code.\n"
-        "--force               Force reading/writing even if not readable/writable.\n"
+        " --help                Show this message.\n"
+        " --version             Show version info.\n"
+        " --add-func AVA        Add an additional function AVA.\n"
+        " --read AVA SIZE       Read the module memory.\n"
+        " --write AVA \"HEX\"     Write the module memory.\n"
+        " --addr                Show address in disassembly code.\n"
+        " --hex                 Show hexadecimals in disassembly code.\n"
+        " --force               Force reading/writing even if not readable/writable.\n"
+        " --dump WHAT           Specify what to dump (default: all).\n"
         "\n"
-        "* AVA stands for 'absolute virtual address'.\n");
+        "* AVA stands for 'absolute virtual address'.\n"
+        "* WHAT is either all, dos, file, optional, datadir, sections,\n"
+        "  imports, exports, delay, or disasm.");
 }
 
 struct READ_WRITE_INFO
@@ -40,7 +43,7 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    std::string file;
+    std::string file, what = "all";
     std::vector<uint64_t> func_avas;
     std::vector<READ_WRITE_INFO> read_write;
     bool force = false;
@@ -85,6 +88,24 @@ int main(int argc, char **argv)
         {
             force = true;
             continue;
+        }
+        if (arg == "--dump")
+        {
+            arg = argv[++i];
+            if (arg == "all" || arg == "dos" || arg == "file" ||
+                arg == "optional" || arg == "datadir" || arg == "sections" ||
+                arg == "imports" || arg == "exports" || arg == "delay" ||
+                arg == "disasm")
+            {
+                what = arg;
+                continue;
+            }
+            else
+            {
+                fprintf(stderr, "ERROR: Invalid what to dump '%s'\n", arg.c_str());
+                show_help();
+                return 1;
+            }
         }
         if (arg == "--add-func")
         {
@@ -142,7 +163,7 @@ int main(int argc, char **argv)
             text += mod.read(info.ava, info.size, force);
     }
 
-    text += mod.dump("all", show_addr, show_hex);
+    text += mod.dump(what.c_str(), show_addr, show_hex);
     fputs(text.c_str(), stdout);
 
     return 0;
