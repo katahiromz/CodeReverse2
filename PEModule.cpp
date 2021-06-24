@@ -2,6 +2,7 @@
 #include "dumping.h"
 #include "internal.h"
 #include <cstring>
+#include <cctype>
 #include <cassert>
 #include "udis86/udis86.h"
 
@@ -1419,10 +1420,51 @@ bool PEModule::add_func_by_ava(uint64_t ava)
     return true;
 }
 
-std::string PEModule::read(uint64_t ava, uint32_t size)
+std::string decode_hex(const char *hex)
 {
     std::string ret;
-    ret += "## Memory ##\n";
+
+    while (*hex)
+    {
+        while (std::isspace(*hex))
+            ++hex;
+
+        char byte;
+        if ('0' <= *hex && *hex <= '9')
+            byte = *hex - '0';
+        else if ('A' <= *hex && *hex <= 'F')
+            byte = *hex + (10 - 'A');
+        else if ('a' <= *hex && *hex <= 'f')
+            byte = *hex + (10 - 'a');
+        else
+            break;
+        ++hex;
+        byte <<= 4;
+        if ('0' <= *hex && *hex <= '9')
+            byte = *hex - '0';
+        else if ('A' <= *hex && *hex <= 'F')
+            byte = *hex + (10 - 'A');
+        else if ('a' <= *hex && *hex <= 'f')
+            byte = *hex + (10 - 'a');
+        else
+            break;
+        ++hex;
+        ret += byte;
+    }
+
+    return ret;
+}
+
+std::string PEModule::write(uint64_t ava, uint32_t size, const char *hex, bool force)
+{
+    std::string binary;
+    if (hex && *hex)
+        binary = decode_hex(hex);
+    if (binary.size() < size)
+        binary.resize(size);
+
+    std::string ret;
+    ret += "## Write Memory ##\n";
 
     for (size_t i = 0; i < size; ++i)
     {
@@ -1437,7 +1479,42 @@ std::string PEModule::read(uint64_t ava, uint32_t size)
             break;
         }
         auto rva = rva_from_ava(addr);
-        if (!is_rva_readable(rva))
+        if (!force && !is_rva_writable(rva))
+        {
+            ret += "Not writable.\n";
+            break;
+        }
+        auto ptr = ptr_from_rva<uint8_t>(rva);
+        if (force || is_rva_readable(rva))
+            ret += string_formatted("%02X --> %02X\n", *ptr, binary[i]);
+        else
+            ret += string_formatted("(unreadable) --> %02X\n", binary[i]);
+        *ptr = binary[i];
+    }
+
+    ret += "\n";
+    return ret;
+}
+
+std::string PEModule::read(uint64_t ava, uint32_t size, bool force)
+{
+    std::string ret;
+    ret += "## Read Memory ##\n";
+
+    for (size_t i = 0; i < size; ++i)
+    {
+        auto addr = ava + i;
+        if (is_64bit())
+            ret += string_of_addr64(addr) + ": ";
+        else
+            ret += string_of_addr32(addr) + ": ";
+        if (!is_valid_ava(addr))
+        {
+            ret += "Not valid address.\n";
+            break;
+        }
+        auto rva = rva_from_ava(addr);
+        if (!force && !is_rva_readable(rva))
         {
             ret += "Not readable.\n";
             break;
