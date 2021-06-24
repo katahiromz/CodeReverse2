@@ -3,7 +3,7 @@
 
 void show_version(void)
 {
-    std::puts("CodeReverse2 2.3.7 by katahiromz\n");
+    std::puts("CodeReverse2 2.3.8 by katahiromz\n");
 }
 
 void show_help(void)
@@ -43,7 +43,8 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    std::string file, what = "all";
+    std::string file;
+    std::vector<std::string> dump_targets;
     std::vector<uint64_t> func_avas;
     std::vector<READ_WRITE_INFO> read_write;
     bool force = false;
@@ -97,7 +98,7 @@ int main(int argc, char **argv)
                 arg == "imports" || arg == "exports" || arg == "delay" ||
                 arg == "disasm")
             {
-                what = arg;
+                dump_targets.push_back(arg);
                 continue;
             }
             else
@@ -165,7 +166,13 @@ int main(int argc, char **argv)
             text += mod.read(info.ava, info.size, force);
     }
 
-    text += mod.dump(what.c_str(), show_addr, show_hex);
+    if (dump_targets.empty())
+        dump_targets.push_back("all");
+
+    for (auto& what : dump_targets)
+    {
+        text += mod.dump(what.c_str(), show_addr, show_hex);
+    }
     fputs(text.c_str(), stdout);
 
     return 0;
