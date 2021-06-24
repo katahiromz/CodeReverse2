@@ -17,6 +17,8 @@ Options:
 --add-func AVA        Add an additional function AVA.
 --read AVA SIZE       Read the module memory.
 --write AVA SIZE HEX  Write the module memory.
+--show-addr           Show address in disassembly code.
+--show-hex            Show hexadecimals in disassembly code.
 --force               Force reading/writing even if not readable/writable.
 
 * AVA stands for 'absolute virtual address'.

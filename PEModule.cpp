@@ -1257,6 +1257,16 @@ retry:
         auto bytes = int(s_ava - ava);
         func.ava_to_asm[ava].bytes = bytes;
 
+        std::string hex;
+        for (int i = 0; i < bytes; ++i)
+        {
+            if (i != 0)
+                hex += ' ';
+            auto rva = rva_from_ava(ava);
+            hex += string_formatted("%02X", *ptr_from_rva<uint8_t>(rva + i));
+        }
+        func.ava_to_asm[ava].hex = hex;
+
         bool is_quit = false;
         auto ip = ava + bytes;
         uint64_t imm = get_disasm_first_imm_operand(disasm);
@@ -1554,7 +1564,7 @@ std::string PEModule::read(uint64_t ava, uint32_t size, bool force)
 /////////////////////////////////////////////////////////////////////////////
 // Dumping
 
-std::string PEModule::dump(const std::string& name) const
+std::string PEModule::dump(const std::string& name, bool show_addr, bool show_hex) const
 {
     assert(is_loaded());
 
@@ -1569,7 +1579,7 @@ std::string PEModule::dump(const std::string& name) const
         ret += dump("imports");
         ret += dump("exports");
         ret += dump("delay");
-        ret += dump("disasm");
+        ret += dump("disasm", show_addr, show_hex);
         return ret;
     }
 
@@ -1616,7 +1626,7 @@ std::string PEModule::dump(const std::string& name) const
         start_disasm(data);
         do_disasm(data);
         end_disasm(data);
-        return string_of_disasm(data, is_64bit());
+        return string_of_disasm(data, show_addr, show_hex, is_64bit());
     }
 
     return Module::dump(name);

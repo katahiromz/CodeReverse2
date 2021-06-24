@@ -139,7 +139,7 @@ public:
 
     /////////////////////////////////////////////////////////////////////////
     // Dumping
-    std::string dump(const std::string& name) const;
+    std::string dump(const std::string& name, bool show_addr = true, bool show_hex = true) const;
 
 protected:
     PEModuleImpl *impl();

@@ -879,7 +879,7 @@ std::string string_of_delay(const DelayTable& table, bool is_64bit)
     return ret;
 }
 
-std::string string_of_disasm(DisAsmData& data, bool is_64bit)
+std::string string_of_disasm(DisAsmData& data, bool show_addr, bool show_hex, bool is_64bit)
 {
     std::string ret;
 
@@ -982,11 +982,18 @@ std::string string_of_disasm(DisAsmData& data, bool is_64bit)
                 ret += ":\n";
             }
 
-            if (is_64bit)
-                ret += string_of_addr64(pair2.first);
-            else
-                ret += string_of_addr32(pair2.first);
-            ret += ": ";
+            if (show_addr)
+            {
+                if (is_64bit)
+                    ret += string_of_addr64(pair2.first);
+                else
+                    ret += string_of_addr32(pair2.first);
+                ret += ": ";
+            }
+
+            if (show_hex)
+                ret += string_formatted("%-40s ", pair2.second.hex.c_str());
+
             ret += pair2.second.cooked;
 
             if (pair2.second.jump_from.size())
