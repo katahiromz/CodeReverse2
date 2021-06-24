@@ -250,10 +250,9 @@ std::string string_formatted(const char *fmt, ...)
     return ret;
 }
 
-std::string string_of_data_directory(const void *data, uint32_t index)
+std::string string_of_data_directory(const void *data, uint32_t index, bool is_64bit)
 {
-    const IMAGE_DATA_DIRECTORY *dir =
-        reinterpret_cast<const IMAGE_DATA_DIRECTORY *>(data);
+    auto dir = reinterpret_cast<const IMAGE_DATA_DIRECTORY_DX *>(data);
 
     const char *name = NULL;
     switch (index)
@@ -276,8 +275,31 @@ std::string string_of_data_directory(const void *data, uint32_t index)
     default: name = "(Reserved Directory Entry)"; break;
     }
 
-    return string_formatted("    %s (%u): address 0x%08X, size 0x%08X (%u)\n",
-                            name, index, dir->VirtualAddress, dir->Size, dir->Size);
+    if (is_64bit)
+    {
+        return string_formatted("  %-36s (%2u): AVA 0x%08X%08X, RVA 0x%08X, size 0x%08X (%u)\n",
+            name, index, DWORD(dir->AVA >> 32), DWORD(dir->AVA), dir->VirtualAddress, dir->Size, dir->Size);
+    }
+    else
+    {
+        return string_formatted("  %-36s (%2u): AVA 0x%08X, RVA 0x%08X, size 0x%08X (%u)\n",
+            name, index, DWORD(dir->AVA), dir->VirtualAddress, dir->Size, dir->Size);
+    }
+}
+
+std::string string_of_data_directories(const void *data, bool is_64bit)
+{
+    std::string ret;
+    auto dd = reinterpret_cast<const IMAGE_DATA_DIRECTORY_DX *>(data);
+
+    ret += "## Data Directories ##\n";
+    for (uint32_t i = 0; i < IMAGE_NUMBEROF_DIRECTORY_ENTRIES; ++i, ++dd)
+    {
+        ret += string_of_data_directory(dd, i, is_64bit);
+    }
+    ret += "\n";
+
+    return ret;
 }
 
 std::string string_of_dos_header(const void *dos)
@@ -374,14 +396,6 @@ std::string string_of_optional32(const void *optional)
     ret += string_formatted("  NumberOfRvaAndSizes: 0x%08X (%u)\n", opt32->NumberOfRvaAndSizes, opt32->NumberOfRvaAndSizes);
     ret += "\n";
 
-    ret += "## Data Directories ##\n";
-    const IMAGE_DATA_DIRECTORY *dd = opt32->DataDirectory;
-    for (uint32_t i = 0; i < IMAGE_NUMBEROF_DIRECTORY_ENTRIES; ++i, ++dd)
-    {
-        ret += string_of_data_directory(dd, i);
-    }
-    ret += "\n";
-
     return ret;
 }
 
@@ -417,18 +431,6 @@ std::string string_of_optional64(const void *optional)
     ret += string_formatted("  SizeOfHeapCommit: 0x%016llX (%llu)\n", opt64->SizeOfHeapCommit, opt64->SizeOfHeapCommit);
     ret += string_formatted("  LoaderFlags: 0x%08X\n", opt64->LoaderFlags);
     ret += string_formatted("  NumberOfRvaAndSizes: 0x%08X (%u)\n", opt64->NumberOfRvaAndSizes, opt64->NumberOfRvaAndSizes);
-    ret += "\n";
-
-    ret += "  ## Directory Entries ##\n";
-
-    const IMAGE_DATA_DIRECTORY *dd = opt64->DataDirectory;
-    for (uint32_t i = 0; i < IMAGE_NUMBEROF_DIRECTORY_ENTRIES; ++i, ++dd)
-    {
-        if (dd->VirtualAddress != 0 || dd->Size != 0)
-        {
-            ret += string_of_data_directory(dd, i);
-        }
-    }
     ret += "\n";
 
     return ret;

@@ -60,6 +60,7 @@ PEModule::impl() const
 
 PEModule::PEModule() : Module(std::make_shared<PEModuleImpl>())
 {
+    ZeroMemory(impl()->data_directories, sizeof(impl()->data_directories));
 }
 
 PEModule::PEModule(const char *filename) : Module(std::make_shared<PEModuleImpl>())
@@ -84,6 +85,8 @@ bool PEModule::load(const wchar_t *filename)
 
 bool PEModule::load(FILE *fp)
 {
+    ZeroMemory(impl()->data_directories, sizeof(impl()->data_directories));
+
     if (!Module::load(fp))
         return false;
 
@@ -142,7 +145,14 @@ bool PEModule::load(FILE *fp)
     impl()->optional32 = optional32;
     impl()->optional64 = optional64;
     impl()->section_headers = sh;
-    impl()->data_directories = dd;
+    for (size_t i = 0; i < IMAGE_NUMBEROF_DIRECTORY_ENTRIES; ++i)
+    {
+        memcpy(&impl()->data_directories[i], &dd[i], sizeof(dd[i]));
+        if (dd[i].VirtualAddress && dd[i].Size)
+            impl()->data_directories[i].AVA = ava_from_rva(dd[i].VirtualAddress);
+        else
+            impl()->data_directories[i].AVA = 0;
+    }
 
     if (!_map_image())
         return false;
@@ -1540,6 +1550,7 @@ std::string PEModule::dump(const std::string& name) const
         ret += dump("dos");
         ret += dump("file");
         ret += dump("optional");
+        ret += dump("datadir");
         ret += dump("sections");
         ret += dump("imports");
         ret += dump("exports");
@@ -1563,6 +1574,8 @@ std::string PEModule::dump(const std::string& name) const
         return string_of_optional32(impl()->optional32);
     if (name == "optional64" && is_64bit())
         return string_of_optional64(impl()->optional64);
+    if (name == "datadir")
+        return string_of_data_directories(&impl()->data_directories, is_64bit());
     if (name == "sections")
     {
         std::string ret;

@@ -24,6 +24,11 @@ private:
     ModuleImpl& operator=(const ModuleImpl&);
 };
 
+struct IMAGE_DATA_DIRECTORY_DX : IMAGE_DATA_DIRECTORY
+{
+    DWORDLONG AVA;
+};
+
 struct PEModuleImpl : public ModuleImpl
 {
     std::string image;
@@ -38,7 +43,7 @@ struct PEModuleImpl : public ModuleImpl
     IMAGE_OPTIONAL_HEADER32 *optional32;
     IMAGE_OPTIONAL_HEADER64 *optional64;
     IMAGE_SECTION_HEADER *section_headers;
-    IMAGE_DATA_DIRECTORY *data_directories;
+    IMAGE_DATA_DIRECTORY_DX data_directories[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
     NameMap func_names;
     std::vector<uint64_t> additional_func_avas;
 
@@ -49,8 +54,8 @@ struct PEModuleImpl : public ModuleImpl
         , optional32(NULL)
         , optional64(NULL)
         , section_headers(NULL)
-        , data_directories(NULL)
     {
+        ZeroMemory(data_directories, sizeof(data_directories));
     }
 
     virtual ~PEModuleImpl()
