@@ -4,6 +4,9 @@
 
 ![CodeReverse](CodeReverse.png)
 
+CodeReverse2 is a reverse-engineering tool for Windows executables.
+It works on Windows, Linux and MacOS.
+
 ## Usage
 
 ```txt
