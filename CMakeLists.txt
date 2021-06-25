@@ -30,10 +30,12 @@ if (WIN32)
         set(CompilerFlags
             CMAKE_C_FLAGS
             CMAKE_C_FLAGS_DEBUG
+            CMAKE_C_FLAGS_MINSIZEREL
             CMAKE_C_FLAGS_RELEASE
             CMAKE_C_FLAGS_RELWITHDEBINFO
             CMAKE_CXX_FLAGS
             CMAKE_CXX_FLAGS_DEBUG
+            CMAKE_CXX_FLAGS_MINSIZEREL
             CMAKE_CXX_FLAGS_RELEASE
             CMAKE_CXX_FLAGS_RELWITHDEBINFO)
         foreach(CompilerFlags ${CompilerFlags})
@@ -56,6 +58,9 @@ include_directories(udis86 udis86/libudis86)
 # cr2.exe
 add_executable(cr2 cr2.cpp dumping.cpp Module.cpp PEModule.cpp)
 target_link_libraries(cr2 PRIVATE udis86)
+
+# install cr2.exe
+install(TARGETS cr2 DESTINATION bin)
 
 ##############################################################################
 # testing
