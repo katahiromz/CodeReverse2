@@ -992,7 +992,7 @@ std::string string_of_disasm(DisAsmData& data, bool show_addr, bool show_hex, bo
             }
 
             if (show_hex)
-                ret += string_formatted("%-40s ", pair2.second.hex.c_str());
+                ret += string_formatted("%-37s : ", pair2.second.hex.c_str());
 
             ret += pair2.second.cooked;
 
