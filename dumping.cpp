@@ -20,6 +20,8 @@ std::string string_of_timestamp(uint32_t timestamp)
 
     std::time_t t = static_cast<time_t>(timestamp);
     char *psz = std::asctime(std::gmtime(&t));
+    if (!psz)
+        return "invalid timestamp";
     char *pch = strrchr(psz, '\n');
     if (pch)
         *pch = 0;
@@ -58,8 +60,8 @@ std::string string_of_os_info(void)
     ret += "## OS Info ##\n";
 
 #ifdef _WIN32
-    OSVERSIONINFOA verinfo = { sizeof(verinfo) };
-    GetVersionExA(&verinfo);
+    OSVERSIONINFOW verinfo = { sizeof(verinfo) };
+    GetVersionExW(&verinfo);
 # ifdef _WIN64
     ret += string_formatted("Windows %u.%u (x64)\n", verinfo.dwMajorVersion, verinfo.dwMinorVersion);
 # else
@@ -987,7 +989,7 @@ std::string string_of_disasm(DisAsmData& data, bool show_addr, bool show_hex, bo
                 if (is_64bit)
                     ret += string_of_addr64(pair2.first);
                 else
-                    ret += string_of_addr32(pair2.first);
+                    ret += string_of_addr32(uint32_t(pair2.first));
                 ret += ": ";
             }
 

@@ -1502,7 +1502,7 @@ std::string PEModule::read(uint64_t ava, uint32_t size, bool force)
             if (is_64bit())
                 ret += string_of_addr64(addr) + ": ";
             else
-                ret += string_of_addr32(addr) + ": ";
+                ret += string_of_addr32(uint32_t(addr)) + ": ";
             if (!is_valid_ava(addr))
             {
                 ret += "Not valid address.\n";
@@ -1568,7 +1568,7 @@ std::string PEModule::write(uint64_t ava, const char *hex, bool force)
             if (is_64bit())
                 ret += string_of_addr64(addr) + ": ";
             else
-                ret += string_of_addr32(addr) + ": ";
+                ret += string_of_addr32(uint32_t(addr)) + ": ";
             if (!is_valid_ava(addr))
             {
                 ret += "Not valid address.\n";
