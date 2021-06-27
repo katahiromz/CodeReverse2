@@ -1,16 +1,18 @@
 #include "PEModule.h"
 #include "dumping.h"
 
+#define VERSION_INFO "CodeReverse2 2.4.1 by katahiromz\n"
+
 void show_version(void)
 {
-    std::puts("CodeReverse2 2.4.0 by katahiromz\n");
+    std::puts(VERSION_INFO);
 }
 
 void show_help(void)
 {
     show_version();
     std::puts(
-        "Usage: cr2 [options] [input.exe]\n"
+        "Usage: cr2 [options] [input.exe [output.asm]]\n"
         "Options:\n"
         " --help                Show this message.\n"
         " --version             Show version info.\n"
@@ -43,7 +45,7 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    std::string file;
+    std::string input, output;
     std::vector<std::string> dump_targets;
     std::vector<uint64_t> func_avas;
     std::vector<READ_WRITE_INFO> read_write;
@@ -54,9 +56,13 @@ int main(int argc, char **argv)
         std::string arg = argv[i];
         if (arg[0] != '-')
         {
-            if (file.empty())
+            if (input.empty())
             {
-                file = arg;
+                input = arg;
+            }
+            else if (output.empty())
+            {
+                output = arg;
             }
             else
             {
@@ -140,16 +146,15 @@ int main(int argc, char **argv)
         }
     }
 
-    show_version();
-
     std::string text;
+    text += VERSION_INFO;
     text += cr2::string_of_command_line(argc, argv);
     text += cr2::string_of_os_info();
 
     cr2::PEModule mod;
-    if (!mod.load(file.c_str()))
+    if (!mod.load(input.c_str()))
     {
-        fprintf(stderr, "ERROR: Cannot load '%s'\n", file.c_str());
+        fprintf(stderr, "ERROR: Cannot load file '%s'\n", input.c_str());
         return -1;
     }
 
@@ -173,7 +178,23 @@ int main(int argc, char **argv)
     {
         text += mod.dump(what.c_str(), show_addr, show_hex);
     }
-    fputs(text.c_str(), stdout);
+
+    if (output.empty())
+    {
+        fputs(text.c_str(), stdout);
+    }
+    else
+    {
+        if (FILE *fp = fopen(output.c_str(), "w"))
+        {
+            fputs(text.c_str(), fp);
+            fclose(fp);
+        }
+        else
+        {
+            fprintf(stderr, "ERROR: Cannot write file '%s'\n", output.c_str());
+        }
+    }
 
     return 0;
 }
