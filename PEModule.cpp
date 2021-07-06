@@ -1244,7 +1244,7 @@ bool PEModule::do_disasm_func(DisAsmData& data, uint64_t ava, Func& func) const
     bool first = true;
     func.attributes.insert("[[noreturn]]");
 retry:
-    for (;;)
+    while (is_valid_ava(ava))
     {
         s_ava = ava;
         ud_set_pc(&ud, ava);
@@ -1420,15 +1420,18 @@ retry:
         auto it = func.ava_to_asm.find(to);
         if (it == func.ava_to_asm.end())
         {
-            ava = to;
-            goto retry;
+            if (is_valid_ava(to))
+            {
+                ava = to;
+                goto retry;
+            }
         }
     }
 
     for (auto& pair : func.ava_to_asm)
     {
         auto to = pair.second.jump_to;
-        if (to != invalid_ava)
+        if (is_valid_ava(to))
         {
             auto it = func.ava_to_asm.find(to);
             if (it != func.ava_to_asm.end())
