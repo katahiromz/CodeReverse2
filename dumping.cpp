@@ -669,9 +669,9 @@ std::string string_of_imports(const IMAGE_IMPORT_DESCRIPTOR *imports, const Impo
     ret += string_formatted("  Name: 0x%08X (%u)\n", imports->Name, imports->Name);
     ret += string_formatted("  FirstThunk: 0x%08X (%u)\n", imports->FirstThunk, imports->FirstThunk);
     if (is_64bit)
-        ret += string_formatted("  %14s %8s %16s %16s %s\n", "Module", "hint", "RVA", "VA", "Function");
+        ret += string_formatted("%8s %16s %16s %s\n", "Hint", "RVA", "VA", "Function");
     else
-        ret += string_formatted("  %14s %8s %8s %8s %s\n", "Module", "hint", "RVA", "VA", "Function");
+        ret += string_formatted("%8s %8s %8s %s\n", "Hint", "RVA", "VA", "Function");
 
     for (auto& entry : table)
     {

@@ -45,5 +45,6 @@ a.*
 shell32.*
 user32.*
 imm32.*
+imm32-*.*
 install_manifest.txt
 ntdll.*
