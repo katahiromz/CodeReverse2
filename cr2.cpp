@@ -1,7 +1,8 @@
 #include "PEModule.h"
 #include "dumping.h"
+#include <cstring>
 
-#define VERSION_INFO "CodeReverse2 2.4.3 by katahiromz\n"
+#define VERSION_INFO "CodeReverse2 2.4.4 by katahiromz\n"
 
 void show_version(void)
 {

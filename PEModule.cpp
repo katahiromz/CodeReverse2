@@ -555,7 +555,7 @@ std::string PEModule::set_syscall(uint64_t ava, const std::vector<std::string>& 
 {
     if (!is_valid_ava(ava))
     {
-        fprintf(stderr, "ERROR: 0x%08llX is invalid AVA\n");
+        fprintf(stderr, "ERROR: 0x%08llX is invalid AVA\n", ava);
         return "";
     }
 
