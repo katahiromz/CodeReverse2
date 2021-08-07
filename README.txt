@@ -9,6 +9,7 @@ Options:
  --hex                 Show hexadecimals in disassembly code.
  --force               Force reading/writing even if not readable/writable.
  --dump WHAT           Specify what to dump (default: all).
+ --syscall AVA win32ksvc.h     Specify system call table.
 
 * AVA stands for 'absolute virtual address'.
 * WHAT is either all, dos, fileh, opt, datadir, sections, imports, exports,
