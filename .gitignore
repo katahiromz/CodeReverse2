@@ -48,3 +48,6 @@ imm32.*
 imm32-*.*
 install_manifest.txt
 ntdll.*
+ntoskrnl.*
+win32k.*
+win32u*
