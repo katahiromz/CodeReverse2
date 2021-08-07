@@ -97,6 +97,7 @@ public:
     }
 
     uint16_t get_dir_from_rva(uint64_t rva) const;
+    std::string set_syscall(uint64_t ava, const std::vector<std::string>& func_names);
 
     /////////////////////////////////////////////////////////////////////////
     // Imports

@@ -551,6 +551,29 @@ const IMAGE_SECTION_HEADER *PEModule::get_section_header(int iSection) const
     return &(impl()->section_headers)[iSection];
 }
 
+std::string PEModule::set_syscall(uint64_t ava, const std::vector<std::string>& func_names)
+{
+    if (!is_valid_ava(ava))
+    {
+        fprintf(stderr, "ERROR: 0x%08llX is invalid AVA\n");
+        return "";
+    }
+
+    impl()->syscall_ava = ava;
+    impl()->syscall_func_names = func_names;
+
+    std::string ret;
+    ret += "## SysCall ##\n";
+    ret += "AVA: " + std::to_string(ava) + "\n";
+    for (auto& func_name : func_names)
+    {
+        ret += func_name + "\n";
+    }
+    ret += "\n";
+
+    return ret;
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // Imports
 
@@ -1015,6 +1038,19 @@ bool PEModule::start_disasm(DisAsmData& data) const
         }
     }
 
+    if (auto syscall_ava = impl()->syscall_ava)
+    {
+        uint64_t syscall_rva = rva_from_ava(syscall_ava);
+        auto ptr = ptr_from_rva<uint32_t>(syscall_rva);
+        size_t index = 0;
+        for (auto& func_name : impl()->syscall_func_names)
+        {
+            auto func_ava = ptr[index++];
+            auto str = m_module_name + "!";
+            names[func_ava] = str + func_name;
+        }
+    }
+
     return true;
 }
 
@@ -1148,6 +1184,18 @@ bool PEModule::get_entry_points(std::unordered_set<uint64_t>& avas) const
 
             if (entry.forwarded_to.empty())
                 avas.insert(ava_from_rva(entry.rva));
+        }
+    }
+
+    if (auto syscall_ava = impl()->syscall_ava)
+    {
+        uint64_t syscall_rva = rva_from_ava(syscall_ava);
+        auto ptr = ptr_from_rva<uint32_t>(syscall_rva);
+        size_t index = 0;
+        for (auto& func_name : impl()->syscall_func_names)
+        {
+            auto func_ava = ptr[index++];
+            avas.insert(func_ava);
         }
     }
 

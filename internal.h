@@ -52,6 +52,8 @@ struct PEModuleImpl : public ModuleImpl
     IMAGE_DATA_DIRECTORY_DX data_directories[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
     NameMap func_names;
     std::vector<uint64_t> additional_func_avas;
+    uint64_t syscall_ava = 0;
+    std::vector<std::string> syscall_func_names;
 
     PEModuleImpl()
         : dos(NULL)
