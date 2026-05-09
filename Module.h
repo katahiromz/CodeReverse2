@@ -56,11 +56,16 @@ public:
 protected:
     std::shared_ptr<ModuleImpl> m_pimpl;
     std::string m_module_name;
+    bool m_bIsExeOrDll;
+    uint32_t m_dwBinaryType;
 
     void set_module_name(const char *filename);
+    void get_binary_type(const char *filename);
 
     Module(std::shared_ptr<ModuleImpl> pimpl) : m_pimpl(pimpl)
     {
+        m_bIsExeOrDll = false;
+        m_dwBinaryType = 0;
     }
 
     virtual bool load(FILE *fp);

@@ -60,6 +60,14 @@ void Module::set_module_name(const char *filename)
     m_module_name = normalize_module_name(filename);
 }
 
+void Module::get_binary_type(const char *filename)
+{
+#ifdef _WIN32
+    DWORD dwType;
+    m_bIsExeOrDll = GetBinaryTypeA(filename, (DWORD*)&m_dwBinaryType);
+#endif
+}
+
 bool Module::load(const char *filename)
 {
     FILE *fp = fopen(filename, "rb");
@@ -68,6 +76,7 @@ bool Module::load(const char *filename)
     bool ret = load(fp);
     fclose(fp);
     set_module_name(filename);
+    get_binary_type(filename);
     return ret;
 }
 
@@ -82,6 +91,7 @@ bool Module::load(const wchar_t *filename)
     char buf[MAX_PATH];
     WideCharToMultiByte(CP_ACP, 0, filename, -1, buf, MAX_PATH, NULL, NULL);
     set_module_name(buf);
+    get_binary_type(buf);
     return ret;
 #else
     return false;

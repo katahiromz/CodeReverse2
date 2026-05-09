@@ -310,6 +310,35 @@ std::string string_of_data_directories(const void *data, bool is_64bit)
     return ret;
 }
 
+const char *string_binary_type(DWORD dwBinaryType)
+{
+    switch (dwBinaryType)
+    {
+    case SCS_32BIT_BINARY: return "SCS_32BIT_BINARY";
+    case SCS_DOS_BINARY: return "SCS_DOS_BINARY";
+    case SCS_OS216_BINARY: return "SCS_OS216_BINARY";
+    case SCS_PIF_BINARY: return "SCS_PIF_BINARY";
+    case SCS_POSIX_BINARY: return "SCS_POSIX_BINARY";
+    case SCS_WOW_BINARY: return "SCS_WOW_BINARY";
+    case SCS_64BIT_BINARY: return "SCS_64BIT_BINARY";
+    default:
+        return "(unknown)";
+    }
+}
+
+std::string string_of_file_info(const std::string& image, BOOL bIsExeOrDll, DWORD dwBinaryType)
+{
+    std::string ret;
+    ret += "## File Info ##\n";
+    ret += string_formatted("  File size : %llu (0x%llX)\n", (ULONGLONG)image.size(), (ULONGLONG)image.size());
+#ifdef _WIN32
+    ret += string_formatted("  Executable: %s\n", bIsExeOrDll ? "YES" : "NO");
+    ret += string_formatted("  GetBinaryType: %s (0x%X)\n", string_binary_type(dwBinaryType), dwBinaryType);
+#endif
+    ret += "\n";
+    return ret;
+}
+
 std::string string_of_dos_header(const void *dos)
 {
     const IMAGE_DOS_HEADER *dh = reinterpret_cast<const IMAGE_DOS_HEADER *>(dos);

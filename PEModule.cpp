@@ -1685,6 +1685,7 @@ std::string PEModule::dump(const std::string& name, bool show_addr, bool show_he
     if (name == "all")
     {
         std::string ret;
+        ret += dump("file_info");
         ret += dump("dos");
         ret += dump("fileh");
         ret += dump("opt");
@@ -1697,6 +1698,8 @@ std::string PEModule::dump(const std::string& name, bool show_addr, bool show_he
         return ret;
     }
 
+    if (name == "file_info")
+        return string_of_file_info(impl()->image, m_bIsExeOrDll, m_dwBinaryType);
     if (name == "dos")
         return string_of_dos_header(impl()->dos);
     if (name == "fileh")

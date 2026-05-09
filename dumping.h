@@ -20,6 +20,7 @@ std::string string_of_subsystem(uint16_t w);
 std::string string_formatted(const char *fmt, ...);
 std::string string_of_data_directory(const void *data, uint32_t index, bool is_64bit);
 std::string string_of_data_directories(const void *data, bool is_64bit);
+std::string string_of_file_info(const std::string& image, BOOL bIsExeOrDll, DWORD dwBinaryType);
 std::string string_of_dos_header(const void *dos);
 std::string string_of_file_header(const void *file);
 std::string string_of_optional32(const void *optional);
