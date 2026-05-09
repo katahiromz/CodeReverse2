@@ -334,9 +334,11 @@ const char *string_binary_type(DWORD dwBinaryType)
 #ifdef _WIN32
     std::string string_from_filetime(const FILETIME& ft)
     {
+        FILETIME ftLocal;
+        FileTimeToLocalFileTime(&ft, &ftLocal);
         SYSTEMTIME st;
-        ::FileTimeToSystemTime(&ft, &st);
-        return string_formatted("%04u-%02u-%02u %02u:%02u:%02u.%03u",
+        ::FileTimeToSystemTime(&ftLocal, &st);
+        return string_formatted("%04u-%02u-%02u %02u:%02u:%02u.%03u (Local)",
             st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
     }
 
