@@ -58,6 +58,9 @@ include_directories(udis86 udis86/libudis86)
 # cr2.exe
 add_executable(cr2 cr2.cpp dumping.cpp Module.cpp PEModule.cpp)
 target_link_libraries(cr2 PRIVATE udis86)
+if(WIN32)
+target_link_libraries(cr2 PRIVATE shlwapi)
+endif()
 
 # install cr2.exe
 install(TARGETS cr2 DESTINATION bin)

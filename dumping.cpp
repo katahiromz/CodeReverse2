@@ -4,6 +4,9 @@
 #include <cstdarg>
 #include <cassert>
 #include <cctype>
+#ifdef _WIN32
+#include <shlwapi.h>
+#endif
 #include "internal.h"
 
 namespace cr2
@@ -378,7 +381,15 @@ std::string string_of_file_info(const std::string& image, bool bIsExeOrDll, uint
 {
     std::string ret;
     ret += "## File Info ##\n";
+#ifdef _WIN32
+    char szSize[MAX_PATH];
+    if (StrFormatKBSizeA(image.size(), szSize, _countof(szSize)))
+        ret += string_formatted("  File size : %llu (0x%llX: %s)\n", (uint64_t)image.size(), (uint64_t)image.size(), szSize);
+    else
+        ret += string_formatted("  File size : %llu (0x%llX)\n", (uint64_t)image.size(), (uint64_t)image.size());
+#else
     ret += string_formatted("  File size : %llu (0x%llX)\n", (uint64_t)image.size(), (uint64_t)image.size());
+#endif
 #ifdef _WIN32
     ret += string_formatted("  IsEXE: %s\n", bIsExeOrDll ? "YES" : "NO");
     ret += string_formatted("  GetBinaryType: %s (0x%X)\n", string_binary_type(dwBinaryType), dwBinaryType);
