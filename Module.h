@@ -58,14 +58,23 @@ protected:
     std::string m_module_name;
     bool m_bIsExeOrDll;
     uint32_t m_dwBinaryType;
+    uint32_t m_file_attrs;
+    std::string m_creation_time;
+    std::string m_last_access_time;
+    std::string m_last_write_time;
+    std::string m_fullpath;
+    std::string m_cFileName;
+    std::string m_cAlternateFileName;
 
     void set_module_name(const char *filename);
     void get_binary_type(const char *filename);
+    void get_file_details(const char *filename);
 
     Module(std::shared_ptr<ModuleImpl> pimpl) : m_pimpl(pimpl)
     {
         m_bIsExeOrDll = false;
         m_dwBinaryType = 0;
+        m_file_attrs = -1;
     }
 
     virtual bool load(FILE *fp);

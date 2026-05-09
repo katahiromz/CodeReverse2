@@ -328,14 +328,67 @@ const char *string_binary_type(DWORD dwBinaryType)
     }
 }
 
-std::string string_of_file_info(const std::string& image, bool bIsExeOrDll, uint32_t dwBinaryType)
+#ifdef _WIN32
+    std::string string_from_filetime(const FILETIME& ft)
+    {
+        SYSTEMTIME st;
+        ::FileTimeToSystemTime(&ft, &st);
+        return string_formatted("%04u-%02u-%02u %02u:%02u:%02u.%03u",
+            st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
+    }
+
+    std::string string_file_attributes(uint32_t file_attrs)
+    {
+        if (file_attrs == INVALID_FILE_ATTRIBUTES)
+            return "INVALID_FILE_ATTRIBUTES";
+        std::vector<std::string> flags;
+        if (file_attrs & FILE_ATTRIBUTE_READONLY) flags.push_back("FILE_ATTRIBUTE_READONLY");
+        if (file_attrs & FILE_ATTRIBUTE_HIDDEN) flags.push_back("FILE_ATTRIBUTE_HIDDEN");
+        if (file_attrs & FILE_ATTRIBUTE_SYSTEM) flags.push_back("FILE_ATTRIBUTE_SYSTEM");
+        if (file_attrs & FILE_ATTRIBUTE_DIRECTORY) flags.push_back("FILE_ATTRIBUTE_DIRECTORY");
+        if (file_attrs & FILE_ATTRIBUTE_ARCHIVE) flags.push_back("FILE_ATTRIBUTE_ARCHIVE");
+        if (file_attrs & FILE_ATTRIBUTE_DEVICE) flags.push_back("FILE_ATTRIBUTE_DEVICE");
+        if (file_attrs & FILE_ATTRIBUTE_NORMAL) flags.push_back("FILE_ATTRIBUTE_NORMAL");
+        if (file_attrs & FILE_ATTRIBUTE_TEMPORARY) flags.push_back("FILE_ATTRIBUTE_TEMPORARY");
+        if (file_attrs & FILE_ATTRIBUTE_SPARSE_FILE) flags.push_back("FILE_ATTRIBUTE_SPARSE_FILE");
+        if (file_attrs & FILE_ATTRIBUTE_REPARSE_POINT) flags.push_back("FILE_ATTRIBUTE_REPARSE_POINT");
+        if (file_attrs & FILE_ATTRIBUTE_COMPRESSED) flags.push_back("FILE_ATTRIBUTE_COMPRESSED");
+        if (file_attrs & FILE_ATTRIBUTE_OFFLINE) flags.push_back("FILE_ATTRIBUTE_OFFLINE");
+        if (file_attrs & FILE_ATTRIBUTE_NOT_CONTENT_INDEXED) flags.push_back("FILE_ATTRIBUTE_NOT_CONTENT_INDEXED");
+        if (file_attrs & FILE_ATTRIBUTE_ENCRYPTED) flags.push_back("FILE_ATTRIBUTE_ENCRYPTED");
+#ifndef FILE_ATTRIBUTE_INTEGRITY_STREAM
+    #define FILE_ATTRIBUTE_INTEGRITY_STREAM 0x00008000
+#endif
+#ifndef FILE_ATTRIBUTE_VIRTUAL
+    #define FILE_ATTRIBUTE_VIRTUAL 0x00010000
+#endif
+        if (file_attrs & FILE_ATTRIBUTE_INTEGRITY_STREAM) flags.push_back("FILE_ATTRIBUTE_INTEGRITY_STREAM");
+        if (file_attrs & FILE_ATTRIBUTE_VIRTUAL) flags.push_back("FILE_ATTRIBUTE_VIRTUAL");
+        std::string ret;
+        for (size_t i = 0; i < flags.size(); ++i)
+        {
+            if (i != 0) ret += " | ";
+            ret += flags[i];
+        }
+        return ret;
+    }
+#endif
+
+std::string string_of_file_info(const std::string& image, bool bIsExeOrDll, uint32_t dwBinaryType, uint32_t file_attrs, std::string creation_time, std::string last_access_time, std::string last_write_time, std::string fullpath, std::string cFileName, std::string cAlternateFileName)
 {
     std::string ret;
     ret += "## File Info ##\n";
     ret += string_formatted("  File size : %llu (0x%llX)\n", (uint64_t)image.size(), (uint64_t)image.size());
 #ifdef _WIN32
-    ret += string_formatted("  Executable: %s\n", bIsExeOrDll ? "YES" : "NO");
+    ret += string_formatted("  IsEXE: %s\n", bIsExeOrDll ? "YES" : "NO");
     ret += string_formatted("  GetBinaryType: %s (0x%X)\n", string_binary_type(dwBinaryType), dwBinaryType);
+    ret += string_formatted("  file_attrs: %s (0x%X)\n", string_file_attributes(file_attrs).c_str(), file_attrs);
+    ret += string_formatted("  creation_time: %s\n", creation_time.c_str());
+    ret += string_formatted("  last_access_time: %s\n", last_access_time.c_str());
+    ret += string_formatted("  last_write_time: %s\n", last_write_time.c_str());
+    ret += string_formatted("  fullpath: %s\n", fullpath.c_str());
+    ret += string_formatted("  cFileName: %s\n", cFileName.c_str());
+    ret += string_formatted("  cAlternateFileName: %s\n", cAlternateFileName.c_str());
 #endif
     ret += "\n";
     return ret;

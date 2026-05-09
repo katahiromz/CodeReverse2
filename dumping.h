@@ -20,7 +20,7 @@ std::string string_of_subsystem(uint16_t w);
 std::string string_formatted(const char *fmt, ...);
 std::string string_of_data_directory(const void *data, uint32_t index, bool is_64bit);
 std::string string_of_data_directories(const void *data, bool is_64bit);
-std::string string_of_file_info(const std::string& image, bool bIsExeOrDll, uint32_t dwBinaryType);
+std::string string_of_file_info(const std::string& image, bool bIsExeOrDll, uint32_t dwBinaryType, uint32_t file_attrs, std::string creation_time, std::string last_access_time, std::string last_write_time, std::string fullpath, std::string cFileName, std::string cAlternateFileName);
 std::string string_of_dos_header(const void *dos);
 std::string string_of_file_header(const void *file);
 std::string string_of_optional32(const void *optional);
@@ -35,5 +35,8 @@ std::string string_of_delay(const DelayTable& table, bool is_64bit);
 std::string string_of_disasm(DisAsmData& data, bool show_addr, bool show_hex, bool is_64bit);
 std::string string_of_os_info(void);
 std::string string_of_command_line(int argc, char **argv);
+#ifdef _WIN32
+    std::string string_from_filetime(const FILETIME& ft);
+#endif
 
 } // namespace cr2

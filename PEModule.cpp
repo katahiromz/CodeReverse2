@@ -1699,7 +1699,7 @@ std::string PEModule::dump(const std::string& name, bool show_addr, bool show_he
     }
 
     if (name == "file_info")
-        return string_of_file_info(impl()->image, m_bIsExeOrDll, m_dwBinaryType);
+        return string_of_file_info(impl()->image, m_bIsExeOrDll, m_dwBinaryType, m_file_attrs, m_creation_time, m_last_access_time, m_last_write_time, m_fullpath, m_cFileName, m_cAlternateFileName);
     if (name == "dos")
         return string_of_dos_header(impl()->dos);
     if (name == "fileh")

@@ -68,6 +68,24 @@ void Module::get_binary_type(const char *filename)
 #endif
 }
 
+void Module::get_file_details(const char *filename)
+{
+#ifdef _WIN32
+    WIN32_FIND_DATAA find = { 0 };
+    HANDLE hFind = FindFirstFileA(filename, &find);
+    FindClose(hFind);
+    m_file_attrs = find.dwFileAttributes;
+    m_creation_time = string_from_filetime(find.ftCreationTime);
+    m_last_access_time = string_from_filetime(find.ftLastAccessTime);
+    m_last_write_time = string_from_filetime(find.ftLastWriteTime);
+    char szPath[MAX_PATH], *pch;
+    GetFullPathNameA(filename, _countof(szPath), szPath, &pch);
+    m_fullpath = szPath;
+    m_cFileName = find.cFileName;
+    m_cAlternateFileName = find.cAlternateFileName;
+#endif
+}
+
 bool Module::load(const char *filename)
 {
     FILE *fp = fopen(filename, "rb");
@@ -77,6 +95,7 @@ bool Module::load(const char *filename)
     fclose(fp);
     set_module_name(filename);
     get_binary_type(filename);
+    get_file_details(filename);
     return ret;
 }
 
@@ -92,6 +111,7 @@ bool Module::load(const wchar_t *filename)
     WideCharToMultiByte(CP_ACP, 0, filename, -1, buf, MAX_PATH, NULL, NULL);
     set_module_name(buf);
     get_binary_type(buf);
+    get_file_details(buf);
     return ret;
 #else
     return false;
