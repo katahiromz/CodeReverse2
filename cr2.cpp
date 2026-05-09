@@ -27,7 +27,7 @@ void show_help(void)
         " --syscall AVA win32ksvc.h     Specify system call table.\n"
         "\n"
         "* AVA stands for 'absolute virtual address'.\n"
-        "* WHAT is either all, dos, fileh, opt, datadir, sections, imports, exports,\n"
+        "* WHAT is either all, file_info, dos, fileh, opt, datadir, sections, imports, exports,\n"
         "  delay, or disasm.");
 }
 
