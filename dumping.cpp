@@ -326,7 +326,7 @@ const char *string_binary_type(DWORD dwBinaryType)
     }
 }
 
-std::string string_of_file_info(const std::string& image, BOOL bIsExeOrDll, DWORD dwBinaryType)
+std::string string_of_file_info(const std::string& image, bool bIsExeOrDll, uint32_t dwBinaryType)
 {
     std::string ret;
     ret += "## File Info ##\n";
