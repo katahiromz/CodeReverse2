@@ -384,7 +384,7 @@ std::string string_of_file_info(const std::string& image, bool bIsExeOrDll, uint
 #ifdef _WIN32
     char szSize[MAX_PATH];
     if (StrFormatKBSizeA(image.size(), szSize, _countof(szSize)))
-        ret += string_formatted("  File size : %llu (0x%llX: %s)\n", (uint64_t)image.size(), (uint64_t)image.size(), szSize);
+        ret += string_formatted("  File size : %llu (0x%llX): %s\n", (uint64_t)image.size(), (uint64_t)image.size(), szSize);
     else
         ret += string_formatted("  File size : %llu (0x%llX)\n", (uint64_t)image.size(), (uint64_t)image.size());
 #else
